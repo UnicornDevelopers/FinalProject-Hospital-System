@@ -1,156 +1,94 @@
+using Hospital_System.Auth.Models;
+using Hospital_System.Auth.Models.Interface;
+using Hospital_System.Auth.Models.Services;
 using Hospital_System.Data;
 using Hospital_System.Models;
+using Hospital_System.Models.DTOs;
 using Hospital_System.Models.Interfaces;
 using Hospital_System.Models.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
-namespace Hospital_System
+
+
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+string connString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services
+	.AddDbContext<HospitalDbContext>
+(opions => opions.UseSqlServer(connString));
+
+// Add services to the container.
+
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddRazorPages();
+
+
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    public class Program
-    {
-        public IConfiguration Configuration { get; }
+	options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<HospitalDbContext>();
 
-        public Program(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
 
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-            ConfigureAppServices(builder.Services, builder.Configuration);
-            var app = builder.Build();
-            app.MapGet("/", () => Results.Redirect("/Main/index")
-);
-            ConfigureApp(app);
-
-            app.Run();
-        }
-
-        private static void ConfigureAppServices(IServiceCollection services, IConfiguration configuration)
-        {
-
-            services.AddRazorPages();
-            services.AddHttpClient();
-            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            string connString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<HospitalDbContext>(options => options.UseSqlServer(connString));
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
-                {
-                    Title = "Globe Wander API",
-                    Version = "v1",
-                });
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "add the JWT TOKEN"
-                });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-{{
-    new OpenApiSecurityScheme {
-    Reference=
-    new OpenApiReference{
-        Type=ReferenceType.SecurityScheme,
-        Id= "Bearer"
-}
-},
-new string[]{ } }
+// failed trials - accessing path
+// new for cookies auth
+builder.Services.ConfigureApplicationCookie(option =>
+{
+	option.AccessDeniedPath = "/auth/index";
 });
-            });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<HospitalDbContext>();
-            services.AddControllersWithViews();
+builder.Services.AddAuthentication();
 
-            services.AddScoped<JwtTokenService>();
-
-            // Add other services
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
-            services.AddTransient<IHospital, HospitalService>();
-            services.AddTransient<IDepartment, DepartmentService>();
-            services.AddTransient<IRoom, RoomService>();
-            services.AddTransient<IAppointment, AppointmentService>();
-            services.AddTransient<IMedicalReport, MedicalReportService>();
-            services.AddTransient<IMedicine, MedicineService>();
-            services.AddTransient<INurse, NurseService>();
-            services.AddTransient<IDoctor, DoctorService>();
-            services.AddTransient<IPatient, PatientService>();
-            services.AddTransient<IUser, IdentityUserService>();
+builder.Services.AddAuthorization();
 
 
-            services.AddAuthentication(options =>
-            {
-                
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = JwtTokenService.GetValidationPerameters(configuration);
-            });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("create", policy => policy.RequireClaim("permissions", "create"));
-                options.AddPolicy("update", policy => policy.RequireClaim("permissions", "update"));
-                options.AddPolicy("delete", policy => policy.RequireClaim("permissions", "delete"));
-                options.AddPolicy("deposit", policy => policy.RequireClaim("permissions", "deposit"));
-            });
-        }
+builder.Services.AddTransient<IHospital, HospitalService>();
+builder.Services.AddTransient<IDepartment, DepartmentService>();
+builder.Services.AddTransient<IRoom, RoomService>();
+builder.Services.AddTransient<IAppointment, AppointmentService>();
+builder.Services.AddTransient<IMedicalReport, MedicalReportService>();
+builder.Services.AddTransient<IMedicine, MedicineService>();
+builder.Services.AddTransient<INurse, NurseService>();
+builder.Services.AddTransient<IDoctor, DoctorService>();
+builder.Services.AddTransient<IPatient, PatientService>();
+builder.Services.AddTransient<IUser, UserServices>();
+builder.Services.AddTransient<IEmail, EmailServices>();
 
-        private static void ConfigureApp(WebApplication app)
-        {
-            app.UseSwagger(options =>
-            {
-                options.RouteTemplate = "/api/{documentName}/swagger.json";
-            });
 
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/api/v1/swagger.json", "Hospital-System");
-                options.RoutePrefix = "";
-            });
+var app = builder.Build();
 
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Main}/{action=Login}/{id?}");
-                endpoints.MapRazorPages();
-            });
-
-            app.Run();
-
-        }
-    }
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapRazorPages();
+
+app.MapControllerRoute(
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+
+
+
+

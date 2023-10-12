@@ -1,7 +1,9 @@
-﻿using Hospital_System.Models;
+﻿using Hospital_System.Auth.Models;
+using Hospital_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Hospital_System.Data
 {
@@ -14,23 +16,29 @@ namespace Hospital_System.Data
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        
+
+        public DbSet<Hospital> Hospitals { get; set; }
+		public DbSet<Doctor> Doctors { get; set; }
+		public DbSet<Nurse> Nurses { get; set; }
+		public DbSet<Patient> Patients { get; set; }
+		public DbSet<Room> Rooms { get; set; }
+		public DbSet<Department> Departments { get; set; }
+		public DbSet<Appointment> Appointments { get; set; }
+		public DbSet<Medicine> Medicines { get; set; }
+		public DbSet<MedicalReport> MedicalReports { get; set; }
 
 
-            SeedRole(modelBuilder, "Admin", "create", "update", "delete");
-            SeedRole(modelBuilder, "Receptionist", "create", "update", "delete");
-            SeedRole(modelBuilder, "Doctor", "create", "update","delete");
-            SeedRole(modelBuilder, "Patient", "create", "update", "delete");
-            SeedRole(modelBuilder, "Nurse");
 
 
+		//---------------------------------------------------
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
 
 
-
-            //---------------------------------------------------
-            modelBuilder.Entity<Hospital>()
+			modelBuilder.Entity<Hospital>()
      .HasMany(a => a.Departments)
       .WithOne(b => b.Hospital)
         .OnDelete(DeleteBehavior.ClientSetNull);
@@ -103,45 +111,21 @@ namespace Hospital_System.Data
            .HasMany(a => a.Medicines)
          .WithOne(b => b.medicalReport);
 
-            //----------------------------------------------------------------------
+			SeedRole(modelBuilder, "Administrator");
+			SeedRole(modelBuilder, "Receptionist");
+			SeedRole(modelBuilder, "Users");
 
-        }
-
-        private int id = 1;
-        private void SeedRole(ModelBuilder modelBuilder, string roleName, params string[] permissions)
-        {
-            var role = new IdentityRole
-            {
-                Id = roleName.ToLower(),
-                Name = roleName,
-                NormalizedName = roleName.ToUpper(),
-                ConcurrencyStamp = Guid.Empty.ToString()
-            };
-            modelBuilder.Entity<IdentityRole>().HasData(role);
-
-            // Go through the permissions list and seed a new entry for each
-            var roleClaims = permissions.Select(permission =>
-             new IdentityRoleClaim<string>
-             {
-                 Id = id++,
-                 RoleId = role.Id,
-                 ClaimType = "permissions",
-                 ClaimValue = permission
-             }
-            );
-            modelBuilder.Entity<IdentityRoleClaim<string>>().HasData(roleClaims);
-        }
-
-
-        public DbSet<Hospital> Hospitals { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Nurse> Nurses { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Medicine> Medicines { get; set; }
-        public DbSet<MedicalReport> MedicalReports { get; set; }
-
-    }
+		}
+		private void SeedRole(ModelBuilder modelBuilder, string roleName)
+		{
+			var role = new IdentityRole
+			{
+				Id = roleName.ToLower(),
+				Name = roleName,
+				NormalizedName = roleName.ToUpper(),
+				ConcurrencyStamp = Guid.Empty.ToString()
+			};
+			modelBuilder.Entity<IdentityRole>().HasData(role);
+		}
+	}
 }
