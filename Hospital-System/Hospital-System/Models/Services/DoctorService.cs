@@ -2,7 +2,6 @@
 using Hospital_System.Data;
 using Hospital_System.Models.DTOs;
 using Hospital_System.Models.DTOs.Appointment;
-using Hospital_System.Models.DTOs.AppointmentDTO;
 using Hospital_System.Models.DTOs.Department;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.MedicalReport;
@@ -119,7 +118,7 @@ namespace Hospital_System.Models.Services
                 Appointments = doctor.Appointments?.Select(a => new GetAppointmentDTO
                 {
                     Id = a.Id,
-                    DateOfAppointment = a.DateOfAppointment,
+                    //DateOfAppointment = a.DateOfAppointment,
                     PatientId = a.PatientId,
                     DoctorId = a.DoctorId,
                     
@@ -217,21 +216,21 @@ namespace Hospital_System.Models.Services
         /// </summary>
         /// <param name="doctorId">The ID of the department.</param>
         /// <returns>The list of doctors in the department.</returns>
-        public async Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId)
-        {
-            var Appointments = await _context.Appointments
-                .Where(d => d.DoctorId == doctorId)
-                .Select(d => new DoctorAppointmentsDTO()
-                {
-                    Id = d.Id,
-                   DateOfAppointment = d.DateOfAppointment,
-                   PatientId = d.PatientId,
+        //public async Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId)
+        //{
+        //    var Appointments = await _context.Appointments
+        //        .Where(d => d.DoctorId == doctorId)
+        //        .Select(d => new DoctorAppointmentsDTO()
+        //        {
+        //            Id = d.Id,
+        //           DateOfAppointment = d.DateOfAppointment,
+        //           PatientId = d.PatientId,
                   
-                })
-                .ToListAsync();
+        //        })
+        //        .ToListAsync();
 
-            return Appointments;
-        }
+        //    return Appointments;
+        //}
 
 
     }

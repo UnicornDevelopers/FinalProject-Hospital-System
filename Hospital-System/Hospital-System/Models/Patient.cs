@@ -15,14 +15,14 @@ namespace Hospital_System.Models
         public int? RoomId { get; set; }
 
         public string? UserId { get; set; }
-       
+
         //Nav
         [ForeignKey("RoomId")]
         public Room? Rooms { get; set; }
         public List<Appointment> Appointments { get; set; }
         public List<MedicalReport> MedicalReports { get; set; }
 
-      
+
 
     }
 }

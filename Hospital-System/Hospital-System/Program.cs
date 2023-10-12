@@ -94,6 +94,8 @@ new string[]{ } }
             services.AddTransient<IPatient, PatientService>();
             services.AddTransient<IUser, IdentityUserService>();
 
+            services.AddTransient<IAppointmentSlot, AppointmentSlotService>();
+
 
             services.AddAuthentication(options =>
             {

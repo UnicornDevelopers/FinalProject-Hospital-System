@@ -1,126 +1,160 @@
 ﻿using Hospital_System.Models.Interfaces;
-using Hospital_System.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Hospital_System.Models.DTOs.AppointmentDTO;
-using Hospital_System.Models.DTOs;
 using Hospital_System.Models.DTOs.Appointment;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Linq;
+using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using Hospital_System.Models.DTOs;
+using Hospital_System.Models;
+using Hospital_System.Models.DTOs.AppointmentSlot;
+using Hospital_System.Models.Services;
 
 namespace Hospital_System.Controllers
 {
-    /// <summary>
-    /// Controller responsible for managing appointment-related operations.
-    /// </summary>
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AppointmentsController : ControllerBase
+    public class AppointmentController : Controller
     {
-        private readonly IAppointment _appointment;
-        /// <summary>
-        /// Initializes a new instance of the AppointmentsController class.
-        /// </summary>
-        /// <param name="appointment">The appointment service.</param>
-        public AppointmentsController(IAppointment appointment)
+        private readonly IAppointment _appointmentService;
+        private readonly IDepartment _departmentService;
+        private readonly IAppointmentSlot _appointmentSlotService;
+
+
+
+        public AppointmentController(IAppointment appointmentService, IDepartment departmentService, IAppointmentSlot appointmentSlotService)
         {
-            _appointment = appointment;
+            _appointmentService = appointmentService;
+            _departmentService = departmentService;
+            _appointmentSlotService = appointmentSlotService;
         }
 
-        //----------------------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Retrieves a list of all appointments.
-        /// </summary>
-        /// <returns>A list of appointments.</returns>
-        // GET: api/Appointment
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<OutAppointmentDTO>>> GetAppointments()
+
+
+        //public async Task<IActionResult> Index()
+        //{
+        //    var appointments = await _appointmentService.GetAppointments();
+
+        //    var appointmentDTOs = appointments.Select(outAppointment => new AppointmentDTO
+        //    {
+        //        IsAvailable = outAppointment.IsAvailable
+        //    }).ToList();
+
+        //    return View(appointmentDTOs);
+        //}
+
+
+
+        public async Task<IActionResult> SelectDepartment()
         {
-            var appointment = await _appointment.GetAppointments();
-            return Ok(appointment);
+            var departments = await _departmentService.GetDepartments();
+
+            var departmentDTOs = departments.Select(outdepartment => new DepartmentDTO
+            {
+                Id = outdepartment.Id,
+                DepartmentName = outdepartment.DepartmentName
+
+            }).ToList();
+
+            return View(departmentDTOs);
         }
 
-        //----------------------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Retrieves an appointment by its ID.
-        /// </summary>
-        /// <param name="id">The ID of the appointment to retrieve.</param>
-        /// <returns>The retrieved appointment.</returns>
-        // GET: api/Appointments/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<OutAppointmentDTO>> GetAppointment(int id)
-        {
-            OutAppointmentDTO TheAppointment = await _appointment.GetAppointment(id);
 
-            if (TheAppointment == null)
-            {
-                return NotFound();
-            }
 
-            return TheAppointment;
-        }
-
-        //----------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Updates an appointment by its ID.
-        /// </summary>
-        /// <param name="id">The ID of the appointment to update.</param>
-        /// <param name="appointment">The updated appointment data.</param>
-        /// <returns>The updated appointment.</returns>
-        // PUT: api/Appointment/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ActionResult<InAppoinmentDTO>> PutAppointment(int id, InAppoinmentDTO appointment)
-        {
-            if (id != appointment.Id)
-            {
-                return BadRequest();
-            }
-            try
-            {
-                return Ok(await _appointment.UpdateAppointment(id, appointment));
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        //----------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Creates a new appointment.
-        /// </summary>
-        /// <param name="appointment">The appointment data to create.</param>
-        /// <returns>The created appointment.</returns>
-        // POST: api/Appointment
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<OutAppointmentDTO>> PostAppointment(InAppoinmentDTO appointment)
+        public async Task<IActionResult> SelectDoctor(int departmentId)
         {
-           
+            var doctors = await _departmentService.GetDoctorsInDepartment(departmentId);
+            var department = await _departmentService.GetDepartment(departmentId);
+
+
+            var appointmentDTO = new AppointmentDTO
+            {
+                Id = departmentId
+            };
+
+            ViewBag.Doctors = doctors;
+            ViewBag.DepartmentName = department.DepartmentName; // Pass the department name to the view
+
+            return View(appointmentDTO);
+        }
+
+
+        public async Task<IActionResult> SelectTimeSlot(int doctorId)
+        {
+
+            var appointmentSlots = await _appointmentSlotService.GetTimeSlotView(doctorId);
+
+            // Pass the list of available time slots to the view
+            return View(appointmentSlots);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAppointment(int doctorId, DateTime date, TimeSpan time, int patientId)
+        {
+            TimeSlotViewDto timeSlot = new TimeSlotViewDto
+            {
+                DoctorId = doctorId,
+                DateView = date,
+                HourView = time
+            };
+
             try
             {
-                return await _appointment.CreateAppointment(appointment);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        //----------------------------------------------------------------------------------------------
+                await _appointmentSlotService.AddAppointment(timeSlot, patientId);
+                TempData["success"] = "Appointment has booked successfully";
 
-        /// <summary>
-        /// Deletes an appointment by its ID.
-        /// </summary>
-        /// <param name="id">The ID of the appointment to delete.</param>
-        /// <returns>A success message.</returns>
-        // DELETE: api/Appointment/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAppointment(int id)
-        {
-            await _appointment.DeleteAppointment(id);
-            return NoContent();
+                return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });
+            }
+            catch (Exception ex)
+            {
+                TempData["fail"] = ex.Message;
+
+                return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });
+            }
         }
+
+
+
+
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> Create(AppointmentDTO appointmentDTO)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var createdAppointment = await _appointmentService.CreateAppointment(appointmentDTO);
+        //        if (createdAppointment != null)
+        //        {
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //    }
+
+        //    // If validation fails or time slot is not available, return to the create view with an error message
+        //    ModelState.AddModelError(string.Empty, "Appointment creation failed. Please check the selected date and time.");
+        //    return View(appointmentDTO);
+        //}
+
+
+
+
+
+        //public IActionResult SelectTime(int doctorId)
+        //{
+        //    // Generate or retrieve available time slots for the selected department and date.
+        //    DateTime selectedDate = DateTime.Today; // You can change this to the selected date.
+        //    var timeSlots = GenerateTimeSlots(selectedDate, departmentId);
+
+        //    // Pass the time slots to the view.
+        //    return View(timeSlots);
+        //}
+
+
     }
 }
