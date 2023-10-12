@@ -1,0 +1,110 @@
+﻿@model Hospital_System.Models.DTOs.User.DoctorRegistrationDTO
+
+@{
+    ViewData["Title"] = "DoctorRegister";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/RegForm.css" />
+
+
+<video src="~/Images/Tokyo.mp4" muted autoplay loop></video>
+
+<div class="Full">
+    <div class="FullBox">
+        <form asp-action="DoctorRegister">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="field">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" autocomplete="off" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+
+            <div class="field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" autocomplete="off" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="field">
+
+                <label asp-for="Email"></label>
+                <input asp-for="Email" autocomplete="off" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="field">
+
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" autocomplete="off" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+
+            <div class="field">
+
+                <label asp-for="Roles"></label>
+                <input asp-for="Roles" autocomplete="off" />
+                <span asp-validation-for="Roles" class="text-danger"></span>
+            </div>
+
+          @*  <div class="field">
+
+                <label asp-for="UserId"></label>
+                <input asp-for="UserId" autocomplete="off" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>*@
+
+              <div class="field">
+
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" autocomplete="off" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+              <div class="field">
+
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" autocomplete="off" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+              <div class="field">
+
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" autocomplete="off" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="field">
+
+                <label asp-for="DepartmentId"></label>
+                <input asp-for="DepartmentId" autocomplete="off" />
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+
+              <div class="field">
+
+                <label asp-for="Gender"></label>
+                <input asp-for="Gender" autocomplete="off" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="field">
+
+                <label asp-for="Speciality"></label>
+                <input asp-for="Speciality" autocomplete="off" />
+                <span asp-validation-for="Speciality" class="text-danger"></span>
+            </div>
+
+
+            <input type="submit" value="Signup" class="btn1" />
+
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@*@model Hospital_System.Models.DTOs.User.LoginDTO
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/LogForm.css"/>
+
+<form asp-controller="Main" asp-action="Login" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="UserName" class="control-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Log in" class="btn btn-outline-success float-right" />
+        <a class="btn btn-outline-secondary" asp-controller="Users" asp-action="Index">Cancel</a>
+    </div>
+</form>*@
