@@ -51,7 +51,7 @@ namespace Hospital_System.Models.Interfaces
         // <returns>A list of appointment details.</returns>
         // Task<DoctorDTO> GetAppointments(int DoctorID);
 
-        Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId);
+        //Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId);
     }
 
 }

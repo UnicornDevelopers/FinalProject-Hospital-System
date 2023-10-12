@@ -21,7 +21,7 @@ namespace Hospital_System.Data
 
             SeedRole(modelBuilder, "Admin", "create", "update", "delete");
             SeedRole(modelBuilder, "Receptionist", "create", "update", "delete");
-            SeedRole(modelBuilder, "Doctor", "create", "update","delete");
+            SeedRole(modelBuilder, "Doctor", "create", "update", "delete");
             SeedRole(modelBuilder, "Patient", "create", "update", "delete");
             SeedRole(modelBuilder, "Nurse");
 
@@ -42,7 +42,7 @@ namespace Hospital_System.Data
            .HasForeignKey(a => a.HospitalID)
            .OnDelete(DeleteBehavior.ClientSetNull);
 
-         
+
 
             modelBuilder.Entity<Doctor>()
           .HasMany(a => a.Appointments)
@@ -142,6 +142,8 @@ namespace Hospital_System.Data
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<MedicalReport> MedicalReports { get; set; }
+        public DbSet<AppointmentSlot> AppointmentSlots { get; set; }
+
 
     }
 }

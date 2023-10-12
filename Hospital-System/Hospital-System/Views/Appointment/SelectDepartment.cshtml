@@ -1,0 +1,21 @@
+﻿@model List<Hospital_System.Models.DTOs.DepartmentDTO>
+
+@{
+    ViewData["Title"] = "Choose Department";
+}
+
+<h2>Choose Department</h2>
+
+<form asp-controller="Appointment" asp-action="SelectDoctor" method="post">
+    <div class="form-group">
+        <label for="DepartmentId">Department:</label>
+        <select class="form-control" name="DepartmentId">
+            <option value="">Select a Department</option>
+            @foreach (var department in Model)
+            {
+                <option value="@department.Id">@department.DepartmentName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>

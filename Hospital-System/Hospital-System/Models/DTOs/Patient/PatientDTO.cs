@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Hospital_System.Models.DTOs.AppointmentDTO;
 using Hospital_System.Models.DTOs.MedicalReport;
 using Hospital_System.Models.DTOs.Room;
 namespace Hospital_System.Models.DTOs.Patient
