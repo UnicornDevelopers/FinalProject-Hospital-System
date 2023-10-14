@@ -1,7 +1,10 @@
 ﻿using Hospital_System.Data;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs.Department;
+using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.Hospital;
+using Hospital_System.Models.DTOs.Nurse;
+using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +18,9 @@ namespace Hospital_System.Controllers
         private readonly IHospital _hospital;
         private readonly HospitalDbContext _context;
 
-        public DashboardsController(IDepartment department,IHospital hospital,HospitalDbContext context)
+        public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context)
         {
-                _department = department;
+            _department = department;
             _hospital = hospital;
             _context = context;
         }
@@ -29,7 +32,7 @@ namespace Hospital_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddDepartment(InDepartmentDTO department , IFormFile file)
+        public async Task<IActionResult> AddDepartment(InDepartmentDTO department, IFormFile file)
         {
             if (ModelState.IsValid && file != null)
             {
@@ -128,7 +131,7 @@ namespace Hospital_System.Controllers
             return View(department);
         }
 
-        
+
         [HttpPost, ActionName("DeleteDepartment")]
         public async Task<IActionResult> ConfirmDelete(int id)
         {
@@ -158,6 +161,52 @@ namespace Hospital_System.Controllers
             }
 
             return View(department);
+        }
+
+
+        public async Task<IActionResult> GetDoctorsInDepartment(int id)
+        {
+            var doctors = await _department.GetDoctorsInDepartment(id);
+            if (doctors == null)
+            {
+                return NotFound();
+            }
+            return View(doctors);
+        }
+
+
+
+        public async Task<IActionResult> GetNursesInDepartment(int id)
+        {
+            var nurses = await _department.GetNursesInDepartment(id);
+            if (nurses == null)
+            {
+                return NotFound();
+            }
+            return View(nurses);
+        }
+
+
+
+        public async Task<IActionResult> GetRoomsAndPatientsInDepartment(int id)
+        {
+            var rooms = await _department.GetRoomsAndPatientsInDepartment(id);
+            if (rooms == null)
+            {
+                return NotFound();
+            }
+            return View(rooms);
+        }
+
+
+        public async Task<IActionResult> GetRoomsInDepartment(int id)
+        {
+            var rooms = await _department.GetRoomsInDepartment(id);
+            if(rooms == null)
+            {
+                return NotFound();
+            }
+            return View(rooms);
         }
 
 
