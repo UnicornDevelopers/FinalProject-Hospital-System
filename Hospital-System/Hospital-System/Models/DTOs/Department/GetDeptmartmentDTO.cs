@@ -12,7 +12,7 @@ namespace Hospital_System.Models.DTOs.Department
         public int Id { get; set; }
         public string DepartmentName { get; set; }
         public int HospitalID { get; set; }
-
+        public string? Image { get; set; }
         //Nav
         public List<OutRoomDTO>? Rooms { get; set; }
         public List<OutDoctorDTO>? Doctors { get; set; }
