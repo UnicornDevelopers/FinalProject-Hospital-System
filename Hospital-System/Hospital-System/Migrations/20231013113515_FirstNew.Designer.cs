@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20231012095406_TimeSlot")]
-    partial class TimeSlot
+    [Migration("20231013113515_FirstNew")]
+    partial class FirstNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,9 @@ namespace Hospital_System.Migrations
 
                     b.Property<int>("HospitalID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -686,7 +689,6 @@ namespace Hospital_System.Migrations
                     b.HasOne("Hospital_System.Models.Doctor", "doctor")
                         .WithMany("AppointmentSlots")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("doctor");

@@ -22,7 +22,7 @@ namespace Hospital_System.Models.Interfaces
         /// Retrieves a list of all departments.
         /// </summary>
         /// <returns>A list of department details.</returns>
-        Task<List<OutDepartmentDTO>> GetDepartments();
+        Task<List<Department>> GetDepartments();
 
         /// <summary>
         /// Retrieves the department details for a specific department by its ID.
@@ -59,6 +59,9 @@ namespace Hospital_System.Models.Interfaces
         Task<List<RoomPatientDTO>> GetRoomsAndPatientsInDepartment(int departmentId);
 
         Task<List<OutRoomDTO>> GetRoomsInDepartment(int departmentId);
+        Task<InDepartmentDTO> GetFile(IFormFile file, InDepartmentDTO department);
+        Task<OutDepartmentDTO> GetFile2(IFormFile file, OutDepartmentDTO department);
+
     }
 
 }
