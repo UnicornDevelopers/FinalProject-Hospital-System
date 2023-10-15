@@ -1,9 +1,38 @@
-﻿@using Hospital_System.Models.DTOs.Doctor;
-@model List<InDoctorDTO>
+﻿@model List<Hospital_System.Models.DTOs.Doctor.InDoctorDTO>
 
-Get Doctors in Department
+@{
+    ViewData["Title"] = "Doctors in Department";
+}
 
+<h2>Doctors in Department</h2>
 
-
-
-Working on the Design of The Style...
+@if (Model == null || !Model.Any())
+{
+    <p>No doctors found in this department.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Gender</th>
+                <th>Contact Number</th>
+                <th>Speciality</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doctor in Model)
+            {
+                <tr>
+                    <td>@doctor.Id</td>
+                    <td>@doctor.FullName</td>
+                    <td>@doctor.Gender</td>
+                    <td>@doctor.ContactNumber</td>
+                    <td>@doctor.Speciality</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
