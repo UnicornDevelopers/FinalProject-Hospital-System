@@ -111,9 +111,11 @@ namespace Hospital_System.Data
            .HasMany(a => a.Medicines)
          .WithOne(b => b.medicalReport);
 
-			SeedRole(modelBuilder, "Administrator");
+			SeedRole(modelBuilder, "Admin");
 			SeedRole(modelBuilder, "Receptionist");
-			SeedRole(modelBuilder, "Users");
+			SeedRole(modelBuilder, "Doctor");
+			SeedRole(modelBuilder, "Patient");
+			SeedRole(modelBuilder, "Nurse");
 
 		}
 		private void SeedRole(ModelBuilder modelBuilder, string roleName)
