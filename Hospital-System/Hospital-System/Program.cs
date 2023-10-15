@@ -79,7 +79,7 @@ new string[]{ } }
             }).AddEntityFrameworkStores<HospitalDbContext>();
             services.AddControllersWithViews();
 
-            services.AddScoped<JwtTokenService>();
+            //services.AddScoped<JwtTokenService>();
 
             // Add other services
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
@@ -92,21 +92,22 @@ new string[]{ } }
             services.AddTransient<INurse, NurseService>();
             services.AddTransient<IDoctor, DoctorService>();
             services.AddTransient<IPatient, PatientService>();
-            services.AddTransient<IUser, IdentityUserService>();
+            services.AddTransient<IUser, UserServices>();
 
             services.AddTransient<IAppointmentSlot, AppointmentSlotService>();
+            services.AddTransient<IEmail, EmailServices>();
 
+            services.AddAuthentication();
+            //services.AddAuthentication(options =>
+            //{
 
-            services.AddAuthentication(options =>
-            {
-                
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = JwtTokenService.GetValidationPerameters(configuration);
-            });
+            //    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = JwtTokenService.GetValidationPerameters(configuration);
+            //});
 
             services.AddAuthorization(options =>
             {

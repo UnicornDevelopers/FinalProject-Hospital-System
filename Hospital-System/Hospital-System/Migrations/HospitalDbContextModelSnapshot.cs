@@ -115,7 +115,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.AppointmentSlot", b =>
@@ -139,7 +139,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("AppointmentSlots");
+                    b.ToTable("AppointmentSlots", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Department", b =>
@@ -164,7 +164,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("HospitalID");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Doctor", b =>
@@ -205,7 +205,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Hospital", b =>
@@ -230,7 +230,7 @@ namespace Hospital_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hospitals");
+                    b.ToTable("Hospitals", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.MedicalReport", b =>
@@ -260,7 +260,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MedicalReports");
+                    b.ToTable("MedicalReports", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Medicine", b =>
@@ -286,7 +286,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("MedicalReportId");
 
-                    b.ToTable("Medicines");
+                    b.ToTable("Medicines", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Nurse", b =>
@@ -326,7 +326,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Nurses");
+                    b.ToTable("Nurses", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Patient", b =>
@@ -369,7 +369,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Room", b =>
@@ -397,7 +397,7 @@ namespace Hospital_System.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
