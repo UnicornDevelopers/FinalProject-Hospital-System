@@ -64,23 +64,23 @@ namespace Hospital_System.Pages.RegisterDoctor
 
 				var doctor2 = new InDoctorDTO
 				{
-					//UserId = applicationUser.Id,
+					UserId = applicationUser.Id,
 					FirstName = doctor.FirstName,
 					LastName = doctor.LastName,
 					Gender = doctor.Gender,
 					ContactNumber = doctor.ContactNumber,
 					Speciality = doctor.Speciality,
-					//DepartmentId = doctor.DepartmentId
+					DepartmentId = doctor.DepartmentId
 				};
 
 				await _iDoctor.Create(doctor2);
 
-				string subject = "welcome email";
-				string message =
-					$"Hello {applicationUser.UserName}," +
-					"Click here to ";
+				//string subject = "welcome email";
+				//string message =
+				//	$"Hello {applicationUser.UserName}," +
+				//	"Click here to ";
 
-				await _email.SendEmailAsync(applicationUser.Email, subject, message);
+				//await _email.SendEmailAsync(applicationUser.Email, subject, message);
 
 				return RedirectToPage("/Home");
 			}

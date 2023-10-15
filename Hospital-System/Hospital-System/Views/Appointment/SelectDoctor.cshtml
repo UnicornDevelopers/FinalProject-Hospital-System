@@ -1,0 +1,22 @@
+﻿@model Hospital_System.Models.DTOs.Appointment.AppointmentDTO
+
+@{
+    ViewData["Title"] = "Choose Doctor";
+}
+
+<h2>Choose Doctor from @ViewBag.DepartmentName Department</h2>
+
+
+<form asp-controller="Appointment" asp-action="SelectTimeSlot" method="post">
+    <div class="form-group">
+        <label for="DoctorId">Doctor:</label>
+        <select class="form-control" asp-for="DoctorId">
+            <option value="">Select a Doctor</option>
+            @foreach (var doctor in ViewBag.Doctors)
+            {
+                <option value="@doctor.Id">@doctor.FullName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>

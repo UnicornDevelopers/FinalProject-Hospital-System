@@ -63,7 +63,7 @@ namespace Hospital_System.Pages.Register
 
 				var patient2 = new InPatientDTO
 				{
-					//UserId = applicationUser.Id,
+					UserId = applicationUser.Id,
 					FirstName = patient.FirstName,
 					LastName = patient.LastName,
 					DoB = patient.DoB,
@@ -74,12 +74,12 @@ namespace Hospital_System.Pages.Register
 
 				await _iPatient.Create(patient2);
 
-				string subject = "welcome email";
-				string message =
-					$"Hello {applicationUser.UserName}," +
-					"Click here to ";
+				//string subject = "welcome email";
+				//string message =
+				//	$"Hello {applicationUser.UserName}," +
+				//	"Click here to ";
 
-				await _email.SendEmailAsync(applicationUser.Email, subject, message);
+				//await _email.SendEmailAsync(applicationUser.Email, subject, message);
 
 				return RedirectToPage("/Home");
 			}

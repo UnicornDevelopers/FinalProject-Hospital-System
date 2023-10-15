@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Hospital_System.Models.DTOs.AppointmentSlot.TimeSlotViewDto>
+
+@{
+    ViewData["Title"] = "Select Time Slot";
+}
+@if (TempData["Fail"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Fail"]
+
+    </div>
+}
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["success"]
+
+    </div>
+}
+
+
+<h2>Select a Time Slot</h2>
+
+@if (Model.Count() > 0)
+{
+    <p>Available time slots for @ViewBag.DoctorName:</p>
+    <ul>
+        @foreach (var timeSlot in Model)
+        {
+            <li>
+                <span>Date: @timeSlot.DateView.ToShortDateString()</span><br />
+                <span>Time: @(DateTime.Today.Add(timeSlot.HourView).ToString("hh:mm tt"))</span><br />
+
+                <form asp-controller="Appointment" asp-action="AddAppointment" method="post">
+                    <input type="hidden" name="doctorId" value="@timeSlot.DoctorId" />
+                    <input type="hidden" name="date" value="@timeSlot.DateView" />
+                    <input type="hidden" name="time" value="@timeSlot.HourView" />
+                    <input type="hidden" name="patientId" value="1" />
+                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                </form>
+
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No available time slots found for @ViewBag.DoctorName.</p>
+}
+
+<div>
+    <a asp-controller="Appointment" asp-action="SelectDoctor" class="btn btn-secondary">Back to Doctor Selection</a>
+</div>

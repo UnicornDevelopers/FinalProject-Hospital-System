@@ -8,6 +8,13 @@ namespace Hospital_System.Models.DTOs
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime DateOfAppointment { get; set; }
+
+        public TimeSpan AppointmentTime { get; set; }
+        public bool IsAvailable { get; set; }
+
+        public int AppointmentSlotId { get; set; }
+
+
         public int PatientId { get; set; }
         public string PatientName { get; set; }
         public int DoctorId { get; set; }
