@@ -210,50 +210,7 @@ namespace Hospital_System.Controllers
         }
 
 
-        public async Task<IActionResult> GetDoctorsInDepartment(int id)
-        {
-            var doctors = await _department.GetDoctorsInDepartment(id);
-            if (doctors == null)
-            {
-                return NotFound();
-            }
-            return View(doctors);
-        }
-
-
-
-        public async Task<IActionResult> GetNursesInDepartment(int id)
-        {
-            var nurses = await _department.GetNursesInDepartment(id);
-            if (nurses == null)
-            {
-                return NotFound();
-            }
-            return View(nurses);
-        }
-
-
-
-        public async Task<IActionResult> GetRoomsAndPatientsInDepartment(int id)
-        {
-            var rooms = await _department.GetRoomsAndPatientsInDepartment(id);
-            if (rooms == null)
-            {
-                return NotFound();
-            }
-            return View(rooms);
-        }
-
-
-        public async Task<IActionResult> GetRoomsInDepartment(int id)
-        {
-            var rooms = await _department.GetRoomsInDepartment(id);
-            if(rooms == null)
-            {
-                return NotFound();
-            }
-            return View(rooms);
-        }
+       
 
 
     }
