@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Hospital_System.Models.Interfaces;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs.Patient;
-using Windows.Networking;
 using System.Numerics;
 using Hospital_System.Models.DTOs.Doctor;
 
