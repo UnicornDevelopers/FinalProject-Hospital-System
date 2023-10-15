@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 using Hospital_System.Models.DTOs.User;
+using Hospital_System.Auth.Models;
 
 namespace Hospital_System.Models.Interfaces
 {

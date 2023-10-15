@@ -8,6 +8,9 @@ using Hospital_System.Models.DTOs.Patient;
 using System.Numerics;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.User;
+using Hospital_System.Auth.Models;
+
+
 
 namespace Hospital_System.Pages.RegisterDoctor
 {

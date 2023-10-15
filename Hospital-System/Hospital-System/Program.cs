@@ -1,3 +1,4 @@
+using Hospital_System.Auth.Models;
 using Hospital_System.Data;
 using Hospital_System.Models;
 using Hospital_System.Models.Interfaces;
@@ -120,40 +121,40 @@ new string[]{ } }
 
         private static void ConfigureApp(WebApplication app)
         {
-            app.UseSwagger(options =>
-            {
-                options.RouteTemplate = "/api/{documentName}/swagger.json";
-            });
+            //app.UseSwagger(options =>
+            //{
+            //    options.RouteTemplate = "/api/{documentName}/swagger.json";
+            //});
 
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/api/v1/swagger.json", "Hospital-System");
-                options.RoutePrefix = "";
-            });
+            //app.UseSwaggerUI(options =>
+            //{
+            //    options.SwaggerEndpoint("/api/v1/swagger.json", "Hospital-System");
+            //    options.RoutePrefix = "";
+            //});
 
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
+			if (!app.Environment.IsDevelopment())
+			{
+				app.UseExceptionHandler("/Home/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
+			}
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+			app.UseHttpsRedirection();
+			app.UseStaticFiles();
 
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+			app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Main}/{action=Login}/{id?}");
-                endpoints.MapRazorPages();
-            });
 
-            app.Run();
+			app.UseAuthentication();
+			app.UseAuthorization();
+			app.MapRazorPages();
 
-        }
+			app.MapControllerRoute(
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}");
+
+			app.Run();
+
+		}
     }
 }

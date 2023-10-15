@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20231015171635_UpdateDepatrment")]
-    partial class UpdateDepatrment
+    [Migration("20231015184136_odai")]
+    partial class odai
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Hospital_System.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Hospital_System.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Hospital_System.Auth.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -787,7 +787,7 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -796,7 +796,7 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -811,7 +811,7 @@ namespace Hospital_System.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -820,7 +820,7 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

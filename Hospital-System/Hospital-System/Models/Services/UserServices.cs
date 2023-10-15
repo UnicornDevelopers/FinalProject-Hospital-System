@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Hospital_System.Auth.Models;
+
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Hospital_System.Models.Services

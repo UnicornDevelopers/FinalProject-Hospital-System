@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hospital_System.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstNew : Migration
+    public partial class odai : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -181,7 +181,8 @@ namespace Hospital_System.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HospitalID = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

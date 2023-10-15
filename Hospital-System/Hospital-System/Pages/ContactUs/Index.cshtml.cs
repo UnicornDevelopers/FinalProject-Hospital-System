@@ -3,6 +3,8 @@ using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Hospital_System.Auth.Models;
+
 
 namespace Hospital_System.Pages.ContactUs
 {
