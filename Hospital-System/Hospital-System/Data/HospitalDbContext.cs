@@ -35,6 +35,10 @@ namespace Hospital_System.Data
       .WithOne(b => b.Hospital)
         .OnDelete(DeleteBehavior.ClientSetNull);
 
+            modelBuilder.Entity<Doctor>()
+    .HasMany(a => a.AppointmentSlots)
+     .WithOne(b => b.doctor)
+       .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Department>()
            .HasOne(a => a.Hospital)

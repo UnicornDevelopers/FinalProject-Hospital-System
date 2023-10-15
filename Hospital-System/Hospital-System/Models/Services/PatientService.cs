@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Hospital_System.Data;
 using Hospital_System.Models.DTOs;
@@ -61,6 +62,8 @@ namespace Hospital_System.Models.Services
                         Gender = Patient.Gender,
                         ContactNumber = Patient.ContactNumber,
                         Address = Patient.Address,
+                        UserId = Patient.UserId,
+
                         RoomId = Patient.RoomId
                     };
                     _context.Patients.Add(patient);
@@ -90,7 +93,9 @@ namespace Hospital_System.Models.Services
                     DoB = Patient.DoB,
                     Gender = Patient.Gender,
                     ContactNumber = Patient.ContactNumber,
-                    Address = Patient.Address
+                    Address = Patient.Address,
+                    UserId = Patient.UserId
+
                 };
                 _context.Patients.Add(patient);
                 await _context.SaveChangesAsync();

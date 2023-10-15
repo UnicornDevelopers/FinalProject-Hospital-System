@@ -10,6 +10,8 @@ using Hospital_System.Models.DTOs;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs.AppointmentSlot;
 using Hospital_System.Models.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Hospital_System.Controllers
 {
@@ -52,7 +54,9 @@ namespace Hospital_System.Controllers
             var departmentDTOs = departments.Select(outdepartment => new DepartmentDTO
             {
                 Id = outdepartment.Id,
-                DepartmentName = outdepartment.DepartmentName
+                DepartmentName = outdepartment.DepartmentName,
+
+                Description = outdepartment.Description
 
             }).ToList();
 
@@ -62,7 +66,7 @@ namespace Hospital_System.Controllers
 
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> SelectDoctor(int departmentId)
         {
             var doctors = await _departmentService.GetDoctorsInDepartment(departmentId);
@@ -91,9 +95,11 @@ namespace Hospital_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAppointment(int doctorId, DateTime date, TimeSpan time, int patientId)
+        public async Task<IActionResult> AddAppointment(int doctorId, DateTime date, TimeSpan time)
         {
-            TimeSlotViewDto timeSlot = new TimeSlotViewDto
+			string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			TimeSlotViewDto timeSlot = new TimeSlotViewDto
             {
                 DoctorId = doctorId,
                 DateView = date,
@@ -102,7 +108,7 @@ namespace Hospital_System.Controllers
 
             try
             {
-                await _appointmentSlotService.AddAppointment(timeSlot, patientId);
+                await _appointmentSlotService.AddAppointment(timeSlot, UserId);
                 TempData["success"] = "Appointment has booked successfully";
 
                 return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });

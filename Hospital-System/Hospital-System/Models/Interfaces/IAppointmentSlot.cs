@@ -8,7 +8,7 @@ namespace Hospital_System.Models.Interfaces
     {
         Task<List<TimeSlotViewDto>> GetTimeSlotView(int doctorId);
 
-        Task AddAppointment(TimeSlotViewDto timeSlot, int patiant);
+        Task AddAppointment(TimeSlotViewDto timeSlot, string UserId);
 
         //Task<int> CreateAppointmentSlot(TimeSlotViewDto timeSlot); //return id of AppointmentSlot
         //already did it in AddAppointment 

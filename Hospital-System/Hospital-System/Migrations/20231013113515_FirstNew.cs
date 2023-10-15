@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hospital_System.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class FirstNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -180,7 +180,8 @@ namespace Hospital_System.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalID = table.Column<int>(type: "int", nullable: false)
+                    HospitalID = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,6 +266,26 @@ namespace Hospital_System.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppointmentSlots",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateOfSlot = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SlotHour = table.Column<TimeSpan>(type: "time", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentSlots", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppointmentSlots_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -295,13 +316,20 @@ namespace Hospital_System.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateOfAppointment = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: false),
-                    DoctorId = table.Column<int>(type: "int", nullable: false)
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    AppointmentSlotId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AppointmentSlots_AppointmentSlotId",
+                        column: x => x.AppointmentSlotId,
+                        principalTable: "AppointmentSlots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Appointments_Doctors_DoctorId",
                         column: x => x.DoctorId,
@@ -393,6 +421,11 @@ namespace Hospital_System.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Appointments_AppointmentSlotId",
+                table: "Appointments",
+                column: "AppointmentSlotId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Appointments_DoctorId",
                 table: "Appointments",
                 column: "DoctorId");
@@ -401,6 +434,11 @@ namespace Hospital_System.Migrations
                 name: "IX_Appointments_PatientId",
                 table: "Appointments",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentSlots_DoctorId",
+                table: "AppointmentSlots",
+                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -508,6 +546,9 @@ namespace Hospital_System.Migrations
 
             migrationBuilder.DropTable(
                 name: "Nurses");
+
+            migrationBuilder.DropTable(
+                name: "AppointmentSlots");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

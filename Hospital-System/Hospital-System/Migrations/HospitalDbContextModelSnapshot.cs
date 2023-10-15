@@ -154,8 +154,14 @@ namespace Hospital_System.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("HospitalID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -683,7 +689,6 @@ namespace Hospital_System.Migrations
                     b.HasOne("Hospital_System.Models.Doctor", "doctor")
                         .WithMany("AppointmentSlots")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("doctor");

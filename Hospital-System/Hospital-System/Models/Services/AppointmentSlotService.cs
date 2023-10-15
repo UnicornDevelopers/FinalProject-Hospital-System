@@ -52,10 +52,16 @@ namespace Hospital_System.Models.Services
             return availableSlots;
         }
 
-        public async Task AddAppointment(TimeSlotViewDto timeSlot, int patientId)
+        public async Task AddAppointment(TimeSlotViewDto timeSlot, string UserId )
         {
-            // Check if the patient already has an ongoing appointment with this doctor
-            var ongoingAppointment = await _context.Appointments
+			var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == UserId);
+			if (patient == null)
+			{
+				throw new Exception("Patient not found");
+			}
+			int patientId = patient.Id;
+			// Check if the patient already has an ongoing appointment with this doctor
+			var ongoingAppointment = await _context.Appointments
                 .Where(a => a.PatientId == patientId && a.DoctorId == timeSlot.DoctorId && a.IsAvailable)
                 .FirstOrDefaultAsync();
 

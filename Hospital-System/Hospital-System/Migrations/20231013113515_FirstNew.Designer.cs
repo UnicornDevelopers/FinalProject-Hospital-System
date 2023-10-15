@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20230823094731_First")]
-    partial class First
+    [Migration("20231013113515_FirstNew")]
+    partial class FirstNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,22 +98,51 @@ namespace Hospital_System.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateOfAppointment")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("AppointmentSlotId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppointmentSlotId");
+
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
 
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.AppointmentSlot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateOfSlot")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("SlotHour")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("AppointmentSlots");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Department", b =>
@@ -130,6 +159,9 @@ namespace Hospital_System.Migrations
 
                     b.Property<int>("HospitalID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -629,6 +661,12 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Hospital_System.Models.Appointment", b =>
                 {
+                    b.HasOne("Hospital_System.Models.AppointmentSlot", "appointmentSlot")
+                        .WithMany("Appointments")
+                        .HasForeignKey("AppointmentSlotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Hospital_System.Models.Doctor", "doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
@@ -639,9 +677,21 @@ namespace Hospital_System.Migrations
                         .HasForeignKey("PatientId")
                         .IsRequired();
 
+                    b.Navigation("appointmentSlot");
+
                     b.Navigation("doctor");
 
                     b.Navigation("patient");
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.AppointmentSlot", b =>
+                {
+                    b.HasOne("Hospital_System.Models.Doctor", "doctor")
+                        .WithMany("AppointmentSlots")
+                        .HasForeignKey("DoctorId")
+                        .IsRequired();
+
+                    b.Navigation("doctor");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Department", b =>
@@ -774,6 +824,11 @@ namespace Hospital_System.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.AppointmentSlot", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Department", b =>
                 {
                     b.Navigation("Doctors");
@@ -785,6 +840,8 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Hospital_System.Models.Doctor", b =>
                 {
+                    b.Navigation("AppointmentSlots");
+
                     b.Navigation("Appointments");
 
                     b.Navigation("medicalReports");
