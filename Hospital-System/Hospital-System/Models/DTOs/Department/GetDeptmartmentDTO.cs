@@ -13,6 +13,7 @@ namespace Hospital_System.Models.DTOs.Department
         public string DepartmentName { get; set; }
         public int HospitalID { get; set; }
         public string? Image { get; set; }
+        public string? Description { get; set; }
         //Nav
         public List<OutRoomDTO>? Rooms { get; set; }
         public List<OutDoctorDTO>? Doctors { get; set; }

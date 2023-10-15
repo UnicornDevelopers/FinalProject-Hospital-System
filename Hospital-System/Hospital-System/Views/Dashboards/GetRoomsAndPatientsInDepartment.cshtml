@@ -1,13 +1,58 @@
-﻿@using Hospital_System.Models.DTOs.Room;
-@model List<RoomPatientDTO>
+﻿@model List<Hospital_System.Models.DTOs.Room.RoomPatientDTO>
 
-Get Rooms And Patients In Department
+@{
+    ViewData["Title"] = "Rooms and Patients in Department";
+}
 
+<h2>Rooms and Patients in Department</h2>
 
-
-
-
-
-
-
-Working on the Design of The Style...
+@if (Model == null || !Model.Any())
+{
+    <p>No rooms and patients found in this department.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room ID</th>
+                <th>Room Number</th>
+                <th>Room Availability</th>
+                <th>Number of Beds</th>
+                <th>Patients</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.Id</td>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.RoomAvailability</td>
+                    <td>@room.NumberOfBeds</td>
+                    <td>
+                        @if (room.Patients != null && room.Patients.Any())
+                        {
+                            <ul>
+                                @foreach (var patient in room.Patients)
+                                {
+                                    <li>
+                                        <strong>ID:</strong> @patient.Id
+                                        <strong>First Name:</strong> @patient.FirstName
+                                        <strong>Last Name:</strong> @patient.LastName
+                                        <strong>Gender:</strong> @patient.Gender
+                                        <strong>Contact Number:</strong> @patient.ContactNumber
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>No patients in this room.</p>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

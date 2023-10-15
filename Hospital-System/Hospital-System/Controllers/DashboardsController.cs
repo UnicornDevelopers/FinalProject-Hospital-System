@@ -163,7 +163,7 @@ namespace Hospital_System.Controllers
             return View(department);
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> GetDoctorsInDepartment(int id)
         {
             var doctors = await _department.GetDoctorsInDepartment(id);
@@ -175,7 +175,7 @@ namespace Hospital_System.Controllers
         }
 
 
-
+        [HttpGet]
         public async Task<IActionResult> GetNursesInDepartment(int id)
         {
             var nurses = await _department.GetNursesInDepartment(id);
@@ -187,7 +187,7 @@ namespace Hospital_System.Controllers
         }
 
 
-
+        [HttpGet]
         public async Task<IActionResult> GetRoomsAndPatientsInDepartment(int id)
         {
             var rooms = await _department.GetRoomsAndPatientsInDepartment(id);
@@ -198,7 +198,7 @@ namespace Hospital_System.Controllers
             return View(rooms);
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> GetRoomsInDepartment(int id)
         {
             var rooms = await _department.GetRoomsInDepartment(id);
@@ -208,6 +208,9 @@ namespace Hospital_System.Controllers
             }
             return View(rooms);
         }
+
+
+       
 
 
     }

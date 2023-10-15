@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Hospital_System.Models;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using Hospital_System.Auth.Models;
 
 namespace Hospital_System
 {

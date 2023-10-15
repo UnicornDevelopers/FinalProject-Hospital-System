@@ -48,6 +48,7 @@ namespace Hospital_System.Models.Services
             DepartmentName = newDepartmentDTO.DepartmentName,
             HospitalID = newDepartmentDTO.HospitalID,
             Image=newDepartmentDTO.Image,
+            Description = newDepartmentDTO.Description
         };
         _context.Entry(department).State = EntityState.Added;
         await _context.SaveChangesAsync();
@@ -68,6 +69,7 @@ namespace Hospital_System.Models.Services
                 Id = x.Id,
                 DepartmentName = x.DepartmentName,
                 Image = x.Image,
+                Description = x.Description
 
             }).ToListAsync();
 
@@ -96,6 +98,7 @@ namespace Hospital_System.Models.Services
                     DepartmentName = x.DepartmentName,
                     HospitalID = x.HospitalID,
                     Image=x.Image,
+                    Description = x.Description,
                     Rooms = x.Rooms.Select(room => new OutRoomDTO
                     {
                         Id = room.Id,
@@ -153,6 +156,12 @@ namespace Hospital_System.Models.Services
             {
                 existingDepartment.Image = updateDepartmentDTO.Image;
             }
+
+            if (updateDepartmentDTO.Description != null)
+            {
+                existingDepartment.Description = updateDepartmentDTO.Description;
+            }
+
 
             _context.Entry(existingDepartment).State = EntityState.Modified;
             await _context.SaveChangesAsync();
