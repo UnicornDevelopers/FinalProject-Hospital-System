@@ -9,7 +9,8 @@ namespace Hospital_System.Models.DTOs
     {
         public int Id { get; set; }
         public string DepartmentName { get; set; }
-        public int HospitalID { get; set; } 
+        public int HospitalID { get; set; }
+        public string? Description { get; set; }
 
         //Nav
         public OutHospitalDTO? hospital { get; set; }

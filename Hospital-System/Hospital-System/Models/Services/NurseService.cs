@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Hospital_System.Data;
 using Hospital_System.Models.DTOs;
@@ -50,7 +51,9 @@ namespace Hospital_System.Models.Services
                 Gender = nurseDTO.Gender,
                 ContactNumber = nurseDTO.ContactNumber,
                 shift = nurseDTO.Shift,
-                DepartmentId = nurseDTO.DepartmentId
+                DepartmentId = nurseDTO.DepartmentId,
+                UserId = nurseDTO.UserId
+
             };
 
             _context.Entry(nurse).State = EntityState.Added;

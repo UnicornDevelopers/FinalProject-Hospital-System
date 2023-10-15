@@ -1,15 +1,17 @@
-﻿
+﻿@page
 @model Hospital_System.Pages.LogIn.IndexModel
 @{
 
     ViewBag.Title = "Sign In Razor Page";
-    //Layout = "_Layout";
+}
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
-<!doctype html>
-<html class="no-js" lang="zxx">
-<head>
+@*<!doctype html>
+*@@*<html class="no-js" lang="zxx">
+*@@*<head>
 	<!-- Meta Tags -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,8 +53,8 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="css/responsive.css">
 
-</head>
-<body>
+</head>*@
+@*<body>
 
 	<!-- Preloader -->
 	<div class="preloader">
@@ -69,8 +71,8 @@
 		</div>
 	</div>
 	<!-- End Preloader -->
-	<!-- Get Pro Button -->
-	<ul class="pro-features">
+	<!-- Get Pro Button -->*@
+@*	<ul class="pro-features">
 		<a class="get-pro" href="#">Get Pro</a>
 		<li class="big-title">Pro Version Available on Themeforest</li>
 		<li class="title">Pro Version Features</li>
@@ -84,9 +86,9 @@
 			<a href="https://themeforest.net/item/mediplus-medical-and-doctor-html-template/26665910" target="_blank" class="btn">Buy Pro Version</a>
 		</div>
 	</ul>
-
+*@
 	<!-- Header Area -->
-	<header class="header">
+@*	<header class="header">
 		<!-- Topbar -->
 		<div class="topbar">
 			<div class="container">
@@ -170,9 +172,9 @@
 		</div>
 		<!--/ End Header Inner -->
 	</header>
-	<!-- End Header Area -->
+*@	<!-- End Header Area -->
 	<!-- Breadcrumbs -->
-	<div class="breadcrumbs overlay">
+@*	<div class="breadcrumbs overlay">
 		<div class="container">
 			<div class="bread-inner">
 				<div class="row">
@@ -188,7 +190,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- End Breadcrumbs -->
+*@	<!-- End Breadcrumbs -->
 	
 	<section class="contact-us section">
 		<div class="container">
@@ -224,7 +226,7 @@
 									</button>
 									<p style="font-size: 16px" class="small fw-bold mt-2 pt-1 mb-0">
 										Don't have an account?
-										<a href="/Auth/Register" class="link-danger">Register</a>
+									<a asp-page="/Register/Index" class="link-danger">Register</a>
 									</p>
 								</div>
 
@@ -236,7 +238,7 @@
 
 		</div>
 	</section>
-	<!--/ End Contact Us -->
+	@*<!--/ End Contact Us -->
 	<!-- Footer Area -->
 	<footer id="footer" class="footer ">
 		<!-- Footer Top -->
@@ -371,4 +373,4 @@
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
 </body>
-</html>
+</html>*@

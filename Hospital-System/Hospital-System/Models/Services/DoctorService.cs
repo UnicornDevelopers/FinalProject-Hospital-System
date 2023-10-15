@@ -45,9 +45,10 @@ namespace Hospital_System.Models.Services
                     Gender = doctor.Gender,
                     ContactNumber = doctor.ContactNumber,
                     Speciality = doctor.Speciality,
-                    DepartmentId = doctor.DepartmentId
+                    DepartmentId = doctor.DepartmentId,
+                    UserId = doctor.UserId
                 };
-
+    
                 _context.Doctors.Add(doctorEntity);
                 await _context.SaveChangesAsync();
 

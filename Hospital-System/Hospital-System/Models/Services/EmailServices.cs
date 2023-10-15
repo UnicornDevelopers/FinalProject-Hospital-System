@@ -1,14 +1,12 @@
 ﻿using Hospital_System.Models.Interfaces;
 using System.Net.Mail;
 using System.Net;
-using System.Net.Mail;
-using System.Net;
 
 namespace Hospital_System.Models.Services
 {
     public class EmailServices : IEmail
     {
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string Message)
         {
             var mail = "test_ltuc950@outlook.com";
             var pw = "Odai123456+++";
@@ -22,7 +20,7 @@ namespace Hospital_System.Models.Services
                 {
                     From = new MailAddress(mail),
                     Subject = subject,
-                    Body = message,
+                    Body = Message,
                     IsBodyHtml = false
                 };
 

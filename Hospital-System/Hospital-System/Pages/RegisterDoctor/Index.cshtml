@@ -1,13 +1,17 @@
 ﻿
+@page
 @model Hospital_System.Pages.RegisterDoctor.IndexModel
 @{
     ViewBag.Title = "Register In Razor Page";
-    //Layout = "_Layout";
+   
+}
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
 
-
+@*
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -190,7 +194,7 @@
 		</div>
 	</div>
 	<!-- End Breadcrumbs -->
-
+*@
 	<section class="contact-us section">
 		<div class="container">
 
@@ -257,7 +261,7 @@
 													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 													<div class="form-outline flex-fill mb-0">
 @*														<label class="form-label" for="form3Example3c">Roles</label>
-*@														<input name="Roles" type="text" id="Roles" class="form-control" asp-for="@Model.registerUser.Roles" hidden value="Users"/>
+*@														<input name="Roles" type="text" id="Roles" class="form-control" asp-for="@Model.registerUser.Roles" hidden value="doctor"/>
 														<span asp-validation-for="@Model.registerUser.Roles"></span>
 													</div>
 												</div>
@@ -285,14 +289,14 @@
 														<span asp-validation-for="@Model.doctor.Speciality"></span>
 													</div>
 												</div>
-@*												<div class="d-flex flex-row align-items-center mb-4">
+												<div class="d-flex flex-row align-items-center mb-4">
 													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 													<div class="form-outline flex-fill mb-0">
 														<label class="form-label" for="form3Example3c">DepartmentId</label>
 														<input name="DepartmentId" type="text" id="DepartmentId" class="form-control" asp-for="@Model.doctor.DepartmentId" />
 														<span asp-validation-for="@Model.doctor.DepartmentId"></span>
 													</div>
-												</div>*@
+												</div>
 												<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
 													<button type="submit" class="btn btn-primary btn-lg">Register</button>
 												</div>
@@ -311,7 +315,7 @@
 	</section>
 	<!--/ End Contact Us -->
 	<!-- Footer Area -->
-	<footer id="footer" class="footer ">
+	@*<footer id="footer" class="footer ">
 		<!-- Footer Top -->
 		<div class="footer-top">
 			<div class="container">
@@ -444,4 +448,4 @@
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
 </body>
-</html>
+</html>*@
