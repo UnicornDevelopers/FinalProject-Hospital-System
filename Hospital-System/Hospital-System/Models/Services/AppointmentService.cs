@@ -6,6 +6,8 @@ using Hospital_System.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
+using System.Security.Claims;
+
 namespace Hospital_System.Models.Services
 {
     /// <summary>
@@ -117,7 +119,28 @@ namespace Hospital_System.Models.Services
 
 
 
+        public async Task<List<Appointment>> GetAppointmentsForPatient(string userId)
+        {
 
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+
+            if (patient == null)
+            {
+                throw new Exception("Patient not found");
+            }
+           
+                int patientId = patient.Id;
+
+
+                var appointments = await _context.Appointments
+                .Where(appointment => appointment.PatientId == patientId)
+                .Include(appointment => appointment.appointmentSlot) // related AppointmentSlot
+                .Include(appointment => appointment.doctor) 
+
+                .ToListAsync();
+            
+            return appointments;
+        }
 
 
 

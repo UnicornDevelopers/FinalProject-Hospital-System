@@ -50,7 +50,9 @@
                                             <input type="hidden" name="doctorId" value="@timeSlot.DoctorId" />
                                             <input type="hidden" name="date" value="@timeSlot.DateView" />
                                             <input type="hidden" name="time" value="@timeSlot.HourView" />
-                                            <button type="submit" class="btn btn-primary">Book Appointment</button>
+                                            @*<button type="submit" class="btn btn-primary">Book Appointment</button>*@
+                                            <button type="button" class="btn btn-primary" onclick="return confirmBooking()">Book Appointment</button>
+
                                         </form>
                                     </td>
                                 </tr>
@@ -71,3 +73,16 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+<script>function confirmBooking() {
+    if (confirm('Confirm booking:')) {
+        // User confirmed, submit the form
+        document.forms[0].submit();
+    }    }</script>

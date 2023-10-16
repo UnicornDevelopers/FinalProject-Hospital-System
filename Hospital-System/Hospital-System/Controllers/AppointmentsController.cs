@@ -12,6 +12,8 @@ using Hospital_System.Models.DTOs.AppointmentSlot;
 using Hospital_System.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hospital_System.Controllers
 {
@@ -29,7 +31,8 @@ namespace Hospital_System.Controllers
             _appointmentService = appointmentService;
             _departmentService = departmentService;
             _appointmentSlotService = appointmentSlotService;
-            _doctorService =  doctorService;
+            _doctorService = doctorService;
+
         }
 
 
@@ -94,7 +97,7 @@ namespace Hospital_System.Controllers
             var appointmentSlots = await _appointmentSlotService.GetTimeSlotView(doctorId);
             var doctor = await _doctorService.GetDoctor(doctorId);
             // Pass the list of available time slots to the view
-            ViewBag.DoctorName = doctor.FirstName +" "+ doctor.LastName;
+            ViewBag.DoctorName = doctor.FirstName + " " + doctor.LastName;
 
             return View(appointmentSlots);
         }
@@ -102,9 +105,9 @@ namespace Hospital_System.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAppointment(int doctorId, DateTime date, TimeSpan time)
         {
-			string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			TimeSlotViewDto timeSlot = new TimeSlotViewDto
+            TimeSlotViewDto timeSlot = new TimeSlotViewDto
             {
                 DoctorId = doctorId,
                 DateView = date,
@@ -129,7 +132,29 @@ namespace Hospital_System.Controllers
 
 
 
+        [HttpGet]
+        public async Task<IActionResult> ViewAppointments()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var appointments = await _appointmentService.GetAppointmentsForPatient(userId);
+
+            return View(appointments);
+
+
+
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> CancelAppointment(int appointmentId)
+        {
+            await _appointmentService.DeleteAppointmentAsync(appointmentId); 
+            return RedirectToAction("ViewAppointments");
+        }
 
 
     }
+    
 }
