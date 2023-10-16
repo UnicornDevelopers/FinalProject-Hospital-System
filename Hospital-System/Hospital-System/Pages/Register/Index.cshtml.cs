@@ -5,6 +5,7 @@ using Hospital_System.Models.Interfaces;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.User;
+using Hospital_System.Models.DTOs.Department;
 
 namespace Hospital_System.Pages.Register
 {
@@ -19,7 +20,7 @@ namespace Hospital_System.Pages.Register
 		private readonly IPatient _iPatient;
 
 
-		public IndexModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmail emailSender, IConfiguration configuration, IUser user, IPatient iPatient)
+		public IndexModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmail emailSender, IConfiguration configuration, IUser user, IPatient iPatient )
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;

@@ -1,5 +1,4 @@
-﻿using Hospital_System.Auth.Models;
-using Hospital_System.Models;
+﻿using Hospital_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

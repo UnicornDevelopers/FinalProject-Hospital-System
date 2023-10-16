@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using Hospital_System.Models;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
-using Hospital_System.Auth.Models;
 
 namespace Hospital_System
 {
-    public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser,IdentityRole>
+    public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
     {
 
         public ApplicationUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<IdentityOptions> options)
