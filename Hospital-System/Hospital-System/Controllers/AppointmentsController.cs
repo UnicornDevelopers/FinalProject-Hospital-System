@@ -20,14 +20,16 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointmentService;
         private readonly IDepartment _departmentService;
         private readonly IAppointmentSlot _appointmentSlotService;
+        private readonly IDoctor _doctorService;
 
 
 
-        public AppointmentController(IAppointment appointmentService, IDepartment departmentService, IAppointmentSlot appointmentSlotService)
+        public AppointmentController(IAppointment appointmentService, IDepartment departmentService, IAppointmentSlot appointmentSlotService, IDoctor doctorService)
         {
             _appointmentService = appointmentService;
             _departmentService = departmentService;
             _appointmentSlotService = appointmentSlotService;
+            _doctorService =  doctorService;
         }
 
 
@@ -78,6 +80,7 @@ namespace Hospital_System.Controllers
                 Id = departmentId
             };
 
+
             ViewBag.Doctors = doctors;
             ViewBag.DepartmentName = department.DepartmentName; // Pass the department name to the view
 
@@ -89,8 +92,10 @@ namespace Hospital_System.Controllers
         {
 
             var appointmentSlots = await _appointmentSlotService.GetTimeSlotView(doctorId);
-
+            var doctor = await _doctorService.GetDoctor(doctorId);
             // Pass the list of available time slots to the view
+            ViewBag.DoctorName = doctor.FirstName +" "+ doctor.LastName;
+
             return View(appointmentSlots);
         }
 
