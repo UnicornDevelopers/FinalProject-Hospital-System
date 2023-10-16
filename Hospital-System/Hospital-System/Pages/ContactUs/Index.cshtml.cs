@@ -1,4 +1,4 @@
-using Hospital_System.Models;
+using Hospital_System.Auth.Models;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,27 +31,27 @@ namespace Hospital_System.Pages.ContactUs
 				ApplicationUser user = await _userManager.GetUserAsync(User);
 
 
-				string subject = "Purchase Summary From Cosmetic Store!";
-				string message =
-					$"Name:{Input.Name}," +
-					$"Email:{Input.Email}," +
-					$"Phone:{Input.Phone}," +
-					$"Subject:{Input.Subject}," +
-					$"Message:{Input.Message},"
-					;
+				//string subject = "Purchase Summary From Cosmetic Store!";
+				//string message =
+				//	$"Name:{Input.Name}," +
+				//	$"Email:{Input.Email}," +
+				//	$"Phone:{Input.Phone}," +
+				//	$"Subject:{Input.Subject}," +
+				//	$"Message:{Input.Message},"
+				//	;
 
-				await _email.SendEmailAsync(Themail, subject, message);
+				//await _email.SendEmailAsync(Themail, subject, message);
 
 
 
-				string subject2 = "Purchase Summary From Cosmetic Store!";
-				string message2 =
-					$"Hello {user.UserName}," +
-					$" Below is your recent purchase summary," +
-					$" The Total: ${("F")}\n" +
-					"Click here to shop more: https://e-commerce2.azurewebsites.net/";
+				//string subject2 = "Purchase Summary From Cosmetic Store!";
+				//string message2 =
+				//	$"Hello {user.UserName}," +
+				//	$" Below is your recent purchase summary," +
+				//	$" The Total: ${("F")}\n" +
+				//	"Click here to shop more: https://e-commerce2.azurewebsites.net/";
 
-				await _email.SendEmailAsync(Input.Email, subject2, message2);
+				//await _email.SendEmailAsync(Input.Email, subject2, message2);
 
 				return Page();
 			}

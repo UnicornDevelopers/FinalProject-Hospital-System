@@ -1,4 +1,4 @@
-﻿body {
+﻿/*body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 14px;
@@ -101,9 +101,9 @@
 
     #scrollUp:hover {
         background: #2C2D3F;
-    }
+    }*/
 /* Color Plate */
-.color-plate {
+/*.color-plate {
     position: fixed;
     display: block;
     z-index: 99998;
@@ -213,7 +213,7 @@
 
         .color-plate span.color12 {
             background: #44ce6f;
-        }
+        }*/
 /*=============================
 	End Global CSS 
 ===============================*/
@@ -221,16 +221,16 @@
 /*===================
 	Start Header CSS 
 =====================*/
-.header {
+/*.header {
     background-color: #fff;
     position: relative;
 }
 
     .header .navbar-collapse {
         padding: 0;
-    }
+    }*/
     /* Topbar */
-    .header .topbar {
+    /*.header .topbar {
         background-color: #fff;
         border-bottom: 1px solid #eee;
     }
@@ -378,9 +378,9 @@
         display: inline-block;
         margin-left: 1px;
         font-size: 13px;
-    }
+    }*/
 /* Middle Header */
-.header.style2 .header-inner {
+/*.header.style2 .header-inner {
     border-top: 1px solid #eee;
 }
 
@@ -444,9 +444,9 @@
 
     .header .single-widget.btn {
         margin-left: 0;
-    }
+    }*/
 /* Dropdown Menu */
-.header .nav li .dropdown {
+/*.header .nav li .dropdown {
     background: #fff;
     width: 220px;
     position: absolute;
@@ -509,9 +509,9 @@
 
     .header .nav li .dropdown li a:hover {
         border-color: transparent;
-    }
+    }*/
 /* Right Bar */
-.header.style2 .main-menu {
+/*.header.style2 .main-menu {
     display: inline-block;
     float: left;
 }
@@ -548,9 +548,9 @@
 .header .search-top.active .search i:before {
     content: "\eee1";
     font-size: 15px;
-}
+}*/
 /* Search */
-.header .search-form {
+/*.header .search-form {
     position: absolute;
     right: 0;
     z-index: 9999;
@@ -603,9 +603,9 @@
         background: #fff;
         color: #1A76D1;
         border-color: #e6e6e6;
-    }
+    }*/
 /* Header Sticky */
-.header.sticky .header-inner {
+/*.header.sticky .header-inner {
     position: fixed;
     z-index: 999;
     top: 0;
@@ -616,7 +616,7 @@
     transition: all 0.4s ease;
     animation: fadeInDown 0.5s both 0.1s;
     box-shadow: 0px 0px 13px #00000054;
-}
+}*/
 /*=========================
 	End Header CSS
 ===========================*/
@@ -624,7 +624,7 @@
 /*===========================
 	Start Hero Area CSS
 =============================*/
-.slider .single-slider {
+/*.slider .single-slider {
     height: 600px;
     background-size: cover;
     background-position: center;
@@ -720,10 +720,10 @@
 
 .slider .owl-carousel .owl-controls .owl-nav .owl-next {
     right: 20px;
-}
+}*/
 
 /* Slider Animation */
-.owl-item.active .single-slider h1 {
+/*.owl-item.active .single-slider h1 {
     animation: fadeInUp 1s both 0.6s;
 }
 
@@ -733,7 +733,7 @@
 
 .owl-item.active .single-slider .button {
     animation: fadeInDown 1s both 1.5s;
-}
+}*/
 /*===========================
 	End Hero Area CSS
 =============================*/
@@ -741,7 +741,7 @@
 /*=============================
 	Start Schedule CSS
 ===============================*/
-.schedule {
+/*.schedule {
     background: #fff;
     margin: 0;
     padding: 0;
@@ -894,7 +894,7 @@
         .schedule .single-schedule .day-head .time {
             font-weight: 400;
             float: right;
-        }
+        }*/
 /*=============================
 	End Schedule CSS
 ===============================*/
@@ -902,7 +902,7 @@
 /*=============================
 	Start Feautes CSS
 ===============================*/
-.Feautes {
+/*.Feautes {
     padding-top: 0;
 }
 
@@ -970,7 +970,7 @@
 
         .Feautes .single-features p {
             margin-top: 20px;
-        }
+        }*/
 /*=============================
 	End Feautes CSS
 ===============================*/
@@ -978,7 +978,7 @@
 /*=======================
 	Start Fun Facts CSS
 =========================*/
-.fun-facts {
+/*.fun-facts {
     position: relative;
 }
 
@@ -1043,7 +1043,7 @@
         .fun-facts .single-fun p {
             color: #fff;
             font-size: 15px;
-        }
+        }*/
 /*===================
 	End Fun Facts
 =====================*/
@@ -1051,7 +1051,7 @@
 /*===================
 	Why choose CSS
 =====================*/
-.why-choose .choose-left h3 {
+/*.why-choose .choose-left h3 {
     font-size: 24px;
     font-weight: 600;
     color: #2C2D3F;
@@ -1097,9 +1097,9 @@
             border-radius: 100%;
             padding-left: 2px;
             margin-right: 16px;
-        }
+        }*/
 /* Start Faq CSS */
-.why-choose {
+/*.why-choose {
     background: #fff;
 }
 
@@ -1163,7 +1163,7 @@
     .why-choose .video-image .waves-block .wave-3 {
         -webkit-animation-delay: 2s;
         animation-delay: 2s;
-    }
+    }*/
 /*=======================
 	End Why choose CSS
 =========================*/
@@ -1171,7 +1171,7 @@
 /*===============================
 	Start Call to action CSS
 =================================*/
-.call-action {
+/*.call-action {
     background-image: url('img/call-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -1237,7 +1237,7 @@
 
             .call-action .content .second i {
                 margin-left: 10px;
-            }
+            }*/
 /*===============================
 	Start Call to action CSS
 =================================*/
@@ -1245,7 +1245,7 @@
 /*==========================
 	Start Portfolio CSS
 ============================*/
-.portfolio {
+/*.portfolio {
     background: #FDFDFD;
 }
 
@@ -1315,9 +1315,9 @@
 
     .portfolio .owl-nav {
         display: none;
-    }
+    }*/
 /* Slider Nav */
-.pf-details .image-slider .owl-nav {
+/*.pf-details .image-slider .owl-nav {
     margin: 0;
     position: absolute;
     top: 50%;
@@ -1445,7 +1445,7 @@
                         color: #fff;
                         border-color: transparent;
                         background: #1A76D1;
-                    }
+                    }*/
 /*==========================
 	End Portfolio CSS
 ============================*/
@@ -1453,7 +1453,7 @@
 /*=========================
 	Srart service CSS
 ===========================*/
-.services .single-service {
+/*.services .single-service {
     margin: 30px 0;
     position: relative;
     padding-left: 70px;
@@ -1487,9 +1487,9 @@
 
     .services .single-service p {
         color: #868686;
-    }
+    }*/
 /*-- Service Details --*/
-.services-details-img {
+/*.services-details-img {
     margin-bottom: 50px;
 }
 
@@ -1560,7 +1560,7 @@
 
         .service-details-inner p:last-child {
             margin-bottom: 0;
-        }
+        }*/
 /*=========================
 	End service CSS
 ===========================*/
@@ -1568,7 +1568,7 @@
 /*=============================
 	Start Testimonials CSS
 ===============================*/
-.testimonials {
+/*.testimonials {
     background-image: url('img/testi-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -1663,7 +1663,7 @@
             .testimonials .owl-dots .owl-dot.active span {
                 background: #fff;
                 width: 20px;
-            }
+            }*/
 /*=============================
 	End Testimonials CSS
 ===============================*/
@@ -1671,7 +1671,7 @@
 /*==========================
 	Start Departments CSS
 ============================*/
-.departments .department-tab .nav {
+/*.departments .department-tab .nav {
     margin-bottom: 30px;
     background: transform;
     position: relative;
@@ -1798,7 +1798,7 @@
 .departments .department-tab .tab-content .tab-text p {
     color: #555;
     margin-top: 10px;
-}
+}*/
 /*==========================
 	End Departments CSS
 ============================*/
@@ -1806,7 +1806,7 @@
 /*=============================
 	Start Pricing Table CSS
 ===============================*/
-.pricing-table {
+/*.pricing-table {
     background: #f9f9f9;
     position: relative;
 }
@@ -1819,9 +1819,9 @@
         overflow: hidden;
         margin: 15px 0;
         padding: 45px 35px 30px 35px;
-    }
+    }*/
         /* Table Head */
-        .pricing-table .single-table .table-head {
+        /*.pricing-table .single-table .table-head {
             text-align: center;
         }
 
@@ -1849,9 +1849,9 @@
                 font-weight: 400;
                 color: #868686;
                 margin-left: 8px;
-            }
+            }*/
         /* Table List */
-        .pricing-table .single-table .table-list {
+        /*.pricing-table .single-table .table-list {
             padding: 10px 0;
             text-align: left;
             margin-top: 30px;
@@ -1887,10 +1887,10 @@
         background: #1a76d1;
         border-radius: 100%;
         padding-left: 1px;
-    }
+    }*/
 
     /* Table Bottom */
-    .pricing-table .table-bottom {
+    /*.pricing-table .table-bottom {
         margin-top: 25px;
     }
 
@@ -1911,7 +1911,7 @@
         .pricing-table .btn i {
             font-size: 16px;
             margin-right: 10px;
-        }
+        }*/
 /*=============================
 	End Pricing Table CSS
 ===============================*/
@@ -1919,7 +1919,7 @@
 /*========================
 	Start Clients CSS
 ==========================*/
-.clients {
+/*.clients {
     background-image: url('img/client-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -1936,7 +1936,7 @@
             text-align: center;
             float: none;
             padding: 0 35px;
-        }
+        }*/
 /*========================
 	End Clients CSS
 ==========================*/
@@ -1944,7 +1944,7 @@
 /*====================
 	Start Team CSS
 ======================*/
-.team {
+/*.team {
     background-image: url('img/testi-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -2067,9 +2067,9 @@
 
             .team .t-bottom h2 a:hover {
                 color: #1A76D1;
-            }
+            }*/
 /*-- Doctor Details --*/
-.doctor-details-left {
+/*.doctor-details-left {
     -webkit-box-shadow: 0px 0px 10px 0px #ddd;
     box-shadow: 0px 0px 10px 0px #ddd;
     border-radius: 10px;
@@ -2230,7 +2230,7 @@
 
 .doctor-details-item .doctor-name .degree {
     font-size: 16px;
-}
+}*/
 /*====================
 	End Team CSS
 ======================*/
@@ -2238,7 +2238,7 @@
 /*=======================
 	Start Blog CSS
 =========================*/
-.blog {
+/*.blog {
     background: #fff;
 }
 
@@ -2338,9 +2338,9 @@
 
     .blog.grid .single-news {
         margin-top: 30px;
-    }
+    }*/
 /* Blog Sidebar */
-.main-sidebar {
+/*.main-sidebar {
     background: #fff;
     margin-top: 30px;
     background: transparent;
@@ -2426,9 +2426,9 @@
             .main-sidebar .search .button:hover {
                 background: #1A76D1;
                 color: #fff;
-            }
+            }*/
     /* Category List */
-    .main-sidebar .categor-list {
+    /*.main-sidebar .categor-list {
         margin-top: 15px;
     }
 
@@ -2467,9 +2467,9 @@
                     margin-right: 6px;
                     opacity: 1;
                     visibility: visible;
-                }
+                }*/
     /* Recent Posts */
-    .main-sidebar .single-post {
+    /*.main-sidebar .single-post {
         position: relative;
         border-bottom: 1px solid #ddd;
         display: inline-block;
@@ -2526,9 +2526,9 @@
                 .main-sidebar .single-post .content .comment li i {
                     display: inline-block;
                     margin-right: 5px;
-                }
+                }*/
     /* Blog Tags */
-    .main-sidebar .side-tags .tag {
+    /*.main-sidebar .side-tags .tag {
         margin-top: 40px;
     }
 
@@ -2553,9 +2553,9 @@
             color: #fff;
             background: #1A76D1;
             border-color: transparent;
-        }
+        }*/
 /* News Single */
-.news-single {
+/*.news-single {
     padding: 60px 0 90px;
     background: #f8f8f8;
 }
@@ -2590,9 +2590,9 @@
 
             .news-single .news-title a:hover {
                 color: #1A76D1;
-            }
+            }*/
 /* Blog Meta */
-.news-single {
+/*.news-single {
     background: #fff;
 }
 
@@ -2663,9 +2663,9 @@
     .news-single .news-text p {
         font-size: 14px;
         margin-bottom: 20px;
-    }
+    }*/
     /* Image Gallery */
-    .news-single .image-gallery {
+    /*.news-single .image-gallery {
         margin-bottom: 20px;
     }
 
@@ -2677,9 +2677,9 @@
                 -webkit-transform: scale(1.2);
                 -moz-transform: scale(1.2);
                 transform: scale(1.2);
-            }
+            }*/
     /* Blockqoute */
-    .news-single blockquote {
+    /*.news-single blockquote {
         background-image: url('img/blockqoute-bg.jpg');
         background-size: cover;
         background-position: center;
@@ -2702,9 +2702,9 @@
 
     .news-single .blog-bottom {
         overflow: hidden;
-    }
+    }*/
     /* Social Share */
-    .news-single .social-share {
+    /*.news-single .social-share {
         float: left;
     }
 
@@ -2744,9 +2744,9 @@
 
                 .news-single .social-share li a:hover {
                     background: #2B343E;
-                }
+                }*/
     /* Prev Next Button */
-    .news-single .prev-next {
+    /*.news-single .prev-next {
         float: right;
     }
 
@@ -2776,9 +2776,9 @@
                     color: #fff;
                     background: #1A76D1;
                     border-color: transparent;
-                }
+                }*/
     /* Blog Comments */
-    .news-single .blog-comments {
+    /*.news-single .blog-comments {
         margin-top: 30px;
         background: transparent;
         -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.10);
@@ -3074,7 +3074,7 @@
                     -webkit-transition: all 0.3s ease 0s;
                     -moz-transition: all 0.3s ease 0s;
                     transition: all 0.3s ease 0s;
-                }
+                }*/
 /*===================
 	End Blog CSS
 =====================*/
@@ -3082,7 +3082,7 @@
 /*==========================
 	Start Appointment CSS
 ============================*/
-.appointment {
+/*.appointment {
     background: #fff;
     padding-top: 100px;
 }
@@ -3239,7 +3239,7 @@
     .appointment.single-page .day-head .time {
         font-weight: 400;
         float: right;
-    }
+    }*/
 /*==========================
 	End Appointment CSS
 ============================*/
@@ -3247,7 +3247,7 @@
 /*====================
    Start Login CSS
 ======================*/
-.login .inner {
+/*.login .inner {
     box-shadow: 0px 0px 10px #00000024;
     border-radius: 5px;
     overflow: hidden;
@@ -3416,7 +3416,7 @@
 
     .login .login-form .lost-pass:hover {
         color: #1A76D1;
-    }
+    }*/
 /*====================
    End Login CSS
 ======================*/
@@ -3424,7 +3424,7 @@
 /*=========================
    Start Register CSS
 ===========================*/
-.register .inner {
+/*.register .inner {
     box-shadow: 0px 0px 10px #00000024;
     border-radius: 5px;
     overflow: hidden;
@@ -3591,7 +3591,7 @@
 
     .register .register-form .terms:hover {
         color: #2C2D3F;
-    }
+    }*/
 /*=========================
    End Register CSS
 ===========================*/
@@ -3599,7 +3599,7 @@
 /*=====================
    Start Faq CSS
 =======================*/
-.faq-head h2 {
+/*.faq-head h2 {
     margin-bottom: 35px;
     font-weight: 600;
     font-size: 25px;
@@ -3682,7 +3682,7 @@
                 content: "-";
                 font-size: 25px;
                 color: #ffffff;
-            }
+            }*/
 /*=====================
    End Faq CSS
 =======================*/
@@ -3690,7 +3690,7 @@
 /*=========================
    Start Contact Us CSS
 ===========================*/
-.contact-us .inner {
+/*.contact-us .inner {
     box-shadow: 0px 0px 10px #00000024;
     border-radius: 5px;
     overflow: hidden;
@@ -3912,12 +3912,12 @@
         .contact-us .single-info .content p {
             color: #fff;
             margin-top: 5px;
-        }
+        }*/
 /* Google Map */
-.contact-us #myMap {
+/*.contact-us #myMap {
     height: 100%;
     width: 100%;
-}
+}*/
 /*=========================
    End Contact Us CSS
 ===========================*/
@@ -3925,7 +3925,7 @@
 /*========================
 	Start Error 404 CSS
 ==========================*/
-.error-page {
+/*.error-page {
     text-align: center;
     background: #fff;
     border-top: 1px solid #eee;
@@ -3989,7 +3989,7 @@
 
             .error-page .search-form .btn i {
                 font-size: 16px;
-            }
+            }*/
 /*========================
 	End Error 404 CSS
 ==========================*/
@@ -3997,7 +3997,7 @@
 /*===========================
 	Start Mail Success CSS
 =============================*/
-.mail-seccess {
+/*.mail-seccess {
     text-align: center;
     background: #fff;
     border-top: 1px solid #eee;
@@ -4029,7 +4029,7 @@
 
         .mail-seccess .success-inner .btn {
             color: #fff;
-        }
+        }*/
 /*===========================
 	End Mail Success CSS
 =============================*/
@@ -4037,7 +4037,7 @@
 /*=========================
 	Start Newsletter CSS
 ===========================*/
-.newsletter {
+/*.newsletter {
     background: #EDF2FF;
 }
 
@@ -4096,7 +4096,7 @@
 
     .newsletter .button:hover {
         box-shadow: none;
-    }
+    }*/
 /*=========================
 	End Newsletter CSS
 ===========================*/
@@ -4104,7 +4104,7 @@
 /*===============================
 	Start Doctor Calendar CSS
 =================================*/
-.doctor-calendar-area {
+/*.doctor-calendar-area {
     position: relative;
     z-index: 1;
 }
@@ -4206,7 +4206,7 @@
 
         .doctor-calendar-table table tbody tr:last-child td {
             border-bottom: none;
-        }
+        }*/
 /*===============================
 	End Doctor Calendar CSS
 =================================*/
@@ -4214,7 +4214,7 @@
 /*=========================
 	Start About Us CSS
 ===========================*/
-.about-area {
+/*.about-area {
     position: relative;
     z-index: 1;
 }
@@ -4299,9 +4299,9 @@
 
     .about-content .btn {
         margin-top: 30px;
-    }
+    }*/
 /* Start Our Vision Area CSS */
-.our-vision-area {
+/*.our-vision-area {
     position: relative;
     z-index: 1;
     padding-bottom: 70px;
@@ -4403,11 +4403,11 @@
         .single-vision-box:hover::after {
             left: -50px;
             bottom: -50px;
-        }
+        }*/
 /* End Our Vision CSS */
 
 /* Our Mission Area CSS */
-.our-mission-area {
+/*.our-mission-area {
     position: relative;
     z-index: 1;
 }
@@ -4507,7 +4507,7 @@
                 background-color: #1A76D1;
                 color: #ffffff;
                 border-radius: 100%;
-            }
+            }*/
 /* End Our Mission CSS */
 
 /*=========================
@@ -4517,7 +4517,7 @@
 /*=========================
 	Start Footer CSS
 ===========================*/
-.footer {
+/*.footer {
     position: relative;
 }
 
@@ -4751,7 +4751,7 @@
                 text-decoration: underline;
                 display: inline-block;
                 margin-left: 4px;
-            }
+            }*/
 /*=========================
 	End Footer CSS
 ===========================*/

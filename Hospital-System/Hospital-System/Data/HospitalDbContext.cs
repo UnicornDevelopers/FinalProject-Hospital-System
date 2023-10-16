@@ -1,13 +1,13 @@
 ﻿using Hospital_System.Auth.Models;
 using Hospital_System.Models;
+using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
 namespace Hospital_System.Data
 {
     public class HospitalDbContext : IdentityDbContext<ApplicationUser>
-    {
+	{
 
         public HospitalDbContext(DbContextOptions options) : base(options)
         {
@@ -15,105 +15,122 @@ namespace Hospital_System.Data
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+		public DbSet<Appointment> Appointments { get; set; }
+		public DbSet<Department> Departments { get; set; }
+		public DbSet<Doctor> Doctors { get; set; }
+		public DbSet<MedicalReport> MedicalReports { get; set; }
+		public DbSet<Medicine> Medicines { get; set; }
+		public DbSet<Nurse> Nurses { get; set; }
+		public DbSet<Patient> Patients { get; set; }
+		public DbSet<Room> Rooms { get; set; }
+		public DbSet<Hospital> Hospitals { get; set; }
+		public DbSet<AppointmentSlot> AppointmentSlots { get; set; }
+
+
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+			base.OnModelCreating(modelBuilder);
 
 
-            SeedRole(modelBuilder, "Admin", "create", "update", "delete");
-            SeedRole(modelBuilder, "Receptionist", "create", "update", "delete");
-            SeedRole(modelBuilder, "Doctor", "create", "update", "delete");
-            SeedRole(modelBuilder, "Patient", "create", "update", "delete");
-            SeedRole(modelBuilder, "Nurse");
+			modelBuilder.Entity<Hospital>()
+	.HasMany(a => a.Departments)
+	 .WithOne(b => b.Hospital)
+	   .OnDelete(DeleteBehavior.ClientSetNull);
 
 
-
-
-
-            //---------------------------------------------------
-            modelBuilder.Entity<Hospital>()
-     .HasMany(a => a.Departments)
-      .WithOne(b => b.Hospital)
-        .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<Doctor>()
-    .HasMany(a => a.AppointmentSlots)
-     .WithOne(b => b.doctor)
-       .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<Department>()
-           .HasOne(a => a.Hospital)
-           .WithMany(d => d.Departments)
-           .HasForeignKey(a => a.HospitalID)
-           .OnDelete(DeleteBehavior.ClientSetNull);
+			modelBuilder.Entity<Department>()
+		   .HasOne(a => a.Hospital)
+		   .WithMany(d => d.Departments)
+		   .HasForeignKey(a => a.HospitalID)
+		   .OnDelete(DeleteBehavior.ClientSetNull);
 
 
 
-            modelBuilder.Entity<Doctor>()
-          .HasMany(a => a.Appointments)
-           .WithOne(b => b.doctor)
-             .OnDelete(DeleteBehavior.ClientSetNull);
+			modelBuilder.Entity<Doctor>()
+		  .HasMany(a => a.Appointments)
+		   .WithOne(b => b.doctor)
+			 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Appointment>()
-             .HasOne(a => a.doctor)
-             .WithMany(d => d.Appointments)
-             .HasForeignKey(a => a.DoctorId)
-             .OnDelete(DeleteBehavior.ClientSetNull);
+			modelBuilder.Entity<Appointment>()
+			 .HasOne(a => a.doctor)
+			 .WithMany(d => d.Appointments)
+			 .HasForeignKey(a => a.DoctorId)
+			 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Appointment>()
-                .HasOne(a => a.patient)
-                .WithMany(p => p.Appointments)
-                .HasForeignKey(a => a.PatientId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+			modelBuilder.Entity<Appointment>()
+				.HasOne(a => a.patient)
+				.WithMany(p => p.Appointments)
+				.HasForeignKey(a => a.PatientId)
+				.OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Doctor>()
-      .HasMany(a => a.medicalReports)
-      .WithOne(b => b.doctor)
-       .OnDelete(DeleteBehavior.ClientSetNull);
+			modelBuilder.Entity<Doctor>()
+	  .HasMany(a => a.medicalReports)
+	  .WithOne(b => b.doctor)
+	   .OnDelete(DeleteBehavior.ClientSetNull);
 
 
-            modelBuilder.Entity<Patient>()
-      .HasMany(a => a.Appointments)
-      .WithOne(b => b.patient);
+			modelBuilder.Entity<Patient>()
+	  .HasMany(a => a.Appointments)
+	  .WithOne(b => b.patient);
 
-            modelBuilder.Entity<Patient>()
+			modelBuilder.Entity<Patient>()
    .HasMany(a => a.MedicalReports)
    .WithOne(b => b.patient);
 
-            modelBuilder.Entity<Department>()
-      .HasMany(a => a.Doctors)
-      .WithOne(b => b.department);
+			modelBuilder.Entity<Department>()
+	  .HasMany(a => a.Doctors)
+	  .WithOne(b => b.department);
 
-            modelBuilder.Entity<Department>()
-      .HasMany(a => a.Nurses)
-      .WithOne(b => b.department);
+			modelBuilder.Entity<Department>()
+	  .HasMany(a => a.Nurses)
+	  .WithOne(b => b.department);
 
-            modelBuilder.Entity<Department>()
-      .HasMany(a => a.Rooms)
-      .WithOne(b => b.department);
+			modelBuilder.Entity<Department>()
+	  .HasMany(a => a.Rooms)
+	  .WithOne(b => b.department);
 
-            modelBuilder.Entity<MedicalReport>()
-      .HasMany(a => a.Medicines)
-      .WithOne(b => b.medicalReport);
+			modelBuilder.Entity<MedicalReport>()
+	  .HasMany(a => a.Medicines)
+	  .WithOne(b => b.medicalReport);
 
-            modelBuilder.Entity<Room>()
-           .HasMany(a => a.Patients)
-            .WithOne(b => b.Rooms);
+			modelBuilder.Entity<Room>()
+		   .HasMany(a => a.Patients)
+			.WithOne(b => b.Rooms);
 
-            modelBuilder.Entity<MedicalReport>()
-               .HasMany(a => a.Medicines)
-              .WithOne(b => b.medicalReport);
+			modelBuilder.Entity<MedicalReport>()
+			   .HasMany(a => a.Medicines)
+			  .WithOne(b => b.medicalReport);
 
-            modelBuilder.Entity<MedicalReport>()
-           .HasMany(a => a.Medicines)
-         .WithOne(b => b.medicalReport);
+			modelBuilder.Entity<MedicalReport>()
+		   .HasMany(a => a.Medicines)
+		 .WithOne(b => b.medicalReport);
 
-            //----------------------------------------------------------------------
 
-        }
 
-        private int id = 1;
-        private void SeedRole(ModelBuilder modelBuilder, string roleName, params string[] permissions)
+			modelBuilder.Entity<Hospital>().HasData(
+			  new Hospital { Id = 1, HospitalName = "Test", Address = "Test", ContactNumber = "079999999" }
+			);
+
+			modelBuilder.Entity<Department>().HasData(
+			  new Department { Id = 1, DepartmentName = "Test", HospitalID = 1 }
+
+			);
+
+
+
+
+
+			SeedRole(modelBuilder, "Nurse");
+			SeedRole(modelBuilder, "Receptionist");
+			SeedRole(modelBuilder, "Users");
+			SeedRole(modelBuilder, "Patient");
+			SeedRole(modelBuilder, "Doctor");
+
+
+		}
+ private void SeedRole(ModelBuilder modelBuilder, string roleName)
         {
             var role = new IdentityRole
             {
@@ -123,32 +140,6 @@ namespace Hospital_System.Data
                 ConcurrencyStamp = Guid.Empty.ToString()
             };
             modelBuilder.Entity<IdentityRole>().HasData(role);
-
-            // Go through the permissions list and seed a new entry for each
-            var roleClaims = permissions.Select(permission =>
-             new IdentityRoleClaim<string>
-             {
-                 Id = id++,
-                 RoleId = role.Id,
-                 ClaimType = "permissions",
-                 ClaimValue = permission
-             }
-            );
-            modelBuilder.Entity<IdentityRoleClaim<string>>().HasData(roleClaims);
         }
-
-
-        public DbSet<Hospital> Hospitals { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Nurse> Nurses { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Medicine> Medicines { get; set; }
-        public DbSet<MedicalReport> MedicalReports { get; set; }
-        public DbSet<AppointmentSlot> AppointmentSlots { get; set; }
-
-
     }
 }

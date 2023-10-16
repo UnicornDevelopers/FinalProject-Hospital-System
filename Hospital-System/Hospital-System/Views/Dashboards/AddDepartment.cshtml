@@ -1,8 +1,12 @@
 ﻿@model Hospital_System.Models.DTOs.Department.InDepartmentDTO
+ 
 
 @{
     ViewData["Title"] = "Add Department";
+    Layout = "_Layout";
 }
+
+
 
 <h2>Add Department</h2>
 
@@ -11,7 +15,7 @@
     <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
 }
 
-<form asp-controller="Dashboards" asp-action="AddDepartment" method="post" enctype="multipart/form-data">
+<form asp-controller="Dashboards" asp-action="AddDepartment" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
     <div class="form-group">
         <label asp-for="DepartmentName">Department Name</label>
         <input asp-for="DepartmentName" class="form-control" />

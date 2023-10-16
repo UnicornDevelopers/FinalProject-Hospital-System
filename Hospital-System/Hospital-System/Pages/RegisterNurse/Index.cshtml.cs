@@ -1,14 +1,16 @@
-
+using Hospital_System.Auth.Models.DTO;
+using Hospital_System.Auth.Models.Interface;
+using Hospital_System.Auth.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Hospital_System.Models.Interfaces;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs.Patient;
+using Windows.Networking;
 using System.Numerics;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.Nurse;
-using Hospital_System.Models.DTOs.User;
 
 namespace Hospital_System.Pages.RegisterNurse
 {

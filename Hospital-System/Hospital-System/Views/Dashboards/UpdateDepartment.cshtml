@@ -11,7 +11,7 @@
     <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
 }
 
-<form asp-controller="Dashboards" asp-action="UpdateDepartment" method="post" enctype="multipart/form-data">
+<form asp-controller="Dashboards" asp-action="UpdateDepartment" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
     <input type="hidden" name="id" value="@Model.Id" />
 
     <div class="form-group">

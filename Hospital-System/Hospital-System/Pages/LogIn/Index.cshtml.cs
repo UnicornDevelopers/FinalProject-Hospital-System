@@ -1,9 +1,11 @@
-
+using Hospital_System.Auth.Models.DTO;
+using Hospital_System.Auth.Models.Interface;
+using Hospital_System.Auth.Models;
+using Hospital_System.Auth.Models.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Hospital_System.Models;
-using Hospital_System.Models.Interfaces;
-using Hospital_System.Models.DTOs.User;
+
+
 
 namespace Hospital_System.Pages.LogIn
 {

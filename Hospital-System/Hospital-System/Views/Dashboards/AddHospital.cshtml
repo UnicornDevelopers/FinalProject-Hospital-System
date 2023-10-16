@@ -11,7 +11,7 @@
     <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
 }
 
-<form asp-controller="Dashboards" asp-action="AddHospital" method="post">
+<form asp-controller="Dashboards" asp-action="AddHospital" method="post" class="mb-5 mt-5">
     <div class="form-group">
         <label asp-for="HospitalName">Hospital Name</label>
         <input asp-for="HospitalName" class="form-control" />
