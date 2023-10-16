@@ -1,4 +1,6 @@
-﻿using Hospital_System.Data;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Hospital_System.Data;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs;
 using Hospital_System.Models.DTOs.Department;
@@ -16,16 +18,21 @@ namespace Hospital_System.Models.Services
 	/// <summary>
 	/// Service class for managing departments within the hospital.
 	/// </summary>
+	/// 
 	public class DepartmentService : IDepartment
+
 	{
 		private readonly HospitalDbContext _context;
+		private readonly IConfiguration _configration;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DepartmentService"/> class.
 		/// </summary>
 		/// <param name="context">The database context.</param>
-		public DepartmentService(HospitalDbContext context)
+		public DepartmentService(HospitalDbContext context, IConfiguration configration)
 		{
 			_context = context;
+			_configration = configration;
 		}
 		// CREATE Department........................................................................
 
@@ -40,6 +47,8 @@ namespace Hospital_System.Models.Services
 			{
 				DepartmentName = newDepartmentDTO.DepartmentName,
 				HospitalID = newDepartmentDTO.HospitalID,
+				Image = newDepartmentDTO.Image,
+				Description = newDepartmentDTO.Description
 			};
 			_context.Entry(department).State = EntityState.Added;
 			await _context.SaveChangesAsync();
@@ -53,13 +62,14 @@ namespace Hospital_System.Models.Services
 		/// Retrieves information for all departments 
 		/// </summary>
 
-		public async Task<List<OutDepartmentDTO>> GetDepartments()
+		public async Task<List<Department>> GetDepartments()
 		{
-			var department = await _context.Departments.Select(x => new OutDepartmentDTO()
+			var department = await _context.Departments.Select(x => new Department()
 			{
 				Id = x.Id,
 				DepartmentName = x.DepartmentName,
-
+				Image = x.Image,
+				Description = x.Description
 
 			}).ToListAsync();
 
@@ -87,6 +97,8 @@ namespace Hospital_System.Models.Services
 					Id = x.Id,
 					DepartmentName = x.DepartmentName,
 					HospitalID = x.HospitalID,
+					Image = x.Image,
+					Description = x.Description,
 					Rooms = x.Rooms.Select(room => new OutRoomDTO
 					{
 						Id = room.Id,
@@ -139,6 +151,17 @@ namespace Hospital_System.Models.Services
 			}
 
 			existingDepartment.DepartmentName = updateDepartmentDTO.DepartmentName;
+
+			if (updateDepartmentDTO.Image != null)
+			{
+				existingDepartment.Image = updateDepartmentDTO.Image;
+			}
+
+			if (updateDepartmentDTO.Description != null)
+			{
+				existingDepartment.Description = updateDepartmentDTO.Description;
+			}
+
 
 			_context.Entry(existingDepartment).State = EntityState.Modified;
 			await _context.SaveChangesAsync();
@@ -271,6 +294,55 @@ namespace Hospital_System.Models.Services
 				.ToListAsync();
 
 			return Nurses;
+		}
+
+
+
+
+		// Send Image Method //////////////////////////////////////////////////////////
+		public async Task<InDepartmentDTO> GetFile(IFormFile file, InDepartmentDTO department)
+		{
+			BlobContainerClient container = new BlobContainerClient(_configration.GetConnectionString("StorageConnection"), "images");
+			await container.CreateIfNotExistsAsync();
+			BlobClient blob = container.GetBlobClient(file.FileName);
+
+			using var stream = file.OpenReadStream();
+			BlobUploadOptions options = new BlobUploadOptions()
+			{
+				HttpHeaders = new BlobHttpHeaders() { ContentType = file.ContentType }
+			};
+
+			if (!await blob.ExistsAsync())
+			{
+				await blob.UploadAsync(stream, options);
+			}
+
+			department.Image = blob.Uri.ToString();
+
+			return department;
+		}
+
+		// Update Image Method //////////////////////////////////////////////////////////
+		public async Task<OutDepartmentDTO> GetFile2(IFormFile file, OutDepartmentDTO department)
+		{
+			BlobContainerClient container = new BlobContainerClient(_configration.GetConnectionString("StorageConnection"), "images");
+			await container.CreateIfNotExistsAsync();
+			BlobClient blob = container.GetBlobClient(file.FileName);
+
+			using var stream = file.OpenReadStream();
+			BlobUploadOptions options = new BlobUploadOptions()
+			{
+				HttpHeaders = new BlobHttpHeaders() { ContentType = file.ContentType }
+			};
+
+			if (!await blob.ExistsAsync())
+			{
+				await blob.UploadAsync(stream, options);
+			}
+
+			department.Image = blob.Uri.ToString();
+
+			return department;
 		}
 	}
 }

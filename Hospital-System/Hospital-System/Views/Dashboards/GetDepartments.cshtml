@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Hospital_System.Models.Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h2>Departments</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No departments found.</p>
+}
+else
+{
+    <table class="table mb-5 mt-5">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Department Name</th>
+                <th>Image</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <td>@department.Id</td>
+                    <td>@department.DepartmentName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(department.Image))
+                        {
+                            <img src="@department.Image" alt="Department Image" width="100" height="100" />
+                        }
+                        else
+                        {
+                            <p>No image available</p>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Dashboards" asp-action="UpdateDepartment" asp-route-id="@department.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Dashboards" asp-action="DeleteDepartment" asp-route-id="@department.Id" class="btn btn-primary">Delete</a>
+                        <a asp-controller="Dashboards" asp-action="GetDepartment" asp-route-id="@department.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="Dashboards" asp-action="GetDoctorsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Doctors</a>
+                        <a asp-controller="Dashboards" asp-action="GetNursesInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Nurses</a>
+                        <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
+                        <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

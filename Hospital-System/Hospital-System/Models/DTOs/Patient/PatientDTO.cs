@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Hospital_System.Models.DTOs.AppointmentDTO;
 using Hospital_System.Models.DTOs.MedicalReport;
 using Hospital_System.Models.DTOs.Room;
 namespace Hospital_System.Models.DTOs.Patient
@@ -7,7 +6,6 @@ namespace Hospital_System.Models.DTOs.Patient
 	public class PatientDTO
 	{
 		public int Id { get; set; }
-		public string? UserId { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public DateTime DoB { get; set; }

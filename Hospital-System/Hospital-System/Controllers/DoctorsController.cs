@@ -152,12 +152,12 @@ namespace Hospital_System.Controllers
 		/// <param name="doctorId">The ID of the department.</param>
 		/// <returns>A list of doctors in the department.</returns>
 		// GET: api/Department/{departmentId}/Doctors
-		[HttpGet("{doctorId}/Appointments")]
-		public async Task<ActionResult<List<InNurseDTO>>> GetRoomsAndPatientsInDepartment(int doctorId)
-		{
-			var appointments = await _context.GetAppointmentsForDoctor(doctorId);
-			return Ok(appointments);
-		}
+		//[HttpGet("{doctorId}/Appointments")]
+		//public async Task<ActionResult<List<InNurseDTO>>> GetRoomsAndPatientsInDepartment(int doctorId)
+		//{
+		//    var appointments = await _context.GetAppointmentsForDoctor(doctorId);
+		//    return Ok(appointments);
+		//}
 
 
 

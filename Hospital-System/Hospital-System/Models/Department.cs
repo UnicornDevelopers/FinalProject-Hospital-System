@@ -1,5 +1,4 @@
-﻿using Hospital_System.Models.Interfaces;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_System.Models
 {
@@ -8,6 +7,8 @@ namespace Hospital_System.Models
 		public int Id { get; set; }
 		public string DepartmentName { get; set; }
 		public int HospitalID { get; set; }
+		public string? Image { get; set; }
+		public string? Description { get; set; }
 
 		//Nav
 		[ForeignKey("HospitalID")]

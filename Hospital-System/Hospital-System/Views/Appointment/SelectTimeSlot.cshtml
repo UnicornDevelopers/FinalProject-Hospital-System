@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Hospital_System.Models.DTOs.AppointmentSlot.TimeSlotViewDto>
 
+
 @{
     ViewData["Title"] = "Select Time Slot";
 }
@@ -35,8 +36,8 @@
                     <input type="hidden" name="doctorId" value="@timeSlot.DoctorId" />
                     <input type="hidden" name="date" value="@timeSlot.DateView" />
                     <input type="hidden" name="time" value="@timeSlot.HourView" />
-                    <input type="hidden" name="patientId" value="1" />
-                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+@*                    <input type="hidden" name="patientId" value="1" />
+*@                    <button type="submit" class="btn btn-primary">Book Appointment</button>
                 </form>
 
             </li>
@@ -49,5 +50,5 @@ else
 }
 
 <div>
-    <a asp-controller="Appointment" asp-action="SelectDoctor" class="btn btn-secondary">Back to Doctor Selection</a>
+    <a asp-controller="Appointment" asp-action="SelectDepartment" class="btn btn-secondary">Back to Doctor Selection</a>
 </div>

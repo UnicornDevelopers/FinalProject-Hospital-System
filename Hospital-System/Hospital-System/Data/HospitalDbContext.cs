@@ -25,6 +25,7 @@ namespace Hospital_System.Data
 		public DbSet<Patient> Patients { get; set; }
 		public DbSet<Room> Rooms { get; set; }
 		public DbSet<Hospital> Hospitals { get; set; }
+		public DbSet<AppointmentSlot> AppointmentSlots { get; set; }
 
 
 

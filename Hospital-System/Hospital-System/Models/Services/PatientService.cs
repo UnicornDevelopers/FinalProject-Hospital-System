@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Hospital_System.Data;
 using Hospital_System.Models.DTOs;
-using Hospital_System.Models.DTOs.AppointmentDTO;
 using Hospital_System.Models.DTOs.Department;
 using Hospital_System.Models.DTOs.MedicalReport;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Exchange.WebServices.Data;
 
 namespace Hospital_System.Models.Services
 {
@@ -63,6 +62,8 @@ namespace Hospital_System.Models.Services
 						Gender = Patient.Gender,
 						ContactNumber = Patient.ContactNumber,
 						Address = Patient.Address,
+						UserId = Patient.UserId,
+
 						RoomId = Patient.RoomId
 					};
 					_context.Patients.Add(patient);
@@ -92,7 +93,9 @@ namespace Hospital_System.Models.Services
 					DoB = Patient.DoB,
 					Gender = Patient.Gender,
 					ContactNumber = Patient.ContactNumber,
-					Address = Patient.Address
+					Address = Patient.Address,
+					UserId = Patient.UserId
+
 				};
 				_context.Patients.Add(patient);
 				await _context.SaveChangesAsync();
@@ -165,7 +168,6 @@ namespace Hospital_System.Models.Services
 			var patient = new PatientDTO
 			{
 				Id = Patient.Id,
-				UserId = Patient.UserId,
 				FirstName = Patient.FirstName,
 				LastName = Patient.LastName,
 				DoB = Patient.DoB,
@@ -177,7 +179,7 @@ namespace Hospital_System.Models.Services
 				Appointments = Patient.Appointments.Select(a => new OutAppointmentDTO()
 				{
 					Id = a.Id,
-					DateOfAppointment = a.DateOfAppointment,
+					//DateOfAppointment = a.DateOfAppointment,
 					PatientId = a.PatientId,
 					PatientName = $"{a.patient.FirstName} {a.patient.LastName}",
 					DoctorId = a.DoctorId,

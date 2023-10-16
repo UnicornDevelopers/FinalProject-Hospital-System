@@ -16,7 +16,7 @@ namespace Hospital_System.Models
 		public int DepartmentId { get; set; }
 		public string? UserId { get; set; }
 
-
+		public List<AppointmentSlot> AppointmentSlots { get; set; }
 
 
 		//Nav
