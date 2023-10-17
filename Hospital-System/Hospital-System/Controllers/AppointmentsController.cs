@@ -122,9 +122,21 @@ namespace Hospital_System.Controllers
 		}
 
 
+        [HttpGet]
+        public async Task<IActionResult> ViewAppointments()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var appointments = await _appointmentService.GetAppointmentsForPatient(userId);
+            return View(appointments);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CancelAppointment(int appointmentId)
+        {
+            await _appointmentService.DeleteAppointmentAsync(appointmentId);
+            return RedirectToAction("ViewAppointments");
+        }
 
 
 
-
-	}
+    }
 }

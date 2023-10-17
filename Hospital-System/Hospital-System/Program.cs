@@ -58,6 +58,7 @@ builder.Services.AddTransient<IHospital, HospitalService>();
 builder.Services.AddTransient<INurse, NurseService>();
 builder.Services.AddTransient<IDoctor, DoctorService>();
 builder.Services.AddTransient<IPatient, PatientService>();
+builder.Services.AddTransient<IAppointmentSlot, AppointmentSlotService>();
 
 var app = builder.Build();
 
