@@ -44,7 +44,7 @@ namespace Hospital_System.Controllers
 				// Save the product to the database
 				await _department.CreateDepartment(department);
 
-				return RedirectToAction("ViewAllProducts", "Products");
+				return RedirectToAction("Index", "Home");
 			}
 
 			return View(department);
