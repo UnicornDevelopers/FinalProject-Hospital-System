@@ -24,11 +24,21 @@
                         <td>@appointment.appointmentSlot.SlotHour</td>
                         <td>@appointment.patient.FirstName @appointment.patient.LastName</td>
                         <td>
-                            <form asp-controller="Dashboards" asp-action="CancelAppointment" method="post">
-                                <input type="hidden" name="appointmentId" value="@appointment.Id" />
-                                <button type="submit" id="cancel" class="btn btn-danger">Cancel Appointment</button>
-                            </form>
+                            @if (!appointment.IsAvailable)
+                            {
+                                <form asp-controller="Dashboards" asp-action="CancelAppointment" method="post">
+                                    <input type="hidden" name="appointmentId" value="@appointment.Id" />
+                                    <input type="hidden" name="isAvailable" value="@appointment.IsAvailable" />
+                                    <button type="submit" id="cancel" class="btn btn-danger">Cancel Appointment</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Canceled</span>
+                            }
+                            
                         </td>
+
                     </tr>
                 }
             </tbody>

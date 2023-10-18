@@ -16,9 +16,9 @@
 
                     <form asp-controller="Appointment" asp-action="SelectTimeSlot" method="post">
                         <div class="form-group">
-                            <label for="DoctorId">Doctor:</label>
-                            <select class="form-control" asp-for="DoctorId">
-                                <option value="">Select a Doctor</option>
+@*                            <label for="DoctorId">Doctor:</label>
+*@                            <select class="form-control" asp-for="DoctorId">
+                                <option value="" disabled>Select a Doctor</option>
                                 @foreach (var doctor in ViewBag.Doctors)
                                 {
                                     <option value="@doctor.Id">@doctor.FullName</option>

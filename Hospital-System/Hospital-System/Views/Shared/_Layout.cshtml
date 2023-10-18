@@ -99,9 +99,9 @@
 							@if (User.Identity.IsAuthenticated)
 							{
 								<li><a aria-hidden="true" asp-controller="Auth" asp-action="Logout">Logout</a></li>
-							
+
 								<li><a href="/Home">Welcome, @User.Identity.Name!</a></li>
-								@if (User.IsInRole("Patient"))
+								@*@if (User.IsInRole("Patient"))
 								{
 									<li class="nav-item order-4 ">
 									<li><a href="/Home">Welcome Patient!</a></li>
@@ -125,13 +125,14 @@
 									<li><a href="/Home">Welcome Nurse!</a></li>
 									</li>
 								}
+							}*@
 							}
 							else
 							{
 								<li><a href="/LogIn">LogIn</a></li>
 								<li><a href="/Register">Register</a></li>
 							}
-							</ul>
+						</ul>
 							<!-- End Contact -->
 						</div>
 						<div class="col-lg-6 col-md-7 col-12">
@@ -180,11 +181,11 @@
 													<li><a href="404.html">404 Error</a></li>
 												</ul>
 											</li>
-											<li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
+											@*<li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="blog-single.html">Blog Details</a></li>
 												</ul>
-											</li>
+											</li>*@
 										<li><a href="/ContactUs">Contact Us</a></li>
 										</ul>
 									</nav>
