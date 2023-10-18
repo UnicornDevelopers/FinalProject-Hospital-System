@@ -19,47 +19,45 @@ namespace Hospital_System.Pages.ContactUs
 		}
 		public ReceiptInput Input { get; set; }
 
-		public async Task<IActionResult> OnGetAsync(ReceiptInput Input)
+		public async Task<IActionResult> OnPostAsync(ReceiptInput Input)
 		{
-			bool isCompleted = TempData["IsCompleted"] as bool? ?? false;
-
-			if (isCompleted)
-			{
+			
 				var Themail = "test_ltuc950@outlook.com";
 
 				ViewData["OrderStatusMessage"] = "Order completed successfully.";
 				ApplicationUser user = await _userManager.GetUserAsync(User);
 
 
-				//string subject = "Purchase Summary From Cosmetic Store!";
-				//string message =
-				//	$"Name:{Input.Name}," +
-				//	$"Email:{Input.Email}," +
-				//	$"Phone:{Input.Phone}," +
-				//	$"Subject:{Input.Subject}," +
-				//	$"Message:{Input.Message},"
-				//	;
+				string subject = "Patient Information: Urgent";
+				string message =
+					"Dear Team,\n\nI am writing to provide you with some important information about one of our patients who has contacted us. " +
+					$"\n\nPlease find attached a summary of {user.UserName}Contact information. " +
+					"\n\nThank you for your attention to this matter. " +
+					"\n\nThank you for your attention to this matter. " +
+					$"\n\nName:{Input.Name}," +
+					$"\n\nEmail:{Input.Email}," +
+					$"\n\nPhone:{Input.Phone}," +
+					$"\n\nSubject:{Input.Subject}," +
+					$"\n\nMessage:{Input.Message},"+
 
-				//await _email.SendEmailAsync(Themail, subject, message);
+					"matter.\n\nBest regards,\n{your_name}";
+
+				await _email.SendEmailAsync(Themail, subject, message);
 
 
 
-				//string subject2 = "Purchase Summary From Cosmetic Store!";
-				//string message2 =
-				//	$"Hello {user.UserName}," +
-				//	$" Below is your recent purchase summary," +
-				//	$" The Total: ${("F")}\n" +
-				//	"Click here to shop more: https://e-commerce2.azurewebsites.net/";
+				string subject2 = "acknowledgment message";
+				string message2 =
+					$"Dear {user.UserName},\n\nThank you for contacting us. We have received your " +
+					"information and will get back to you as soon as possible.\n\nIn the meantime, " +
+					"please feel free to visit our website for more information about our services and " +
+					"facilities. If you have any further questions or concerns, please do not hesitate to " +
+					"contact us.\n\nThank you for choosing our hospital.\n\nBest regards,\nHospital System";
 
-				//await _email.SendEmailAsync(Input.Email, subject2, message2);
+				await _email.SendEmailAsync(Input.Email, subject2, message2);
 
 				return Page();
-			}
-			else
-			{
-				ViewData["OrderStatusMessage"] = "Order did not complete successfully.";
-			}
-			return Page();
+			
 		}
 
 
