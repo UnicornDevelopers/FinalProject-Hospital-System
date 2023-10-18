@@ -1,5 +1,6 @@
 ﻿using Hospital_System.Data;
 using Hospital_System.Models;
+using Hospital_System.Models.DTOs.Appointment;
 using Hospital_System.Models.DTOs.Department;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.Hospital;
@@ -8,6 +9,7 @@ using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Hospital_System.Controllers
 {
@@ -16,13 +18,16 @@ namespace Hospital_System.Controllers
 
 		private readonly IDepartment _department;
 		private readonly IHospital _hospital;
-		private readonly HospitalDbContext _context;
+        private readonly IAppointment _appointment;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context)
+        private readonly HospitalDbContext _context;
+
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment)
 		{
 			_department = department;
 			_hospital = hospital;
 			_context = context;
+			_appointment = appointment;
 		}
 
 		[HttpGet]
@@ -212,8 +217,42 @@ namespace Hospital_System.Controllers
 		}
 
 
+        [HttpGet]
+        public async Task<IActionResult> ViewAppointments()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return NotFound();
+            }
+            var appointments = await _appointment.GetAppointmentsForDoctor(userId);
+            return View(appointments);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CancelAppointment(int appointmentId)
+        {
+            // Retrieve the appointment by ID
+            var appointment = await _appointment.GetAppointmentById(appointmentId);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            if (appointment.IsAvailable)
+            {
+                appointment.IsAvailable = false;
+                var appointmentDto = new AppointmentDTO
+                {
+                    Id = appointment.Id,
+                    IsAvailable = appointment.IsAvailable,
+                    PatientId = appointment.PatientId,
+                    DoctorId = appointment.DoctorId,
+                    AppointmentSlotId = appointment.AppointmentSlotId,
+                };
+                await _appointment.UpdateAppointment(appointmentId, appointmentDto);
+            }
+            return RedirectToAction("ViewAppointments", new { doctorId = appointment.DoctorId });
+        }
 
 
-
-	}
+    }
 }

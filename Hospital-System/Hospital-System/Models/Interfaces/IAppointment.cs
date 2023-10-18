@@ -56,6 +56,8 @@ namespace Hospital_System.Models.Interfaces
 		Task<bool> DeleteAppointmentAsync(int id);
 		Task<List<Appointment>> GetAppointmentsForPatient(string userId);
 
+		 Task<List<Appointment>> GetAppointmentsForDoctor(string userId);
+
 
     }
 

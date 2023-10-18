@@ -55,8 +55,9 @@ namespace Hospital_System.Controllers
 			{
 				Id = outdepartment.Id,
 				DepartmentName = outdepartment.DepartmentName,
+                Image= outdepartment.Image,
 
-				Description = outdepartment.Description
+                Description = outdepartment.Description
 
 			}).ToList();
 
@@ -130,9 +131,12 @@ namespace Hospital_System.Controllers
             return View(appointments);
         }
         [HttpPost]
-        public async Task<IActionResult> CancelAppointment(int appointmentId)
+        public async Task<IActionResult> CancelAppointment(int appointmentId, bool isAvailable)
         {
-            await _appointmentService.DeleteAppointmentAsync(appointmentId);
+            if (isAvailable)
+            {
+                await _appointmentService.DeleteAppointmentAsync(appointmentId);
+            }
             return RedirectToAction("ViewAppointments");
         }
 
