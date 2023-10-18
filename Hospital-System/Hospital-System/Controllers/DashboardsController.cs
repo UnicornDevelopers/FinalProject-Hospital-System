@@ -237,9 +237,9 @@ namespace Hospital_System.Controllers
             {
                 return NotFound();
             }
-            if (appointment.IsAvailable)
+            if (!appointment.IsAvailable)
             {
-                appointment.IsAvailable = false;
+                appointment.IsAvailable = true;
                 var appointmentDto = new AppointmentDTO
                 {
                     Id = appointment.Id,

@@ -24,7 +24,7 @@
                         <td>@appointment.appointmentSlot.SlotHour</td>
                         <td>@appointment.doctor.FirstName @appointment.doctor.LastName</td>
                         <td>
-                            @if (appointment.IsAvailable)
+                            @if (!appointment.IsAvailable)
                             {
                                 <form asp-controller="Appointment" asp-action="CancelAppointment" method="post">
                                     <input type="hidden" name="appointmentId" value="@appointment.Id" />
