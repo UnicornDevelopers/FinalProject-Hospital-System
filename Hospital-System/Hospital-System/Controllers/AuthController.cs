@@ -17,11 +17,13 @@ namespace E_commerce_2.Controllers
 		private IUser _user;
 		private HospitalDbContext _db;
 		private IPatient _patient;
-		public AuthController(IUser user, HospitalDbContext db, IPatient patient )
+		private IDoctor _doctor;
+		public AuthController(IUser user, HospitalDbContext db, IPatient patient,IDoctor doctor )
 		{
 			_user = user;
 			_db= db;
 			_patient = patient;
+			_doctor = doctor;
 		}
 		public IActionResult Index()
 		{
@@ -92,9 +94,22 @@ namespace E_commerce_2.Controllers
 		public async Task<ActionResult<PatientDTO>> Profile()
 		{
 			var user = await _user.GetUser(this.User);
-			var prfileUser = await _db.Patients.Include(r=>r.Rooms).FirstOrDefaultAsync(x=>x.UserId==user.Id);
+			var prfileUserPatient =await _db.Patients.FirstOrDefaultAsync(x=>x.UserId==user.Id);
+			if(prfileUserPatient != null)
+			{
+                var pateintProfile = await _patient.GetPatient(prfileUserPatient.Id);
+                ViewBag.Pateint = pateintProfile;
+            }
 
-            return View(prfileUser);
+            var prfileUserDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.UserId == user.Id);
+			if(prfileUserDoctor!=null)
+			{
+                var DoctorProfile = await _doctor.GetDoctor(prfileUserDoctor.Id);
+                ViewBag.Doctor = DoctorProfile;
+            }
+
+
+            return View(user);
 		}
 	}
 }

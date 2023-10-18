@@ -98,6 +98,9 @@ namespace Hospital_System.Auth.Models.Services
             {
                 Id = user.Id,
                 Username = user.UserName,
+                Email=user.Email,
+                Phone=user.PhoneNumber,
+                Roles = await _userManager.GetRolesAsync(user)
             };
         }
 

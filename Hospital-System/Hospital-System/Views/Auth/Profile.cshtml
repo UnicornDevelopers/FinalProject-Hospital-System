@@ -1,4 +1,15 @@
-﻿@model Patient
+﻿@using Hospital_System.Auth.Models.DTO;
+@using Hospital_System.Models.DTOs.Patient;
+@using Hospital_System.Models.DTOs;
+@model UserDTO
+
+
+@{
+    PatientDTO patient = ViewBag.Pateint;
+    DoctorDTO doctor = ViewBag.Doctor;
+    PatientDTO user1 = patient;
+    DoctorDTO user2 = doctor;
+}
     <style>
         body {
             background: rgb(99, 39, 120);
@@ -53,7 +64,7 @@
 <div class="container rounded bg-white mt-5 mb-5 justify-content-evenly">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">@Model.Username</span><span class="text-black-50">@Model.Email</span><span> </span></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -61,24 +72,36 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value="@Model.FirstName" readonly></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname" value="@Model.LastName" readonly></div>
+                    <div class="col-md-6"><label class="labels">First Name</label><input type="text" class="form-control" placeholder="first name" value="@(user1?.FirstName==null?user2.FirstName:user1.FirstName)" readonly></div>
+                    <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control" placeholder="LastName" value="@(user1?.LastName==null?user2.LastName:user1.LastName)" readonly></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value="@Model.ContactNumber" readonly></div>
-                    @*<div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>*@
-                    @*<div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter your male" value="@Model.Email"></div>*@
-                    <div class="col-md-12"><label class="labels">Male</label><input type="text" class="form-control" placeholder="enter email id" value="@Model.Gender" readonly></div>
-                    <div class="col-md-12"><label class="labels">Date of Birth<</label><input type="text" class="form-control" placeholder="Date of Birth<" value="@Model.DoB" readonly></div>
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value="@(user1?.ContactNumber==null?user2.ContactNumber:user1.ContactNumber)" readonly></div>
+                    <div class="col-md-12">
+                    @if(user1!=null)
+                    {
+                        <label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value="@user1.Address" readonly> 
+                    }
+                    else
+                    {
+                        <label class="labels">Speciality</label><input type="text" class="form-control" placeholder="enter address line 1" value="@user2.Speciality" readonly>
+                    }
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter your male" value="@Model.Email" readonly></div>
+                    <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control" placeholder="enter email id" value="@(user1?.Gender==null?user2.Gender:user1.Gender)" readonly></div>
+                    @if(user1!=null)
+                    {
+                        <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control" placeholder="Date of Birth<" value="@user1.DoB" readonly></div>
+                    }
+                    
                 </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value="@Model.Address" readonly></div>
-                    <div class="col-md-6"><label class="labels">Room Number</label><input type="text" class="form-control" value="" placeholder="Room Number"  readonly></div>
-                </div>
+                @if(user1!=null)
+                    {
+                        <div class="row mt-3">
+                            <div class="col-md-6"><label class="labels">Room Number</label><input type="text" class="form-control" value="@(user1?.Rooms==null?"Patient has no Room":user1.Rooms.RoomNumber)" placeholder="Room Number" readonly></div>
+                        </div>
+                    }
                 <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
             </div>
         </div>
