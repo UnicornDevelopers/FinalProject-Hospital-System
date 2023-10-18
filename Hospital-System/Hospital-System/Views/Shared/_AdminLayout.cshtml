@@ -1,0 +1,231 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="~/AdminStyle/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+</head>
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-custom">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" asp-controller="Admin" asp-action="index">Admin Dashboard</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        @*<form method="get" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="@Url.Action("Search", "Admin")">
+        <div class="input-group">
+        <input class="form-control" type="text" name="str" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+        </form>*@
+        @*@if (User.Identity.IsAuthenticated)
+        {*@
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <span class="nav-link">@User.Identity.Name</span>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                    <li><hr class="dropdown-divider" /></li>
+
+                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Logout</a></li>
+
+                </ul>
+            </li>
+        </ul>
+        @*}
+        else
+        {*@
+
+        @* <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" asp-controller="Auth" asp-action="index" role="tab"
+        aria-controls="pills-login" aria-selected="true">Login</a>
+        </li>
+        <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab-register" data-mdb-toggle="pill" asp-controller="Auth" asp-action="SignUp" role="tab"
+        aria-controls="pills-register" aria-selected="false">Register</a>
+        </li>
+        </ul>*@
+        @*}*@
+        <!-- Navbar-->
+
+
+
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        @*<div class="sb-sidenav-menu-heading">Core</div>*@
+                        <a class="nav-link" asp-controller="Admin" asp-action="index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
+                            Dashboard
+                        </a>
+                        @*<div class="sb-sidenav-menu-heading">Interface</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Layouts
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                        <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                        </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Pages
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                        Authentication
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                        <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="login.html">Login</a>
+                        <a class="nav-link" href="register.html">Register</a>
+                        <a class="nav-link" href="password.html">Forgot Password</a>
+                        </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                        Error
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                        <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="401.html">401 Page</a>
+                        <a class="nav-link" href="404.html">404 Page</a>
+                        <a class="nav-link" href="500.html">500 Page</a>
+                        </nav>
+                        </div>
+                        </nav>
+                        </div>*@
+                        @* <div class="sb-sidenav-menu-heading">Addons</div>*@
+                        @*<a class="nav-link" asp-controller="Admin" asp-action="Categories">
+                        <div class="sb-nav-link-icon"><i class="fas fa-sitemap"></i></div>
+                        Categories
+                        </a>
+                        <a class="nav-link" asp-controller="Admin" asp-action="Products">
+                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                        Products
+                        </a>
+
+                        <a class="nav-link" asp-controller="Admin" asp-action="GetAllUsers">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        Users
+                        </a>
+
+                        <a class="nav-link" asp-controller="Admin" asp-action="GetAllAdmins">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
+                        Admins
+                        </a>
+                        <a class="nav-link" asp-controller="Admin" asp-action="Orders">
+                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                        Orders
+                        </a>*@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AddDepartment">Add Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AddHospital">Add Hospital</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartment">The Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDoctorsInDepartment">Doctors/Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetNursesInDepartment">Nurses/Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment">Rooms & Patients/D</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetRoomsInDepartment">Rooms/Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="UpdateDepartment">Update Department</a>
+@*                            Implemente uppdate 
+*@                        }
+
+                        else if (User.IsInRole("Receptionist"))
+                        { }
+                        else if (User.IsInRole("Doctor"))
+                        {
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="ViewAppointments">View Appointments</a>
+                        }
+                        else
+                        { }
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    Admin
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <div>
+
+                        @RenderBody()
+                    </div>
+
+
+
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="~/AdminStyle/js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="~/AdminStyle/assets/demo/chart-area-demo.js"></script>
+<script src="~/AdminStyle/assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="~/AdminStyle/js/datatables-simple-demo.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
+
+
+<style>
+    :root {
+        --bs-custom-rgb: 20, 39, 78;
+        --bs-custom: #14274E;
+    }
+
+    .bg-custom {
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-custom-rgb), var(--bs-bg-opacity)) !important;
+    }
+
+    .sb-sidenav-dark {
+        background-color: #14274E;
+    }
+
+        .sb-sidenav-dark .sb-sidenav-footer {
+            background-color: #394867;
+        }
+</style>
+
+
