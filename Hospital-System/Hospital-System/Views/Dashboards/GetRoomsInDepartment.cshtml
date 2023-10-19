@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Rooms in Department";
     Layout = "_AdminLayout";
-
 }
 
 <h2>Rooms in Department</h2>
@@ -31,6 +30,12 @@ else
                     <td>@room.RoomNumber</td>
                     <td>@room.RoomAvailability</td>
                     <td>@room.NumberOfBeds</td>
+                    <td>
+                        <a asp-controller="Dashboards" asp-action="GetRoom" asp-route-id="@room.Id" class="btn btn-primary">Details</a> <!-- Edit button -->
+                        <a asp-controller="Dashboards" asp-action="EditRoom" asp-route-id="@room.Id" class="btn btn-primary">Edit</a> <!-- Edit button -->
+                        <a asp-controller="Dashboards" asp-action="DeleteRoom" asp-route-id="@room.Id" class="btn btn-primary">Delete</a> <!-- Edit button -->
+
+                    </td>
                 </tr>
             }
         </tbody>

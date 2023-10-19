@@ -21,16 +21,18 @@ namespace Hospital_System.Controllers
 		private readonly IHospital _hospital;
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
+        private readonly IRoom _room;
 
         private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room)
 		{
 			_department = department;
 			_hospital = hospital;
 			_context = context;
 			_appointment = appointment;
 			_patient = patient;
+			_room = room;
 		}
 
 
@@ -82,7 +84,34 @@ namespace Hospital_System.Controllers
 			return View(hospital);
 		}
 
-		[HttpGet]
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteRoom(int id)
+		{
+			try
+			{
+				var room = await _context.Rooms.FindAsync(id);
+
+				if (room == null)
+				{
+					return NotFound();
+				}
+
+				_context.Entry(room).State = EntityState.Deleted;
+				await _context.SaveChangesAsync();
+
+				return RedirectToAction("Rooms"); // Redirect to a page displaying the list of rooms after deletion.
+			}
+			catch (Exception ex)
+			{
+				// Handle the exception as needed and optionally redirect to an error view.
+				return View("ErrorView");
+			}
+		}
+
+
+            [HttpGet]
 		public async Task<IActionResult> UpdateDepartment(int? id)
 		{
 			if (id == null || _context.Departments == null)
@@ -270,20 +299,29 @@ namespace Hospital_System.Controllers
 
 
         [HttpGet]
+        public async Task<IActionResult> GetRoom(int id)
+        {
+            var room = await _room.GetRoom2(id);
+            if (room == null)
+            {
+                return NotFound(); // Room not found
+            }
+
+            return View(room); // Assuming you have a view to display room details
+        }
+
+        [HttpGet]
         public async Task<IActionResult> EditPatient(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-
-            if (patient == null)
+            var patientDTO = await _patient.GetPatient(id); // Replace with your logic to retrieve the DTO
+            if (patientDTO == null)
             {
                 return NotFound();
             }
 
-            // You can put your logic here to prepare any data you need for the view.
-            // For example, if you want to populate dropdowns, retrieve related data.
-
-            return View(patient); // Assuming you have an EditPatient view for displaying and editing patient details.
+            return View(patientDTO); // Assuming you have an EditPatient view for displaying and editing patient details.
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

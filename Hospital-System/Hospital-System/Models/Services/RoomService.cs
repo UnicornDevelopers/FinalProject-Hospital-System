@@ -109,14 +109,32 @@ namespace Hospital_System.Models.Services
 			}).FirstOrDefaultAsync(x => x.Id == id);
 			return room;
 		}
-		// Update Room by ID........................................................................
-		/// <summary>
-		/// Updates the information of a specific room.
-		/// </summary>
-		/// <param name="id">The ID of the room to update.</param>
-		/// <param name="updateRoomDTO">The updated room information.</param>
-		/// <returns>The updated room information.</returns>
-		public async Task<OutRoomDTO> UpdateRoom(int id, OutRoomDTO updateRoomDTO)
+
+
+        // Get Room new ////////////////////////////////////////////////////////
+
+        public async Task<OutRoomDTO> GetRoom2(int id)
+        {
+            var room = await _context.Rooms.Select(x => new OutRoomDTO()
+            {
+                Id = x.Id,
+                RoomNumber = x.RoomNumber,
+                RoomAvailability = x.RoomAvailability,
+                NumberOfBeds = x.NumberOfBeds,
+                DepartmentId = x.DepartmentId,
+              
+            }).FirstOrDefaultAsync(x => x.Id == id);
+            return room;
+        }
+
+        // Update Room by ID........................................................................
+        /// <summary>
+        /// Updates the information of a specific room.
+        /// </summary>
+        /// <param name="id">The ID of the room to update.</param>
+        /// <param name="updateRoomDTO">The updated room information.</param>
+        /// <returns>The updated room information.</returns>
+        public async Task<OutRoomDTO> UpdateRoom(int id, OutRoomDTO updateRoomDTO)
 		{
 			var existingRoom = await _context.Rooms.FindAsync(id);
 			if (existingRoom == null)

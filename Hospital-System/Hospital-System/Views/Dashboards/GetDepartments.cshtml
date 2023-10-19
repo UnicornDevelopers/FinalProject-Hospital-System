@@ -54,11 +54,13 @@ else
                     }
                     else
                     @if (User.IsInRole("Receptionist"))
-                    {
+                    {                         <td>
+
                         <a asp-controller="Dashboards" asp-action="GetDoctorsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Doctors</a>
                         <a asp-controller="Dashboards" asp-action="GetNursesInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Nurses</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
+                        </td>
 
 
                     }
@@ -67,19 +69,22 @@ else
                     else
                     @if (User.IsInRole("Doctor"))
                     {
-                        
+                         <td>
                         <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
 
+                        </td>
 
                     }
                     else
                     @if (User.IsInRole("Nurse"))
                     {
+                        <td>
 
                         <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
 
+                                            </td>
 
                     }
 
