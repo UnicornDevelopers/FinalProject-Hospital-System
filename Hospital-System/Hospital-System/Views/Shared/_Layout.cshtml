@@ -1,4 +1,6 @@
 ﻿
+
+
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
     <head>
@@ -174,19 +176,25 @@
 													<li><a href="index.html">Home Page 1</a></li>
 												</ul>
 											</li>
-										<li><a asp-controller="Appointment" asp-action="ViewAppointments">My Appointments </a></li>
+											@if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+										{
+											<li><a asp-controller="Appointment" asp-action="ViewAppointments">My Appointments </a></li>
+
+										}
+
 										<li><a href="#">Services </a></li>
 											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="404.html">404 Error</a></li>
 												</ul>
 											</li>
-											@*<li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="blog-single.html">Blog Details</a></li>
-												</ul>
-											</li>*@
+											
 										<li><a href="/ContactUs">Contact Us</a></li>
+										@if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Nurse") || User.IsInRole("Receptionist"))
+										{
+											<li><a asp-controller="Dashboards" asp-action="Index">Dashboard</a></li>
+
+										}
 										</ul>
 									</nav>
 								</div>

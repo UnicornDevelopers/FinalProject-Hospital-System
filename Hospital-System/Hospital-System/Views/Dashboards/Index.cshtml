@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminLayout";
+
+}
+
+@* <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="AddHospital">Add Hospital</a>
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="AddDepartment">Add Department</a>
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+                    }
+
+                    else if (User.IsInRole("Receptionist"))
+                    {
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+
+                    }
+                    else if (User.IsInRole("Doctor"))
+                    {
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="ViewAppointments">View Appointments</a>
+
+                    }
+
+                </div>
+            </div>
+            </nav>
+    </div>
+</div>
+ *@

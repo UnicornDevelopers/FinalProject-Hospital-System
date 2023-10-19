@@ -148,7 +148,7 @@ namespace Hospital_System.Controllers
         [HttpPost]
         public async Task<IActionResult> CancelAppointment(int appointmentId, bool isAvailable)
         {
-            if (isAvailable)
+            if (!isAvailable)
             {
                 await _appointmentService.DeleteAppointmentAsync(appointmentId);
             }

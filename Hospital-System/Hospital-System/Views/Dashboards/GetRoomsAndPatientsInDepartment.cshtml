@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Rooms and Patients in Department";
     Layout = "_AdminLayout";
-
 }
 
 <h2>Rooms and Patients in Department</h2>
@@ -22,6 +21,7 @@ else
                 <th>Room Availability</th>
                 <th>Number of Beds</th>
                 <th>Patients</th>
+                <th>Edit</th> <!-- Add a new column for the Edit button -->
             </tr>
         </thead>
         <tbody>
@@ -44,6 +44,7 @@ else
                                         <strong>Last Name:</strong> @patient.LastName
                                         <strong>Gender:</strong> @patient.Gender
                                         <strong>Contact Number:</strong> @patient.ContactNumber
+                                        <a asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@patient.Id" class="btn btn-primary">Edit Patient</a> <!-- Edit Patient button -->
                                     </li>
                                 }
                             </ul>

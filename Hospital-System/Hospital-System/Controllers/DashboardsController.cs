@@ -5,6 +5,7 @@ using Hospital_System.Models.DTOs.Department;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.Hospital;
 using Hospital_System.Models.DTOs.Nurse;
+using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -19,16 +20,26 @@ namespace Hospital_System.Controllers
 		private readonly IDepartment _department;
 		private readonly IHospital _hospital;
         private readonly IAppointment _appointment;
+        private readonly IPatient _patient;
 
         private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient)
 		{
 			_department = department;
 			_hospital = hospital;
 			_context = context;
 			_appointment = appointment;
+			_patient = patient;
 		}
+
+
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
+
 
 		[HttpGet]
 		public IActionResult AddDepartment()
@@ -194,18 +205,22 @@ namespace Hospital_System.Controllers
 		}
 
 
-		[HttpGet]
-		public async Task<IActionResult> GetRoomsAndPatientsInDepartment(int id)
-		{
-			var rooms = await _department.GetRoomsAndPatientsInDepartment(id);
-			if (rooms == null)
-			{
-				return NotFound();
-			}
-			return View(rooms);
-		}
+        [HttpGet]
+        public async Task<IActionResult> GetRoomsAndPatientsInDepartment(int departmentId)
+        {
+            // Fetch patients and rooms for the specified departmentId
+            var roomsAndPatients = await _department.GetRoomsAndPatientsInDepartment(departmentId);
 
-		[HttpGet]
+            if (roomsAndPatients == null)
+            {
+                return NotFound();
+            }
+
+            return View(roomsAndPatients);
+        }
+
+
+        [HttpGet]
 		public async Task<IActionResult> GetRoomsInDepartment(int id)
 		{
 			var rooms = await _department.GetRoomsInDepartment(id);
@@ -253,6 +268,67 @@ namespace Hospital_System.Controllers
             return RedirectToAction("ViewAppointments", new { doctorId = appointment.DoctorId });
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> EditPatient(int id)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+
+            if (patient == null)
+            {
+                return NotFound();
+            }
+
+            // You can put your logic here to prepare any data you need for the view.
+            // For example, if you want to populate dropdowns, retrieve related data.
+
+            return View(patient); // Assuming you have an EditPatient view for displaying and editing patient details.
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
+        {
+            if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var updatedPatient = await UpdatePatient(id, patientDTO);
+
+                    if (updatedPatient != null)
+                    {
+                        return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                    }
+                    else
+                    {
+                        return View("ErrorView"); // Redirect to an error view
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception as needed, and optionally redirect to an error view.
+                    return View("ErrorView");
+                }
+            }
+
+            return View(patientDTO);
+        }
+
+        // This is your original service method modified to be used within the controller.
+        public async Task<OutPatientDTO> UpdatePatient(int id, InPatientDTO patientDTO)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient != null)
+            {
+                // Your existing logic for updating the patient.
+            }
+            return null; // Or the updated patient details
+        }
 
     }
 }

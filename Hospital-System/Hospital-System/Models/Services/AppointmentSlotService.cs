@@ -62,7 +62,7 @@ namespace Hospital_System.Models.Services
 			int patientId = patient.Id;
 			// Check if the patient already has an ongoing appointment with this doctor
 			var ongoingAppointment = await _context.Appointments
-				.Where(a => a.PatientId == patientId && a.DoctorId == timeSlot.DoctorId && a.IsAvailable)
+				.Where(a => a.PatientId == patientId && a.DoctorId == timeSlot.DoctorId && !a.IsAvailable)
 				.FirstOrDefaultAsync();
 
 			if (ongoingAppointment != null)
@@ -98,7 +98,7 @@ namespace Hospital_System.Models.Services
 				DoctorId = timeSlot.DoctorId,
 				PatientId = patientId,
 				AppointmentSlotId = slot.Id,
-				IsAvailable = true
+				IsAvailable = false
 			};
 
 			slot.Appointments.Add(appointment);
