@@ -8,50 +8,73 @@
 }
 
 
-	<section class="contact-us section">
-		<div class="container">
-			<section class="vh-100">
-				<div style="font-size: 16px" asp-validation-summary="All"></div>
-				<div class="container-fluid h-custom">
-					<div class="row d-flex justify-content-center align-items-center h-100">
-						<div class="col-md-9 col-lg-6 col-xl-5">
 
-							<img src="/Image/878.jpg" class="img-fluid" alt="Sample image">
-						</div>
-						<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-							<form method="post">
+<section class="vh-100 gradient-custom mb-3">
+	<div class="container py-5 h-100">
+		<div class="row justify-content-center align-items-center h-100">
+			<div class="col-12 col-lg-9 col-xl-7">
+				<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+					<div class="card-body p-4 p-md-5">
+						<h3 class="mb-4 pb-2 pb-md-0 mb-md-5">LogIn</h3>
+						<form method="post">
 
-								<!-- UserName input -->
-								<div class="form-outline mb-4">
-									<input name="Username" type="text" id="form3Example3" class="form-control form-control-lg"
-										   placeholder="Enter a valid User Name" />
-									<label class="form-label" for="form3Example3">User Name</label>
-								</div>
+							<!-- UserName input -->
+							<div class="form-outline mb-4">
+								<input name="Username" type="text" id="form3Example3" class="form-control form-control-lg"
+									   placeholder="Enter a valid User Name" />
+								<label class="form-label" for="form3Example3">User Name</label>
+							</div>
 
-								<!-- Password input -->
-								<div class="form-outline mb-3">
-									<input name="Password" type="password" id="form3Example4" class="form-control form-control-lg"
-										   placeholder="Enter password" />
-									<label class="form-label" for="form3Example4">Password</label>
-								</div>
+							<!-- Password input -->
+							<div class="form-outline mb-3">
+								<input name="Password" type="password" id="form3Example4" class="form-control form-control-lg"
+									   placeholder="Enter password" />
+								<label class="form-label" for="form3Example4">Password</label>
+							</div>
 
-								<div class="text-center text-lg-start mt-4 pt-2">
-									<button type="submit" class="btn btn-primary btn-lg"
-											style="padding-left: 2.5rem; padding-right: 2.5rem;">
-										Login
-									</button>
-									<p style="font-size: 16px" class="small fw-bold mt-2 pt-1 mb-0">
-										Don't have an account?
-										<a href="/Auth/Register" class="link-danger">Register</a>
-									</p>
-								</div>
+							<div class="text-center text-lg-start mt-4 pt-2">
+								<button type="submit" class="btn btn-primary btn-lg"
+										style="padding-left: 2.5rem; padding-right: 2.5rem;">
+									Login
+								</button>
+								<p style="font-size: 16px" class="small fw-bold mt-2 pt-1 mb-0">
+									Don't have an account?
+									<a href="/Register" class="link-danger">Register</a>
+								</p>
+							</div>
 
-							</form>
-						</div>
+						</form>
 					</div>
 				</div>
-			</section>
-
+			</div>
 		</div>
-	</section>
-	
+	</div>
+</section>
+
+
+<style>
+	.gradient-custom {
+		/* fallback for old browsers */
+		background: #3876BF;
+		/* Chrome 10-25, Safari 5.1-6 */
+		background: -webkit-linear-gradient(to bottom right, rgba(50, 147, 251, 1), rgba(45, 87, 108, 1));
+		/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		background: linear-gradient(to bottom right, rgba(30, 147, 251, 1), rgba(40, 87, 108, 1))
+	}
+
+	.form-check-inline {
+		display: inline-block;
+		margin-right: 2.75rem;
+	}
+
+	.card-registration .select-input.form-control[readonly]:not([disabled]) {
+		font-size: 1rem;
+		line-height: 2.15;
+		padding-left: .75em;
+		padding-right: .75em;
+	}
+
+	.card-registration .select-arrow {
+		top: 13px;
+	}
+</style>
