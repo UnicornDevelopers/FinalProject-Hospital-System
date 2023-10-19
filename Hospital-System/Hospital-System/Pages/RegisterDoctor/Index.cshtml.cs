@@ -70,7 +70,7 @@ namespace Hospital_System.Pages.RegisterDoctor
 			if (user != null)
 			{
 				var applicationUser = await _userManager.FindByEmailAsync(registerUser.Email);
-				await _signInManager.SignInAsync(applicationUser, isPersistent: false);
+				//await _signInManager.SignInAsync(applicationUser, isPersistent: false);
 
 				var doctor2 = new InDoctorDTO
 				{
@@ -93,7 +93,9 @@ namespace Hospital_System.Pages.RegisterDoctor
 				//await _email.SendEmailAsync(applicationUser.Email, subject, message);
 
 
-				return RedirectToPage("/Home");
+				TempData["SuccessRegister"] = "Doctor registered successfully";
+
+				return Page();
 			}
 			else
 			{
