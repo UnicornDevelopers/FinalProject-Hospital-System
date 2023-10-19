@@ -85,9 +85,25 @@ namespace Hospital_System.Controllers
 		}
 
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteRoom(int id)
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRoom(int id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+
+            if (room == null)
+            {
+                // Handle case where department is not found
+                return NotFound();
+            }
+
+            return View(room);
+        }
+
+
+        [HttpPost, ActionName("DeleteRoom")]
+        [ValidateAntiForgeryToken]
+		public async Task<IActionResult> ConfirmDeleteRoom(int id)
 		{
 			try
 			{
@@ -366,6 +382,37 @@ namespace Hospital_System.Controllers
                 // Your existing logic for updating the patient.
             }
             return null; // Or the updated patient details
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AllPatients()
+        {
+            var patients = await _patient.GetPatients();
+            return View(patients);
+        }
+
+
+
+        [HttpPost]
+        public  IActionResult AllPatients(string patientname)
+        {
+            HttpContext.Session.SetString("patientname", patientname);
+            return RedirectToAction("PatientSearch");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> PatientSearch(string patientname)
+        {
+            var rows = _context.Patients.AsQueryable();
+
+            if (!string.IsNullOrEmpty(patientname))
+            {
+                rows = rows.Where(x => x.FirstName.Contains(patientname));
+            }
+
+            return View(await rows.ToListAsync());
         }
 
     }

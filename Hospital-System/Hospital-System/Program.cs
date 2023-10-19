@@ -16,8 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            builder.Services.AddSession();
 
-            string connString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services
                 .AddDbContext<HospitalDbContext>
@@ -73,6 +74,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 
