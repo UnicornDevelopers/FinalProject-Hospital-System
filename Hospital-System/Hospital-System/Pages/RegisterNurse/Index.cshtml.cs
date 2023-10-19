@@ -11,6 +11,7 @@ using Windows.Networking;
 using System.Numerics;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.Nurse;
+using Hospital_System.Models.Services;
 
 namespace Hospital_System.Pages.RegisterNurse
 {
@@ -23,9 +24,11 @@ namespace Hospital_System.Pages.RegisterNurse
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		public readonly IUser _user;
 		private readonly INurse _iNurse;
+		private readonly IDepartment _departmentService;
 
 
-		public IndexModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmail emailSender, IConfiguration configuration, IUser user, INurse iNurse)
+
+		public IndexModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmail emailSender, IConfiguration configuration, IUser user, INurse iNurse,IDepartment department)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -33,6 +36,7 @@ namespace Hospital_System.Pages.RegisterNurse
 			_configuration = configuration;
 			_user = user;
 			_iNurse = iNurse;
+			_departmentService = department;
 		}
 
 		[BindProperty]
@@ -41,18 +45,27 @@ namespace Hospital_System.Pages.RegisterNurse
 		public InNurseDTO nurse { get; set; }
 
 		public List<ApplicationUser> applicationUsers { get; set; }
+		public List<Department> departments { get; set; }
+
 
 		public async Task OnGet()
 		{
 
 			applicationUsers = await _user.getAll();
+			departments = await _departmentService.GetDepartments();
+
 
 		}
 
 
 		public async Task<IActionResult> OnPostAsync(RegisterUserDTO registerUser, InNurseDTO nurse)
 		{
+			if (!ModelState.IsValid)
+			{
+				departments = await _departmentService.GetDepartments();
 
+				return Page();
+			}
 			user = await _user.Register(registerUser, this.ModelState);
 
 			await OnGet();
@@ -61,7 +74,7 @@ namespace Hospital_System.Pages.RegisterNurse
 			if (user != null)
 			{
 				var applicationUser = await _userManager.FindByEmailAsync(registerUser.Email);
-				await _signInManager.SignInAsync(applicationUser, isPersistent: false);
+				//await _signInManager.SignInAsync(applicationUser, isPersistent: false);
 
 				var nurse2 = new InNurseDTO
 				{
@@ -83,12 +96,15 @@ namespace Hospital_System.Pages.RegisterNurse
 				//	"Click here to ";
 
 				//await _email.SendEmailAsync(applicationUser.Email, subject, message);
+				TempData["SuccessRegister"] = "Nurse registered successfully";
 
-				return RedirectToPage("/Home");
+				return Page();
 			}
 			else
 			{
 				ViewData["WrongUser"] = "Some thing wrong ";
+				departments = await _departmentService.GetDepartments();
+
 
 				return null;
 			}
