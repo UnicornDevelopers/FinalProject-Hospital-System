@@ -70,14 +70,17 @@ namespace Hospital_System.Models.Services
 		/// </summary>
 		/// <param name="nurseID">The ID of the nurse to retrieve.</param>
 		/// <returns>Detailed nurse information.</returns>
-		public async Task<NurseDTO> GetNurse(int nurseID)
+		public async Task<NurseDTO> GetNurse(int id)
 		{
 			var nurse = await _context.Nurses
 				.Include(n => n.department)
-				.FirstOrDefaultAsync(n => n.Id == nurseID);
+				.FirstOrDefaultAsync(n => n.Id == id);
+
+
 
 			if (nurse == null)
 				return null;
+
 
 			var nurseDTO = new NurseDTO
 			{
@@ -88,6 +91,7 @@ namespace Hospital_System.Models.Services
 				ContactNumber = nurse.ContactNumber,
 				Shift = nurse.shift,
 				DepartmentId = nurse.DepartmentId,
+
 				department = new OutDepartmentDTO
 				{
 					Id = nurse.department.Id,

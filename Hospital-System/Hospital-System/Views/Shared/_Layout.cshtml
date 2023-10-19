@@ -97,7 +97,10 @@
 								<li><a href="#">About</a></li>
 								<li><a href="#">Doctors</a></li>
 								<li><a href="#">Contact</a></li>
+							@if(User.Identity.IsAuthenticated)
+							{
 								<li><a asp-controller="Auth" asp-action="Profile">Profile</a></li>
+							}
 							@if (User.Identity.IsAuthenticated)
 							{
 								<li><a aria-hidden="true" asp-controller="Auth" asp-action="Logout">Logout</a></li>
