@@ -2,6 +2,7 @@
 using Hospital_System.Auth.Models.Interface;
 using Hospital_System.Data;
 using Hospital_System.Models;
+using Hospital_System.Models.DTOs.Nurse;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +19,14 @@ namespace E_commerce_2.Controllers
 		private HospitalDbContext _db;
 		private IPatient _patient;
 		private IDoctor _doctor;
-		public AuthController(IUser user, HospitalDbContext db, IPatient patient,IDoctor doctor )
+		private INurse _nurse;
+		public AuthController(IUser user, HospitalDbContext db, IPatient patient,IDoctor doctor,INurse nurse)
 		{
 			_user = user;
 			_db= db;
 			_patient = patient;
 			_doctor = doctor;
+			_nurse = nurse;
 		}
 		public IActionResult Index()
 		{
@@ -108,6 +111,13 @@ namespace E_commerce_2.Controllers
                 ViewBag.Doctor = DoctorProfile;
             }
 
+			var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
+			if(profileUserNurse != null)
+			{
+				var NurseProfile = await _nurse.GetNurse(profileUserNurse.Id);
+                ViewBag.Nurse = NurseProfile;
+				
+            }
 
             return View(user);
 		}
