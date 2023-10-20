@@ -42,7 +42,7 @@
     --bs-danger: #dc3545;
     --bs-light: #f8f9fa;
     --bs-dark: #192655;
-    --bs-custom: #c04105;
+    --bs-custom: #14274E;
     --bs-primary-rgb: 13, 110, 253;
     --bs-secondary-rgb: 108, 117, 125;
     --bs-success-rgb: 25, 135, 84;
@@ -50,7 +50,7 @@
     --bs-warning-rgb: 255, 193, 7;
     --bs-danger-rgb: 220, 53, 69;
     --bs-light-rgb: 248, 249, 250;
-    --bs-custom-rgb: 192, 65, 5;
+    --bs-custom-rgb: 20, 39, 78;
     --bs-dark-rgb: 25, 38, 85;
     --bs-white-rgb: 255, 255, 255;
     --bs-black-rgb: 0, 0, 0;
@@ -11050,7 +11050,7 @@ body {
   color: #fff;
 }
 .sb-sidenav-dark .sb-sidenav-footer {
-  background-color: #343a40;
+  background-color: #394867;
 }
 
 .sb-sidenav-light {

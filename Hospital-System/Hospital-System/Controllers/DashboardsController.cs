@@ -22,10 +22,11 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
+        private readonly INurse _nurse;
 
         private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -33,6 +34,7 @@ namespace Hospital_System.Controllers
 			_appointment = appointment;
 			_patient = patient;
 			_room = room;
+            _nurse = nurse;
 		}
 
 
@@ -413,6 +415,49 @@ namespace Hospital_System.Controllers
             }
 
             return View(await rows.ToListAsync());
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteNurse(int id)
+        {
+            var nurse = await _context.Nurses.FindAsync(id);
+            if (nurse == null)
+            {
+                return NotFound();
+            }
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == nurse.UserId);
+            if (user != null)
+            {
+                // Remove the user
+                _context.Users.Remove(user);
+            }
+            // Remove the nurse
+            _context.Nurses.Remove(nurse);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("GetNursesInDepartment");
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditNurse(int id)
+        {
+            var nurse = await _nurse.GetNurseDTO(id);
+            if (nurse == null)
+            {
+                return NotFound();
+            }
+            return View(nurse);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateNurse(int Id, InNurseDTO nurse)
+        {
+            if (ModelState.IsValid)
+            {
+                await _nurse.UpdateNurse(Id, nurse);
+                TempData["success"] = "Nurse has been updated successfully !";
+            }
+            else
+            {
+                TempData["Fail"] = "Something went wrong!";
+            }
+            return View("EditNurse", nurse);
         }
 
     }

@@ -1,0 +1,56 @@
+﻿@model Hospital_System.Models.DTOs.Nurse.InNurseDTO
+@{
+    ViewData["Title"] = "Edit Nurse";
+    Layout = "_AdminLayout";
+}
+@if (TempData["Fail"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Fail"]
+    </div>
+}
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["success"]
+    </div>
+}
+<h2>Edit Nurse</h2>
+<form asp-controller="Dashboards" asp-action="UpdateNurse" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Gender"></label>
+        <input asp-for="Gender" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ContactNumber"></label>
+        <input asp-for="ContactNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="form-label select-label" for="shift">Shift</label>
+        <br />
+        <select asp-for="@Model.Shift" name="Shift" id="Shift" class="select form-control-lg w-100">
+            <option value="" disabled>Choose Shift</option>
+            <option value="0">Morning</option>
+            <option value="1">Night</option>
+            <option value="2">Afternoon</option>
+        </select>
+        <span asp-validation-for="@Model.Shift"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DepartmentId"></label>
+        <input asp-for="DepartmentId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update Nurse</button>
+</form>

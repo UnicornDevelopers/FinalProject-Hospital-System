@@ -229,6 +229,7 @@ namespace Hospital_System.Models.Services
 					LastName = d.LastName,
 					Gender = d.Gender,
 					ContactNumber = d.ContactNumber,
+					Shift=d.shift,
 					DepartmentId = d.DepartmentId
 				})
 				.ToListAsync();
