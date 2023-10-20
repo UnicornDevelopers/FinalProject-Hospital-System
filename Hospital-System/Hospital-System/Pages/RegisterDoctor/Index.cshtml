@@ -5,6 +5,12 @@
     ViewBag.Title = "Register In Razor Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (TempData["SuccessRegister"] != null)
+{
+	<div class="alert alert-success">
+		@TempData["SuccessRegister"]
+	</div>
+}
 
 <section class="vh-100 gradient-custom mb-3">
 	<div class="container py-5 h-100">

@@ -25,7 +25,7 @@ namespace Hospital_System.Models.Interfaces
 		/// </summary>
 		/// <param name="NurseID">The ID of the nurse to retrieve.</param>
 		/// <returns>The nurse details.</returns>
-		Task<NurseDTO> GetNurse(int NurseID);
+		Task<NurseDTO> GetNurse(int id);
 
 		/// <summary>
 		/// Updates an existing nurse based on the provided nurse data.

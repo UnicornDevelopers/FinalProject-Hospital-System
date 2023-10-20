@@ -2,6 +2,7 @@
 using Hospital_System.Auth.Models.Interface;
 using Hospital_System.Data;
 using Hospital_System.Models;
+using Hospital_System.Models.DTOs.Nurse;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,15 @@ namespace E_commerce_2.Controllers
 		private IUser _user;
 		private HospitalDbContext _db;
 		private IPatient _patient;
-		public AuthController(IUser user, HospitalDbContext db, IPatient patient )
+		private IDoctor _doctor;
+		private INurse _nurse;
+		public AuthController(IUser user, HospitalDbContext db, IPatient patient,IDoctor doctor,INurse nurse)
 		{
 			_user = user;
 			_db= db;
 			_patient = patient;
+			_doctor = doctor;
+			_nurse = nurse;
 		}
 		public IActionResult Index()
 		{
@@ -92,9 +97,29 @@ namespace E_commerce_2.Controllers
 		public async Task<ActionResult<PatientDTO>> Profile()
 		{
 			var user = await _user.GetUser(this.User);
-			var prfileUser = await _db.Patients.Include(r=>r.Rooms).FirstOrDefaultAsync(x=>x.UserId==user.Id);
+			var prfileUserPatient =await _db.Patients.FirstOrDefaultAsync(x=>x.UserId==user.Id);
+			if(prfileUserPatient != null)
+			{
+                var pateintProfile = await _patient.GetPatient(prfileUserPatient.Id);
+                ViewBag.Pateint = pateintProfile;
+            }
 
-            return View(prfileUser);
+            var prfileUserDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.UserId == user.Id);
+			if(prfileUserDoctor!=null)
+			{
+                var DoctorProfile = await _doctor.GetDoctor(prfileUserDoctor.Id);
+                ViewBag.Doctor = DoctorProfile;
+            }
+
+			var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
+			if(profileUserNurse != null)
+			{
+				var NurseProfile = await _nurse.GetNurse(profileUserNurse.Id);
+                ViewBag.Nurse = NurseProfile;
+				
+            }
+
+            return View(user);
 		}
 	}
 }
