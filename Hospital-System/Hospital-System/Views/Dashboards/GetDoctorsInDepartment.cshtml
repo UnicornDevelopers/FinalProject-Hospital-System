@@ -22,6 +22,8 @@ else
                 <th>Gender</th>
                 <th>Contact Number</th>
                 <th>Speciality</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +35,12 @@ else
                     <td>@doctor.Gender</td>
                     <td>@doctor.ContactNumber</td>
                     <td>@doctor.Speciality</td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Dashboards" asp-action="EditDoctor" asp-route-Id=@doctor.Id>Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" asp-controller="Dashboards" asp-action="DeleteDoctor" asp-route-Id=@doctor.Id>Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>

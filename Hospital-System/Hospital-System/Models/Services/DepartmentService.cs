@@ -345,5 +345,17 @@ namespace Hospital_System.Models.Services
 
 			return department;
 		}
-	}
+
+        public async Task<List<OutDepartmentDTO>> GetDepartmentsDto()
+        {
+            var department = await _context.Departments.Select(x => new OutDepartmentDTO()
+            {
+                Id = x.Id,
+                DepartmentName = x.DepartmentName,
+
+            }).ToListAsync();
+
+            return department;
+        }
+    }
 }
