@@ -1,5 +1,6 @@
 ﻿using Hospital_System.Data;
 using Hospital_System.Models;
+using Hospital_System.Models.DTOs;
 using Hospital_System.Models.DTOs.Appointment;
 using Hospital_System.Models.DTOs.Department;
 using Hospital_System.Models.DTOs.Doctor;
@@ -352,11 +353,12 @@ namespace Hospital_System.Controllers
             {
                 try
                 {
-                    var updatedPatient = await UpdatePatient(id, patientDTO);
+                    var updatedPatient = await _patient.UpdatePatient(id, patientDTO);
 
                     if (updatedPatient != null)
                     {
-                        return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                        return RedirectToAction(nameof(AllPatients));
                     }
                     else
                     {
@@ -373,16 +375,112 @@ namespace Hospital_System.Controllers
             return View(patientDTO);
         }
 
-        // This is your original service method modified to be used within the controller.
-        public async Task<OutPatientDTO> UpdatePatient(int id, InPatientDTO patientDTO)
+
+        [HttpGet]
+        public async Task<IActionResult> EditRoom(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient != null)
+            var roomDTO = await _room.GetRoom(id); // Replace with your logic to retrieve the DTO
+            if (roomDTO == null)
             {
-                // Your existing logic for updating the patient.
+                return NotFound();
             }
-            return null; // Or the updated patient details
+
+            return View(roomDTO); // Assuming you have an Editroom view for displaying and editing room details.
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditRoom(int id, OutRoomDTO roomDTO)
+        {
+            if (id != roomDTO.Id) // Replace 'Id' with the actual property name for the room's identifier.
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var updatedRoom = await _room.UpdateRoom(id, roomDTO);
+
+                    if (updatedRoom != null)
+                    {
+                        //return RedirectToAction("roomDetails", new { id = updatedroom.Id });
+                        return RedirectToAction(nameof(AllRooms));
+                    }
+                    else
+                    {
+                        return View("ErrorView"); // Redirect to an error view
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception as needed, and optionally redirect to an error view.
+                    return View("ErrorView");
+                }
+            }
+
+            return View(roomDTO);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult AddRoom()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRoom(OutRoomDTO room)
+        {
+            await _room.CreateRoom(room);
+
+            return View(room);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> AllRooms()
+        {
+            try
+            {
+                var rooms = await _room.GetRooms();
+
+                if (rooms == null || rooms.Count == 0)
+                {
+                    ViewData["ErrorMessage"] = "No room found.";
+                    return View();
+                }
+
+                return View(rooms);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = $"An error occurred while retrieving room: {ex.Message}";
+                return View();
+            }
+        }
+
+
+
+
+
+
+
+
+        //// This is your original service method modified to be used within the controller.
+        //public async Task<OutPatientDTO> UpdatePatient(int id, InPatientDTO patientDTO)
+        //{
+        //    var patient = await _context.Patients.FindAsync(id);
+        //    if (patient != null)
+        //    {
+        //        // Your existing logic for updating the patient.
+        //    }
+        //    return null; // Or the updated patient details
+        //}
 
 
         [HttpGet]

@@ -33,8 +33,7 @@ else
                 <th>Gender</th>
                 <th>Contact Number</th>
                 <th>Address</th>
-                <th>Room Number</th>
-                <th>Department Name</th>
+                <th>Edit Patient</th>
             </tr>
         </thead>
         <tbody>
@@ -48,7 +47,7 @@ else
                     <td>@patient.Gender</td>
                     <td>@patient.ContactNumber</td>
                     <td>@patient.Address</td>
-                   
+                    <td><a class="nav-link" asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@patient.Id">Edit</a></td>
                 </tr>
             }
         </tbody>
