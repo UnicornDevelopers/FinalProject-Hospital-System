@@ -3,7 +3,18 @@
     ViewData["Title"] = "Nurses in Department";
     Layout = "_AdminLayout";
 }
-<h2>Nurses in Department</h2>
+
+@if (TempData["DepartmentName"] != null)
+{
+    <h2>
+        Nurses in @TempData["DepartmentName"] department
+    </h2>
+}
+
+else
+{
+     <h2>Nurses in Department</h2>
+}
 @if (Model == null || !Model.Any())
 {
     <p>No nurses found in this department.</p>

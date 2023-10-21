@@ -185,7 +185,7 @@ namespace Hospital_System.Models.Services
 
 			if (existingDep == null)
 			{
-				throw new InvalidOperationException($"invaild Department Id");
+				throw new InvalidOperationException($"Invaild Department Id");
 			}
 
 			existingDoctor.FirstName = doctorDTO.FirstName;

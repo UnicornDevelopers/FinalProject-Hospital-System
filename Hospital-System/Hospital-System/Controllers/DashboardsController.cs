@@ -239,7 +239,11 @@ namespace Hospital_System.Controllers
 			{
 				return NotFound();
 			}
-			return View(doctors);
+
+            var dep = await _department.GetDepartment(id);
+            TempData["DepartmentName"] = dep.DepartmentName;
+
+            return View(doctors);
 		}
 
 
@@ -251,7 +255,10 @@ namespace Hospital_System.Controllers
 			{
 				return NotFound();
 			}
-			return View(nurses);
+			var dep = await _department.GetDepartment(id);
+			TempData["DepartmentName"] = dep.DepartmentName;
+
+            return View(nurses);
 		}
 
 
@@ -457,20 +464,31 @@ namespace Hospital_System.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+
             return View(nurse);
         }
         [HttpPost]
         public async Task<IActionResult> UpdateNurse(int Id, InNurseDTO nurse)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+                return View("EditNurse", nurse);
+
+               
+            }
+			try
             {
                 await _nurse.UpdateNurse(Id, nurse);
                 TempData["success"] = "Nurse has been updated successfully !";
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Fail"] = "Something went wrong!";
+                TempData["Fail"] = ex.Message;
             }
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
             return View("EditNurse", nurse);
         }
 		[HttpGet]
@@ -481,6 +499,7 @@ namespace Hospital_System.Controllers
 			{
 				return NotFound();
 			}
+			ViewBag.Depatments = await _department.GetDepartmentsDto();
 			return View(doctorDto);
 		}
 
@@ -489,7 +508,9 @@ namespace Hospital_System.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View("EditDoctor", doctorDto);
+                ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+                return View("EditDoctor", doctorDto);
 
 			}
 			try
@@ -502,7 +523,9 @@ namespace Hospital_System.Controllers
 			{
 				TempData["Fail"] = ex.Message;
 			}
-			return View("EditDoctor", doctorDto);
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+            return View("EditDoctor", doctorDto);
 		}
 		[HttpGet]
 		public async Task<IActionResult> DeleteDoctor(int id)

@@ -2,125 +2,144 @@
 @model Hospital_System.Models.DTOs.Doctor.InDoctorDTO
 
 @{
-    ViewData["Title"] = "Edit Nurse";
+    ViewData["Title"] = "Edit Doctor";
     Layout = "_AdminLayout";
 }
 @if (TempData["Fail"] != null)
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger col-md-10">
         @TempData["Fail"]
     </div>
 }
 @if (TempData["success"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success col-md-10">
         @TempData["success"]
     </div>
 }
 
-<section class="vh-100 gradient-custom mb-3">
-	<div class="container py-5 h-100">
-		<div class="row justify-content-center align-items-center h-100">
-			<div class="col-12 col-lg-9 col-xl-7">
-				<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
-					<div class="card-body p-4 p-md-5">
-						<h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Doctor Registration</h3>
-						<form method="post">
-							@Html.AntiForgeryToken()
-							<div style="font-size: 16px" asp-validation-summary="All"></div>
 
-							<div class="row">
-								<div class="col-md-6 mb-4">
+<h3>Edit Doctor Information</h3>
+<form method="post" class="mb-2">
+    @Html.AntiForgeryToken()
 
-									<div class="form-outline">
-										<label class="form-label" for="firstName">First Name</label>
+    <div class="row">
+        <div class="col-md-10 mb-4">
 
-										<input  asp-for="@Model.FirstName" type="text" name="FirstName" id="FirstName" class="form-control form-control-lg" />
-										<span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+            <div class="form-outline">
+                <label class="form-label" for="firstName">First Name</label>
+
+                <input asp-for="@Model.FirstName" type="text" name="FirstName" id="FirstName" class="form-control form-control-lg" />
+                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
 
 
-									</div>
+            </div>
 
-								</div>
-								<div class="col-md-6 mb-4">
+        </div>
+    </div>
+    <div class="row">
 
-									<div class="form-outline">
-										<label class="form-label" for="lastName">Last Name</label>
+        <div class="col-md-10 mb-4">
 
-										<input  asp-for="@Model.LastName" name="LastName" type="text" id="LastName" class="form-control form-control-lg" />
-										<span class="text-danger"  asp-validation-for="@Model.LastName"></span>
+            <div class="form-outline">
+                <label class="form-label" for="lastName">Last Name</label>
 
-									</div>
+                <input asp-for="@Model.LastName" name="LastName" type="text" id="LastName" class="form-control form-control-lg" />
+                <span class="text-danger" asp-validation-for="@Model.LastName"></span>
 
-								</div>
-							</div>
-							
+            </div>
 
-							<div class="row">
-								
+        </div>
+    </div>
 
-								<div class="col-md-6 mb-4  ">
-									<label class="form-label select-label">Gender</label>
-									<br />
-									<div class="px-2 ms-2">
-										<div class="form-check form-check-inline">
-											<input asp-for="@Model.Gender" class="form-check-input" type="radio" name="Gender" id="femaleGender" value="Female" />
-											<label class="me-1" for="femaleGender">Female   </label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input asp-for="@Model.Gender" class="form-check-input ms-1 p-0" type="radio" name="Gender" id="maleGender" value="Male" checked />
-											<label class="me-1" for="maleGender">  Male</label>
-										</div>
-									</div>
-									<span asp-validation-for="@Model.Gender"></span>
-								</div>
-								<div class="col-md-6 mb-4 pb-2">
 
-									<div class="form-outline">
-										<label class="form-label" for="phoneNumber">Phone Number</label>
+    <div class="row">
 
-										<input  asp-for="@Model.ContactNumber" name="ContactNumber" type="tel" id="ContactNumber" class="form-control form-control-lg" />
-										<span class="text-danger"  asp-validation-for="@Model.ContactNumber"></span>
 
-									</div>
+        <div class="col-md-10 mb-4  ">
+            <label class="form-label select-label">Gender</label>
+            <br />
+            <div class="px-2 ms-2">
+                <div class="form-check form-check-inline">
+                    <input asp-for="@Model.Gender" class="form-check-input" type="radio" name="Gender" id="femaleGender" value="Female" checked="@(Model.Gender == "Female")" />
+                    <label class="me-1" for="femaleGender">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="@Model.Gender" class="form-check-input ms-1 p-0" type="radio" name="Gender" id="maleGender" value="Male" checked="@(Model.Gender == "Male")" />
+                    <label class="me-1" for="maleGender">Male</label>
+                </div>
+            </div>
 
-								</div>
+            <span asp-validation-for="@Model.Gender"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 mb-4 pb-2">
 
-							</div>
+            <div class="form-outline">
+                <label class="form-label" for="phoneNumber">Contact Number</label>
 
-							<div class="row">
+                <input asp-for="@Model.ContactNumber" name="ContactNumber" type="tel" id="ContactNumber" class="form-control form-control-lg" />
+                <span class="text-danger" asp-validation-for="@Model.ContactNumber"></span>
 
-							
-								<div class="col-md-6 mb-4">
+            </div>
 
-									<div class="form-outline">
-										<label class="form-label" for="firstName">Speciality</label>
+        </div>
 
-										<input  asp-for="@Model.Speciality" name="Speciality" type="text" id="Speciality" class="form-control form-control-lg" />
-										<span class="text-danger"  asp-validation-for="@Model.Speciality"></span>
+    </div>
 
-									</div>
+    <div class="row">
 
-								</div>
 
-								<div class="col-6">
-									<label asp-for="DepartmentId"></label>
-									<input asp-for="DepartmentId" class="form-control" />
-									<span class="text-danger"  asp-validation-for="@Model.DepartmentId"></span>
-								</div>
+        <div class="col-md-10 mb-4">
 
-							</div>
+            <div class="form-outline">
+                <label class="form-label" for="firstName">Speciality</label>
 
-							
-							<input name="id" type="number" id="Roles" class="form-control" asp-for="@Model.Id" hidden value="@Model.Id" />
-							<br />
-							<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-								<input class="btn btn-primary btn-lg" type="submit" value="update" />
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+                <input asp-for="@Model.Speciality" name="Speciality" type="text" id="Speciality" class="form-control form-control-lg" />
+                <span class="text-danger" asp-validation-for="@Model.Speciality"></span>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+
+        @*<div class="col-md-10 mb-4">
+        <label asp-for="DepartmentId"></label>
+        <input asp-for="DepartmentId" class="form-control" />
+        <span class="text-danger" asp-validation-for="@Model.DepartmentId"></span>
+        </div>*@
+        <div class="col-md-10 mb-4">
+            <label asp-for="DepartmentId">Department</label>
+            <br />
+            <select asp-for="@Model.DepartmentId" name="DepartmentId" id="DepartmentId" class="select form-control-lg w-100">
+                <option value="" disabled>Choose Department</option>
+                @foreach (var department in ViewBag.Depatments)
+                {
+                    if (Model.DepartmentId == department.Id)
+                    {
+                        <option value="@department.Id" selected>@department.DepartmentName</option>
+                    }
+                    else
+                    {
+                        <option value="@department.Id">@department.DepartmentName</option>
+                    }
+                }
+            </select>
+        </div>
+
+
+    </div>
+
+
+    <input name="id" type="number" class="form-control" asp-for="@Model.Id" hidden value="@Model.Id" />
+    <br />
+    <div class="row">
+        <div class=" col-md-10">
+            <button type="submit" class="btn btn-primary" style="background-color: #14274E; border-color: #14274E;">Update </button>
+        </div>
+    </div>
+</form>
+

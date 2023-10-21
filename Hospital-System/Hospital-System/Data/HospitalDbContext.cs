@@ -4,6 +4,8 @@ using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
+
 namespace Hospital_System.Data
 {
     public class HospitalDbContext : IdentityDbContext<ApplicationUser>
@@ -113,17 +115,100 @@ namespace Hospital_System.Data
 			  new Hospital { Id = 1, HospitalName = "Test", Address = "Test", ContactNumber = "079999999" }
 			);
 
-			modelBuilder.Entity<Department>().HasData(
-			  new Department { Id = 1, DepartmentName = "Test", HospitalID = 1 }
+            //modelBuilder.Entity<Department>().HasData(
+            //  new Department { Id = 1, DepartmentName = "Test", HospitalID = 1 }
 
-			);
+            //);
+
+            modelBuilder.Entity<Department>().HasData(
+           new Department
+           {
+               Id = 1,
+               DepartmentName = "Cardiology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/h2.png",
+               Description = "Specializing in heart care and treatment."
+           },
+           new Department
+           {
+               Id = 2,
+               DepartmentName = "Orthopedics",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/Bone.png",
+               Description = "Dealing with bone and joint-related issues."
+           },
+           new Department
+           {
+               Id = 3,
+               DepartmentName = "Nephrology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/Nephrology.png",
+               Description = "Focused on kidney-related diseases and care."
+           },
+           new Department
+           {
+               Id = 4,
+               DepartmentName = "Neurology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/brain.png",
+               Description = "Specializing in brain and nervous system care."
+           },
+           new Department
+           {
+               Id = 5,
+               DepartmentName = "Ophthalmology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/optics.png",
+               Description = "Focused on eye and vision care."
+           },
+           new Department
+           {
+               Id = 6,
+               DepartmentName = "Hepatology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/Liver.png",
+               Description = "Dealing with liver and digestive system issues."
+           },
+           new Department
+           {
+               Id = 7,
+               DepartmentName = "Gastroenterology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/Intestines.png",
+               Description = "Specializing in intestinal care."
+           },
+           new Department
+           {
+               Id = 8,
+               DepartmentName = "Pulmonology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/lung.png",
+               Description = "Focused on lung and respiratory care."
+           },
+           new Department
+           {
+               Id = 9,
+               DepartmentName = "Obstetrics",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/Pediatrics.png",
+               Description = "Specializing in maternity care and prenatal services."
+           },
+           new Department
+           {
+               Id = 10,
+               DepartmentName = "Obstetrics and Gynecology",
+               HospitalID = 1,
+               Image = "https://storageaccbookimages.blob.core.windows.net/images/Obstetrics.png",
+               Description = "Dedicated to women's health and maternity care."
+           }
+       );
 
 
 
 
 
 
-			SeedRole(modelBuilder, "Nurse");
+            SeedRole(modelBuilder, "Nurse");
 			SeedRole(modelBuilder, "Receptionist");
 			SeedRole(modelBuilder, "Users");
 			SeedRole(modelBuilder, "Patient");

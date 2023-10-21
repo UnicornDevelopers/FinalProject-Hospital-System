@@ -141,7 +141,7 @@ namespace Hospital_System.Models.Services
 
             if (departmentExists == null)
             {
-                throw new InvalidOperationException($"Invalid Department with ID {nurse.DepartmentId} not found.");
+                throw new InvalidOperationException($"Invalid Department Id");
             }
 
             nurse.FirstName = nurseDto.FirstName;

@@ -6,8 +6,17 @@
 
 }
 
-<h2>Doctors in Department</h2>
+@if (TempData["DepartmentName"] != null)
+{
+    <h2>
+        Doctors in @TempData["DepartmentName"] department
+    </h2>
+}
 
+else
+{
+    <h2>Doctors in Department</h2>
+}
 @if (Model == null || !Model.Any())
 {
     <p>No doctors found in this department.</p>
