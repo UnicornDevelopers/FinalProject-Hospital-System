@@ -352,11 +352,12 @@ namespace Hospital_System.Controllers
             {
                 try
                 {
-                    var updatedPatient = await UpdatePatient(id, patientDTO);
+                    var updatedPatient = await _patient.UpdatePatient(id, patientDTO);
 
                     if (updatedPatient != null)
                     {
-                        return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                        return RedirectToAction(nameof(AllPatients));
                     }
                     else
                     {
