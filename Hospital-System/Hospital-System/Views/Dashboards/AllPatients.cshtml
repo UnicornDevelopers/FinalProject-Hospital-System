@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Hospital_System.Models.DTOs.Patient.OutPatientDTO>
+
+@{
+    ViewData["Title"] = "AllPatients";
+    Layout = "_AdminLayout";
+}
+
+<h2>Patients</h2>
+
+<p>Welcome to the Patients Dashboard, where you can manage patient records.</p>
+
+<form method="get" asp-controller="Dashboards" asp-action="PatientSearch">
+    <div class="input-group mb-3">
+        <input type="text" name="patientname" class="form-control" placeholder="Search by First Name">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No patients found.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Room Number</th>
+                <th>Department Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@patient.Id</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.DoB</td>
+                    <td>@patient.Gender</td>
+                    <td>@patient.ContactNumber</td>
+                    <td>@patient.Address</td>
+                    <td>@patient.RoomNumber</td>
+                    <td>@patient.DepartmentName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

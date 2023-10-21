@@ -122,14 +122,34 @@ namespace Hospital_System.Data
 
 
 
+
 			SeedRole(modelBuilder, "Nurse");
 			SeedRole(modelBuilder, "Receptionist");
 			SeedRole(modelBuilder, "Users");
 			SeedRole(modelBuilder, "Patient");
 			SeedRole(modelBuilder, "Doctor");
+            SeedRole(modelBuilder, "Admin");
 
 
-		}
+            var hasher = new PasswordHasher<ApplicationUser>();
+            var adminUser = new ApplicationUser
+            {
+                Id = "1",
+                UserName = "admin",
+                NormalizedUserName = "ADMIN",
+                Email = "admin@gamil.com",
+                NormalizedEmail = "ADMIN@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null, "A12345@"),
+            };
+            modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = "admin",
+                UserId = "1"
+            });
+
+
+        }
  private void SeedRole(ModelBuilder modelBuilder, string roleName)
         {
             var role = new IdentityRole

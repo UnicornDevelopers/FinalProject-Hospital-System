@@ -5,127 +5,186 @@
     ViewBag.Title = "Register In Razor Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (TempData["SuccessRegister"] != null)
+{
+	<div class="alert alert-success">
+		@TempData["SuccessRegister"]
+	</div>
+}
+
+<section class="vh-100 gradient-custom mb-3">
+	<div class="container py-5 h-100">
+		<div class="row justify-content-center align-items-center h-100">
+			<div class="col-12 col-lg-9 col-xl-7">
+				<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+					<div class="card-body p-4 p-md-5">
+						<h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Doctor Registration</h3>
+						<form method="post">
+							@Html.AntiForgeryToken()
+							<div style="font-size: 16px" asp-validation-summary="All"></div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="firstName">First Name</label>
+
+										<input required asp-for="@Model.doctor.FirstName" type="text" name="FirstName" id="FirstName" class="form-control form-control-lg" />
+										<span  asp-validation-for="@Model.doctor.FirstName" class="text-danger"></span>
 
 
-
-
-
-	<section class="contact-us section">
-		<div class="container">
-
-			<section class="vh-100" style="background-color: #eee;">
-				<div style="font-size: 16px" asp-validation-summary="All"></div>
-
-				<div class="container h-100">
-					<div class="row d-flex justify-content-center align-items-center h-100">
-						<div class="col-lg-12 col-xl-11">
-							<div class="card text-black" style="border-radius: 25px;">
-								<div class="card-body p-md-5">
-									<div class="row justify-content-center">
-										<div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-											<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 text-danger">Register</p>
-
-											<form method="post" class="mx-1 mx-md-4">
-												@Html.AntiForgeryToken()
-
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-user fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">Username</label>
-														<input name="Username" type="text" id="Username" class="form-control" asp-for="@Model.registerUser.Username" />
-														<span asp-validation-for="@Model.registerUser.Username"></span>
-													</div>
-												</div>
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-user fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">FirstName</label>
-														<input name="FirstName" type="text" id="FirstName" class="form-control" asp-for="@Model.doctor.FirstName" />
-														<span asp-validation-for="@Model.doctor.FirstName"></span>
-													</div>
-												</div>
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-user fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">LastName</label>
-														<input name="LastName" type="text" id="LastName" class="form-control" asp-for="@Model.doctor.LastName" />
-														<span asp-validation-for="@Model.doctor.LastName"></span>
-													</div>
-												</div>
-
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">Password</label>
-														<input name="Password" type="password" id="Password" class="form-control" asp-for="@Model.registerUser.Password" />
-														<span asp-validation-for="@Model.registerUser.Password"></span>
-													</div>
-												</div>
-
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">Email</label>
-														<input name="Email" type="email" id="Email" class="form-control" asp-for="@Model.registerUser.Email" />
-														<span asp-validation-for="@Model.registerUser.Email"></span>
-													</div>
-												</div>
-
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-@*														<label class="form-label" for="form3Example3c">Roles</label>
-*@														<input name="Roles" type="text" id="Roles" class="form-control" asp-for="@Model.registerUser.Roles" hidden value="doctor"/>
-														<span asp-validation-for="@Model.registerUser.Roles"></span>
-													</div>
-												</div>
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">Gender</label>
-														<input name="Gender" type="text" id="Gender" class="form-control" asp-for="@Model.doctor.Gender" />
-														<span asp-validation-for="@Model.doctor.Gender"></span>
-													</div>
-												</div>
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">Contact Number</label>
-														<input name="ContactNumber" type="text" id="ContactNumber" class="form-control" asp-for="@Model.doctor.ContactNumber" />
-														<span asp-validation-for="@Model.doctor.ContactNumber"></span>
-													</div>
-												</div>
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">Speciality</label>
-														<input name="Speciality" type="text" id="Speciality" class="form-control" asp-for="@Model.doctor.Speciality" />
-														<span asp-validation-for="@Model.doctor.Speciality"></span>
-													</div>
-												</div>
-												<div class="d-flex flex-row align-items-center mb-4">
-													<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-													<div class="form-outline flex-fill mb-0">
-														<label class="form-label" for="form3Example3c">DepartmentId</label>
-														<input name="DepartmentId" type="text" id="DepartmentId" class="form-control" asp-for="@Model.doctor.DepartmentId" />
-														<span asp-validation-for="@Model.doctor.DepartmentId"></span>
-													</div>
-												</div>
-												<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-													<button type="submit" class="btn btn-primary btn-lg">Register</button>
-												</div>
-											</form>
-										</div>
 									</div>
+
+								</div>
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="lastName">Last Name</label>
+
+										<input required asp-for="@Model.doctor.LastName" name="LastName" type="text" id="LastName" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.doctor.LastName"></span>
+
+									</div>
+
 								</div>
 							</div>
-						</div>
+							<div class="row">
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="Username">Username</label>
+
+										<input  asp-for="@Model.registerUser.Username" name="Username" type="text" id="Username" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.registerUser.Username" class="text-danger"></span>
+
+
+									</div>
+
+								</div>
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="Password">Password</label>
+
+										<input  asp-for="@Model.registerUser.Password" name="Password" type="password" id="Password" class="form-control form-control-lg" />
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4 pb-2">
+
+									<div class="form-outline">
+										<label class="form-label" for="email">Email</label>
+
+										<input required asp-for="@Model.registerUser.Email" name="Email" type="email" id="Email" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.registerUser.Email"></span>
+
+									</div>
+
+								</div>
+
+								<div class="col-md-6 mb-4  ">
+									<label class="form-label select-label">Gender</label>
+									<br />
+									<div class="px-2 ms-2">
+									<div class="form-check form-check-inline">
+										<input asp-for="@Model.doctor.Gender" class="form-check-input" type="radio" name="Gender" id="femaleGender" value="Female" />
+										<label class="me-1" for="femaleGender">Female   </label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input asp-for="@Model.doctor.Gender" class="form-check-input ms-1 p-0" type="radio" name="Gender" id="maleGender" value="Male" checked />
+										<label class="me-1" for="maleGender">  Male</label>
+									</div>
+									</div>
+									<span asp-validation-for="@Model.doctor.Gender"></span>
+								</div>
+
+							</div>
+
+							<div class="row">
+								
+								<div class="col-md-6 mb-4 pb-2">
+
+									<div class="form-outline">
+										<label class="form-label" for="phoneNumber">Phone Number</label>
+
+										<input required asp-for="@Model.doctor.ContactNumber" name="ContactNumber" type="tel" id="ContactNumber" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.doctor.ContactNumber"></span>
+
+									</div>
+
+								</div>
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="firstName">Speciality</label>
+
+										<input required asp-for="@Model.doctor.Speciality" name="Speciality" type="text" id="Speciality" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.doctor.Speciality"></span>
+
+									</div>
+
+								</div>
+								
+							</div>
+
+							<div class="row">
+								
+								<div class="col-12">
+									<label class="form-label select-label">Department</label>
+									<br />
+									<select asp-for="@Model.doctor.DepartmentId" name="DepartmentId" id="DepartmentId" class="select form-control-lg">
+										<option value="" disabled>Choose Department</option>
+										@foreach (var department in Model.departments)
+										{
+											<option value="@department.Id">@department.DepartmentName</option>
+										}
+									</select>
+									<span asp-validation-for="@Model.doctor.DepartmentId"></span>
+
+
+								</div>
+								
+							</div>
+							<input name="Roles" type="text" id="Roles" class="form-control" asp-for="@Model.registerUser.Roles" hidden value="doctor" />
+							<span asp-validation-for="@Model.registerUser.Roles"></span>
+							<br />
+							<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+								<input class="btn btn-primary btn-lg" type="submit" value="Register" />
+							</div>
+						</form>
 					</div>
 				</div>
-			</section>
-
-
+			</div>
 		</div>
-	</section>
+	</div>
+</section>
+
 	
+<style>
+	.gradient-custom {
+		/* fallback for old browsers */
+		background: #3876BF;
+		/* Chrome 10-25, Safari 5.1-6 */
+		background: -webkit-linear-gradient(to bottom right, rgba(50, 147, 251, 1), rgba(45, 87, 108, 1));
+		/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		background: linear-gradient(to bottom right, rgba(30, 147, 251, 1), rgba(40, 87, 108, 1))
+	}
+
+	.form-check-inline {
+		display: inline-block;
+		margin-right: 2.75rem;
+	}
+	.card-registration .select-input.form-control[readonly]:not([disabled]) {
+		font-size: 1rem;
+		line-height: 2.15;
+		padding-left: .75em;
+		padding-right: .75em;
+	}
+
+	.card-registration .select-arrow {
+		top: 13px;
+	}
+</style>	

@@ -7,19 +7,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Choose Doctor from @ViewBag.DepartmentName Department</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Choose Doctor from @ViewBag.DepartmentName Department</h2>
 
+                    <form asp-controller="Appointment" asp-action="SelectTimeSlot" method="post">
+                        <div class="form-group">
+@*                            <label for="DoctorId">Doctor:</label>
+*@                            <select class="form-control" asp-for="DoctorId">
+                                <option value="" disabled>Select a Doctor</option>
+                                @foreach (var doctor in ViewBag.Doctors)
+                                {
+                                    <option value="@doctor.Id">@doctor.FullName</option>
+                                }
+                            </select>
+                        </div>
 
-<form asp-controller="Appointment" asp-action="SelectTimeSlot" method="post">
-    <div class="form-group">
-        <label for="DoctorId">Doctor:</label>
-        <select class="form-control" asp-for="DoctorId">
-            <option value="">Select a Doctor</option>
-            @foreach (var doctor in ViewBag.Doctors)
-            {
-                <option value="@doctor.Id">@doctor.FullName</option>
-            }
-        </select>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Next</button>
-</form>
+</div>

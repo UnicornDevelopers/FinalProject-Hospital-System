@@ -116,10 +116,38 @@ namespace Hospital_System.Models.Services
 		}
 
 
+        public async Task<List<Appointment>> GetAppointmentsForPatient(string userId)
+        {
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (patient == null)
+            {
+                throw new Exception("Patient not found");
+            }
+            int patientId = patient.Id;
+            var appointments = await _context.Appointments
+            .Where(appointment => appointment.PatientId == patientId)
+            .Include(appointment => appointment.appointmentSlot) // related AppointmentSlot
+            .Include(appointment => appointment.doctor)
+            .ToListAsync();
+            return appointments;
+        }
+        public async Task<List<Appointment>> GetAppointmentsForDoctor(string userId)
+        {
+            var doctor = await _context.Doctors.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (doctor == null)
+            {
+                throw new Exception("Doctor not found");
+            }
+            int doctorId = doctor.Id;
+            var appointments = await _context.Appointments
+            .Where(appointment => appointment.DoctorId == doctorId)
+            .Include(appointment => appointment.appointmentSlot) // related AppointmentSlot
+            .Include(appointment => appointment.patient)
+            .ToListAsync();
+            return appointments;
+        }
 
 
 
-
-
-	}
+    }
 }

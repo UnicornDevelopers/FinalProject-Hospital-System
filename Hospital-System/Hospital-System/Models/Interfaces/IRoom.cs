@@ -42,6 +42,10 @@ namespace Hospital_System.Models.Interfaces
 		/// <param name="id">The ID of the room to delete.</param>
 		/// <returns>A task representing the completion of the deletion operation.</returns>
 		Task DeleteRoom(int id);
-	}
+
+		Task<OutRoomDTO> GetRoom2(int id);
+
+
+    }
 
 }

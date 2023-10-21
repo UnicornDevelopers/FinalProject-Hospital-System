@@ -54,7 +54,12 @@ namespace Hospital_System.Models.Interfaces
 		Task<OutAppointmentDTO> CreateAppointment(AppointmentDTO appointmentDto);
 		Task<OutAppointmentDTO> UpdateAppointment(int id, AppointmentDTO appointmentDto);
 		Task<bool> DeleteAppointmentAsync(int id);
-	}
+		Task<List<Appointment>> GetAppointmentsForPatient(string userId);
+
+		 Task<List<Appointment>> GetAppointmentsForDoctor(string userId);
+
+
+    }
 
 
 }

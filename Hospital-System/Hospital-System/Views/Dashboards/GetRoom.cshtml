@@ -1,0 +1,28 @@
+﻿@model Hospital_System.Models.DTOs.Room.OutRoomDTO
+
+@{
+    ViewData["Title"] = "Room Details";
+    Layout = "_AdminLayout";
+}
+
+<h2>Room Details</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>Room ID:</dt>
+            <dd>@Model.Id</dd>
+            <dt>Room Number:</dt>
+            <dd>@Model.RoomNumber</dd>
+            <dt>Room Availability:</dt>
+            <dd>@Model.RoomAvailability</dd>
+            <dt>Number of Beds:</dt>
+            <dd>@Model.NumberOfBeds</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-controller="Rooms" asp-action="EditRoom" asp-route-id="@Model.Id" class="btn btn-primary">Edit Room</a>
+    <a asp-controller="Rooms" asp-action="DeleteRoom" asp-route-id="@Model.Id" class="btn btn-danger">Delete Room</a>
+</div>
