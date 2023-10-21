@@ -128,84 +128,63 @@ namespace Hospital_System.Models.Services
 			}
 		}
 
-		/// <summary>
-		/// Retrieves detailed information about a specific patient.
-		/// </summary>
-		/// <param name="PatientID">The ID of the patient to retrieve.</param>
-		/// <returns>Detailed patient information.</returns>
-		public async Task<PatientDTO> GetPatient(int PatientID)
-		{
-			var Patient = await _context.Patients
-				.Include(r => r.Rooms)
-				.ThenInclude(d => d.department)
-				.Include(p => p.Appointments)
-				.Include(p => p.MedicalReports)
-				.ThenInclude(mr => mr.doctor)
-				.FirstOrDefaultAsync(f => f.Id == PatientID);
-			if (Patient == null)
-			{
-				return null;
-			}
-			OutDepartmentDTO Department = null;
-			RoomPatient Room = null;
-			if (Patient.Rooms != null)
-			{
-				Department = new OutDepartmentDTO
-				{
-					Id = Patient.Rooms!.department!.Id,
-					DepartmentName = Patient.Rooms.department.DepartmentName
-				};
-				Room = new RoomPatient
-				{
-					Id = Patient.Rooms.Id,
-					RoomNumber = Patient.Rooms.RoomNumber,
-					RoomAvailability = Patient.Rooms.RoomAvailability,
-					NumberOfBeds = Patient.Rooms.NumberOfBeds,
-					DepartmentId = Patient.Rooms.DepartmentId,
-					department = Department
-				};
-			}
-			var patient = new PatientDTO
-			{
-				Id = Patient.Id,
-				FirstName = Patient.FirstName,
-				LastName = Patient.LastName,
-				DoB = Patient.DoB,
-				Gender = Patient.Gender,
-				ContactNumber = Patient.ContactNumber,
-				Address = Patient.Address,
-				RoomId = Patient.RoomId,
-				Rooms = Room,
-				Appointments = Patient.Appointments.Select(a => new OutAppointmentDTO()
-				{
-					Id = a.Id,
-					//DateOfAppointment = a.DateOfAppointment,
-					PatientId = a.PatientId,
-					PatientName = $"{a.patient.FirstName} {a.patient.LastName}",
-					DoctorId = a.DoctorId,
-					DoctorName = $"{a.doctor.FirstName} {a.doctor.LastName}",
-					DepartmentName = a.doctor.department.DepartmentName
-				}).ToList(),
-				MedicalReports = Patient.MedicalReports.Select(m => new OutMedicalReportDTO()
-				{
-					Id = m.Id,
-					ReportDate = m.ReportDate,
-					Description = m.Description,
-					PatientId = m.PatientId,
-					PatientName = $"{m.patient!.FirstName} {m.patient.LastName}",
-					DoctorId = m.DoctorId,
-					DoctorName = $"{m.doctor!.FirstName} {m.doctor.LastName}",
-					DepartmentName = m.doctor.department.DepartmentName
-				}).ToList()
-			};
-			return patient;
-		}
+        /// <summary>
+        /// Retrieves detailed information about a specific patient.
+        /// </summary>
+        /// <param name="PatientID">The ID of the patient to retrieve.</param>
+        /// <returns>Detailed patient information.</returns>
+        public async Task<PatientDTO> GetPatient(int PatientID)
+        {
+            var Patient = await _context.Patients
+                .Include(r => r.Rooms)
+                .ThenInclude(d => d.department)
+                .Include(p => p.MedicalReports)
+                .ThenInclude(mr => mr.doctor)
+                .FirstOrDefaultAsync(f => f.Id == PatientID);
+            if (Patient == null)
+            {
+                return null;
+            }
+            OutDepartmentDTO Department = null;
+            RoomPatient Room = null;
+            if (Patient.Rooms != null)
+            {
+                Department = new OutDepartmentDTO
+                {
+                    Id = Patient.Rooms!.department!.Id,
+                    DepartmentName = Patient.Rooms.department.DepartmentName
+                };
+                Room = new RoomPatient
+                {
+                    Id = Patient.Rooms.Id,
+                    RoomNumber = Patient.Rooms.RoomNumber,
+                    RoomAvailability = Patient.Rooms.RoomAvailability,
+                    NumberOfBeds = Patient.Rooms.NumberOfBeds,
+                    DepartmentId = Patient.Rooms.DepartmentId,
+                    department = Department
+                };
+            }
+            var patient = new PatientDTO
+            {
+                Id = Patient.Id,
+                FirstName = Patient.FirstName,
+                LastName = Patient.LastName,
+                DoB = Patient.DoB,
+                Gender = Patient.Gender,
+                ContactNumber = Patient.ContactNumber,
+                Address = Patient.Address,
+                RoomId = Patient.RoomId,
+                Rooms = Room,
+              
+            };
+            return patient;
+        }
 
-		/// <summary>
-		/// Retrieves a list of all patients in the system.
-		/// </summary>
-		/// <returns>A list of patient information.</returns>
-		public async Task<List<OutPatientDTO>> GetPatients()
+        /// <summary>
+        /// Retrieves a list of all patients in the system.
+        /// </summary>
+        /// <returns>A list of patient information.</returns>
+        public async Task<List<OutPatientDTO>> GetPatients()
 		{
 			var patients = await _context.Patients.Include(r => r.Rooms).ThenInclude(d => d.department)
 				.Select(x => new OutPatientDTO()

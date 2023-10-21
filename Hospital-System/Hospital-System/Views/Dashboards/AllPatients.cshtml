@@ -1,14 +1,10 @@
 ﻿@model IEnumerable<Hospital_System.Models.DTOs.Patient.OutPatientDTO>
-
 @{
     ViewData["Title"] = "AllPatients";
     Layout = "_AdminLayout";
 }
-
 <h2>Patients</h2>
-
 <p>Welcome to the Patients Dashboard, where you can manage patient records.</p>
-
 <form method="get" asp-controller="Dashboards" asp-action="PatientSearch">
     <div class="input-group mb-3">
         <input type="text" name="patientname" class="form-control" placeholder="Search by First Name">
@@ -17,7 +13,6 @@
         </div>
     </div>
 </form>
-
 @if (Model == null || !Model.Any())
 {
     <p>No patients found.</p>
