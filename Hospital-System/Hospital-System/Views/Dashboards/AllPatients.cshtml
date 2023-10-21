@@ -41,7 +41,7 @@ else
                     <td>@patient.Id</td>
                     <td>@patient.FirstName</td>
                     <td>@patient.LastName</td>
-                    <td>@patient.DoB</td>
+                    <td>@patient.DoB.ToShortDateString()</td>
                     <td>@patient.Gender</td>
                     <td>@patient.ContactNumber</td>
                     <td>@patient.Address</td>
@@ -52,4 +52,54 @@ else
             }
         </tbody>
     </table>
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center d-flex">
+            <li class="page-item elementWidth">
+                <a class="page-link" aria-label="First" asp-action="AllPatients" asp-route-pageIndex="1">
+                    <span aria-hidden="true">««</span>
+                </a>
+            </li>
+
+            @if ((int)TempData["PageIndex"] > 1)
+            {
+                <li class="page-item elementWidth">
+                    <a class="page-link" aria-label="Previous" asp-action="AllPatients" asp-route-pageIndex="@((int)TempData["PageIndex"] - 1)">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+            }
+
+            @for (var i = 1; i <= (int)TempData["TotalPages"]; i++)
+            {
+                <li class="page-item elementWidth @(i == (int)TempData["PageIndex"] ? "active" : "")">
+                    <a class="page-link" asp-action="AllPatients" asp-route-pageIndex="@i">@i</a>
+                </li>
+            }
+
+            @if ((int)TempData["PageIndex"] < (int)TempData["TotalPages"])
+            {
+                <li class="page-item elementWidth">
+                    <a class="page-link" aria-label="Next" asp-action="AllPatients" asp-route-pageIndex="@((int)TempData["PageIndex"] + 1)">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            }
+
+            <li class="page-item elementWidth">
+                <a class="page-link" aria-label="Last" asp-action="AllPatients" asp-route-pageIndex="@((int)TempData["TotalPages"])">
+                    <span aria-hidden="true">»»</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 }
+<style>
+    .elementWidth {
+        width: 2.5rem;
+        text-align: center;
+        font-size: large;
+    }
+
+  
+</style>

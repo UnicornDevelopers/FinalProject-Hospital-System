@@ -23,10 +23,13 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
+        private readonly INurse _nurse;
+		private readonly IDoctor _doctor;
 
-        private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room)
+		private readonly HospitalDbContext _context;
+
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -34,6 +37,8 @@ namespace Hospital_System.Controllers
 			_appointment = appointment;
 			_patient = patient;
 			_room = room;
+            _nurse = nurse;
+			_doctor = doctor;
 		}
 
 
@@ -235,7 +240,11 @@ namespace Hospital_System.Controllers
 			{
 				return NotFound();
 			}
-			return View(doctors);
+
+            var dep = await _department.GetDepartment(id);
+            TempData["DepartmentName"] = dep.DepartmentName;
+
+            return View(doctors);
 		}
 
 
@@ -247,7 +256,10 @@ namespace Hospital_System.Controllers
 			{
 				return NotFound();
 			}
-			return View(nurses);
+			var dep = await _department.GetDepartment(id);
+			TempData["DepartmentName"] = dep.DepartmentName;
+
+            return View(nurses);
 		}
 
 
@@ -484,10 +496,19 @@ namespace Hospital_System.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> AllPatients()
+        public async Task<IActionResult> AllPatients(int pageIndex = 1)
         {
+            int pageSize = 6;
+
             var patients = await _patient.GetPatients();
-            return View(patients);
+
+            var paginatedpatients = patients.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            // Pass the list of available time slots to the view
+            TempData["PageIndex"] = pageIndex;
+            TempData["TotalPages"] = (int)Math.Ceiling((double)patients.Count() / pageSize);
+
+            return View(paginatedpatients);
         }
 
 
@@ -512,6 +533,119 @@ namespace Hospital_System.Controllers
 
             return View(await rows.ToListAsync());
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteNurse(int id)
+        {
+            var nurse = await _context.Nurses.FindAsync(id);
+            if (nurse == null)
+            {
+                return NotFound();
+            }
+            int depId = nurse.DepartmentId;
 
-    }
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == nurse.UserId);
+            if (user != null)
+            {
+                // Remove the user
+                _context.Users.Remove(user);
+            }
+            // Remove the nurse
+            _context.Nurses.Remove(nurse);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("GetNursesInDepartment", new {id= depId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditNurse(int id)
+        {
+            var nurse = await _nurse.GetNurseDTO(id);
+            if (nurse == null)
+            {
+                return NotFound();
+            }
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+            return View(nurse);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateNurse(int Id, InNurseDTO nurse)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+                return View("EditNurse", nurse);
+
+               
+            }
+			try
+            {
+                await _nurse.UpdateNurse(Id, nurse);
+                TempData["success"] = "Nurse has been updated successfully !";
+            }
+            catch (Exception ex)
+            {
+                TempData["Fail"] = ex.Message;
+            }
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+            return View("EditNurse", nurse);
+        }
+		[HttpGet]
+		public async Task<IActionResult> EditDoctor(int id)
+		{
+			var doctorDto = await _doctor.GetDoctorView(id);
+			if (doctorDto == null)
+			{
+				return NotFound();
+			}
+			ViewBag.Depatments = await _department.GetDepartmentsDto();
+			return View(doctorDto);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> EditDoctor(int Id, InDoctorDTO doctorDto)
+		{
+			if (!ModelState.IsValid)
+			{
+                ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+                return View("EditDoctor", doctorDto);
+
+			}
+			try
+			{
+				await _doctor.UpdateDoctor(Id, doctorDto);
+				TempData["success"] = "Doctor has been updated successfully !";
+				
+			}
+			catch (Exception ex) 
+			{
+				TempData["Fail"] = ex.Message;
+			}
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+
+            return View("EditDoctor", doctorDto);
+		}
+		[HttpGet]
+		public async Task<IActionResult> DeleteDoctor(int id)
+		{
+			var doctor = await _context.Doctors.FindAsync(id);
+			if (doctor == null)
+			{
+				return NotFound();
+			}
+			int depId = doctor.DepartmentId;
+
+			var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == doctor.UserId);
+			if (user != null)
+			{
+				// Remove the user
+				_context.Users.Remove(user);
+			}
+			// Remove the nurse
+			_context.Doctors.Remove(doctor);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("GetDoctorsInDepartment", new { id = depId });
+		}
+
+	}
 }

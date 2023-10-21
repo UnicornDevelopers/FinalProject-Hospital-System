@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hospital_System.Migrations
 {
     /// <inheritdoc />
-    public partial class descriptionNullableBelal : Migration
+    public partial class seedDepartments : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -396,6 +396,7 @@ namespace Hospital_System.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
+                    { "admin", "00000000-0000-0000-0000-000000000000", "Admin", "ADMIN" },
                     { "doctor", "00000000-0000-0000-0000-000000000000", "Doctor", "DOCTOR" },
                     { "nurse", "00000000-0000-0000-0000-000000000000", "Nurse", "NURSE" },
                     { "patient", "00000000-0000-0000-0000-000000000000", "Patient", "PATIENT" },
@@ -404,14 +405,36 @@ namespace Hospital_System.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, "245229e8-b989-4d2a-8f96-64b9a597f040", "admin@gamil.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS1ejh046VxcdInTVbdB/JHg40a1mTZMnb1ElwCK5PovfU4uhl8W7Mrx23XXBqfHw==", null, false, "93b2d4fd-1752-43e2-a1a7-812b674dc7d9", false, "admin" });
+
+            migrationBuilder.InsertData(
                 table: "Hospitals",
                 columns: new[] { "Id", "Address", "ContactNumber", "HospitalName" },
                 values: new object[] { 1, "Test", "079999999", "Test" });
 
             migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "admin", "1" });
+
+            migrationBuilder.InsertData(
                 table: "Departments",
                 columns: new[] { "Id", "DepartmentName", "Description", "HospitalID", "Image" },
-                values: new object[] { 1, "Test", null, 1, null });
+                values: new object[,]
+                {
+                    { 1, "Cardiology", "Specializing in heart care and treatment.", 1, "https://storageaccbookimages.blob.core.windows.net/images/h2.png" },
+                    { 2, "Orthopedics", "Dealing with bone and joint-related issues.", 1, "https://storageaccbookimages.blob.core.windows.net/images/Bone.png" },
+                    { 3, "Nephrology", "Focused on kidney-related diseases and care.", 1, "https://storageaccbookimages.blob.core.windows.net/images/Nephrology.png" },
+                    { 4, "Neurology", "Specializing in brain and nervous system care.", 1, "https://storageaccbookimages.blob.core.windows.net/images/brain.png" },
+                    { 5, "Ophthalmology", "Focused on eye and vision care.", 1, "https://storageaccbookimages.blob.core.windows.net/images/optics.png" },
+                    { 6, "Hepatology", "Dealing with liver and digestive system issues.", 1, "https://storageaccbookimages.blob.core.windows.net/images/Liver.png" },
+                    { 7, "Gastroenterology", "Specializing in intestinal care.", 1, "https://storageaccbookimages.blob.core.windows.net/images/Intestines.png" },
+                    { 8, "Pulmonology", "Focused on lung and respiratory care.", 1, "https://storageaccbookimages.blob.core.windows.net/images/lung.png" },
+                    { 9, "Obstetrics", "Specializing in maternity care and prenatal services.", 1, "https://storageaccbookimages.blob.core.windows.net/images/Pediatrics.png" },
+                    { 10, "Obstetrics and Gynecology", "Dedicated to women's health and maternity care.", 1, "https://storageaccbookimages.blob.core.windows.net/images/Obstetrics.png" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_AppointmentSlotId",

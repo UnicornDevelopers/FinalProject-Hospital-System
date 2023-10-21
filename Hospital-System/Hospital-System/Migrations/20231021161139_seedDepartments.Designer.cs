@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20231017201534_descriptionNullableBelal")]
-    partial class descriptionNullableBelal
+    [Migration("20231021161139_seedDepartments")]
+    partial class seedDepartments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,6 +88,24 @@ namespace Hospital_System.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "245229e8-b989-4d2a-8f96-64b9a597f040",
+                            Email = "admin@gamil.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPS1ejh046VxcdInTVbdB/JHg40a1mTZMnb1ElwCK5PovfU4uhl8W7Mrx23XXBqfHw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "93b2d4fd-1752-43e2-a1a7-812b674dc7d9",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Appointment", b =>
@@ -176,8 +194,82 @@ namespace Hospital_System.Migrations
                         new
                         {
                             Id = 1,
-                            DepartmentName = "Test",
-                            HospitalID = 1
+                            DepartmentName = "Cardiology",
+                            Description = "Specializing in heart care and treatment.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/h2.png"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DepartmentName = "Orthopedics",
+                            Description = "Dealing with bone and joint-related issues.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Bone.png"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DepartmentName = "Nephrology",
+                            Description = "Focused on kidney-related diseases and care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Nephrology.png"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DepartmentName = "Neurology",
+                            Description = "Specializing in brain and nervous system care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/brain.png"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DepartmentName = "Ophthalmology",
+                            Description = "Focused on eye and vision care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/optics.png"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DepartmentName = "Hepatology",
+                            Description = "Dealing with liver and digestive system issues.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Liver.png"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DepartmentName = "Gastroenterology",
+                            Description = "Specializing in intestinal care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Intestines.png"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DepartmentName = "Pulmonology",
+                            Description = "Focused on lung and respiratory care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/lung.png"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DepartmentName = "Obstetrics",
+                            Description = "Specializing in maternity care and prenatal services.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Pediatrics.png"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DepartmentName = "Obstetrics and Gynecology",
+                            Description = "Dedicated to women's health and maternity care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Obstetrics.png"
                         });
                 });
 
@@ -483,6 +575,13 @@ namespace Hospital_System.Migrations
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = "admin",
+                            ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -571,6 +670,13 @@ namespace Hospital_System.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1",
+                            RoleId = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

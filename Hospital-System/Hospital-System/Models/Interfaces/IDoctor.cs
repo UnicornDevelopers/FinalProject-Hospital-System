@@ -44,14 +44,9 @@ namespace Hospital_System.Models.Interfaces
 		/// <returns>A task representing the completion of the deletion operation.</returns>
 		Task Delete(int id);
 
-		// <summary>
-		// Retrieves a list of appointments for a specific doctor.
-		// </summary>
-		// <param name="DoctorID">The ID of the doctor to retrieve appointments for.</param>
-		// <returns>A list of appointment details.</returns>
-		// Task<DoctorDTO> GetAppointments(int DoctorID);
+		Task<InDoctorDTO> GetDoctorView(int DoctorId);
 
-		//Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId);
-	}
+
+    }
 
 }
