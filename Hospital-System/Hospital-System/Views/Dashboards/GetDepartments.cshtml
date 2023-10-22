@@ -58,7 +58,7 @@ else
 
                         <a asp-controller="Dashboards" asp-action="GetDoctorsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Doctors</a>
                         <a asp-controller="Dashboards" asp-action="GetNursesInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Nurses</a>
-                        <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
+                            <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-departmentId="@department.Id" class="btn btn-primary">View All Patients</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
                         </td>
 
@@ -70,7 +70,7 @@ else
                     @if (User.IsInRole("Doctor"))
                     {
                          <td>
-                        <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
+                            <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-departmentId="@department.Id" class="btn btn-primary">View All Patients</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
 
                         </td>
@@ -81,7 +81,7 @@ else
                     {
                         <td>
 
-                        <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Patients</a>
+                            <a asp-controller="Dashboards" asp-action="GetRoomsAndPatientsInDepartment" asp-route-departmentId="@department.Id" class="btn btn-primary">View All Patients</a>
                         <a asp-controller="Dashboards" asp-action="GetRoomsInDepartment" asp-route-id="@department.Id" class="btn btn-primary">View All Rooms</a>
 
                                             </td>

@@ -3,7 +3,7 @@
 @model Hospital_System.Pages.RegisterDoctor.IndexModel
 @{
     ViewBag.Title = "Register In Razor Page";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 @if (TempData["SuccessRegister"] != null)
 {
@@ -12,8 +12,8 @@
 	</div>
 }
 
-<section class="vh-100 gradient-custom mb-3">
-	<div class="container py-5 h-100">
+<section class="vh-100 mb-3">
+	<div class="container py-2 h-100">
 		<div class="row justify-content-center align-items-center h-100">
 			<div class="col-12 col-lg-9 col-xl-7">
 				<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
@@ -21,7 +21,7 @@
 						<h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Doctor Registration</h3>
 						<form method="post">
 							@Html.AntiForgeryToken()
-							<div style="font-size: 16px" asp-validation-summary="All"></div>
+							<div style="font-size: 16px ;color: #14274E;" asp-validation-summary="All"></div>
 
 							<div class="row">
 								<div class="col-md-6 mb-4">
@@ -152,7 +152,7 @@
 							<span asp-validation-for="@Model.registerUser.Roles"></span>
 							<br />
 							<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-								<input class="btn btn-primary btn-lg" type="submit" value="Register" />
+								<input class="btn btn-primary btn-lg " style=" background-color: #14274E; border-color: #14274E;" type="submit" value="Register" />
 							</div>
 						</form>
 					</div>

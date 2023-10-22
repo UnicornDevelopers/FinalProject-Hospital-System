@@ -229,6 +229,7 @@ namespace Hospital_System.Models.Services
 					LastName = d.LastName,
 					Gender = d.Gender,
 					ContactNumber = d.ContactNumber,
+					Shift=d.shift,
 					DepartmentId = d.DepartmentId
 				})
 				.ToListAsync();
@@ -344,5 +345,17 @@ namespace Hospital_System.Models.Services
 
 			return department;
 		}
-	}
+
+        public async Task<List<OutDepartmentDTO>> GetDepartmentsDto()
+        {
+            var department = await _context.Departments.Select(x => new OutDepartmentDTO()
+            {
+                Id = x.Id,
+                DepartmentName = x.DepartmentName,
+
+            }).ToListAsync();
+
+            return department;
+        }
+    }
 }

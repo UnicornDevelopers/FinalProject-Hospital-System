@@ -1,4 +1,4 @@
-﻿@using Hospital_System.Models.DTOs.MedicalReport;
+@using Hospital_System.Models.DTOs.MedicalReport;
 @model List<OutMedicalReportDTO>
 
 <style>
@@ -7,6 +7,7 @@
     }
 
 </style>
+
      
 <script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
 
@@ -29,7 +30,9 @@ else
             </tr>
         </thead>
         <tbody class="bg-white">
+
             @foreach(var item in Model)
+
             {
                 <tr>
                     <td>@item.Id</td>
@@ -47,7 +50,9 @@ else
     </table>
 
 
+
 }
+
 
 
 

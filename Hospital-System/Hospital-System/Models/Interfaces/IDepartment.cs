@@ -62,6 +62,10 @@ namespace Hospital_System.Models.Interfaces
 		Task<InDepartmentDTO> GetFile(IFormFile file, InDepartmentDTO department);
 		Task<OutDepartmentDTO> GetFile2(IFormFile file, OutDepartmentDTO department);
 
-	}
+		Task<List<OutDepartmentDTO>> GetDepartmentsDto();
+
+
+
+    }
 
 }

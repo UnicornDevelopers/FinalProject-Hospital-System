@@ -185,7 +185,7 @@ namespace Hospital_System.Models.Services
 
 			if (existingDep == null)
 			{
-				throw new InvalidOperationException($"invaild Department with ID {doctorDTO.DepartmentId} not found.");
+				throw new InvalidOperationException($"Invaild Department Id");
 			}
 
 			existingDoctor.FirstName = doctorDTO.FirstName;
@@ -212,27 +212,50 @@ namespace Hospital_System.Models.Services
 		}
 
 
-		/// <summary>
-		/// Retrieves the list of Appointments for a specific Doctor.
-		/// </summary>
-		/// <param name="doctorId">The ID of the department.</param>
-		/// <returns>The list of doctors in the department.</returns>
-		//public async Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId)
-		//{
-		//    var Appointments = await _context.Appointments
-		//        .Where(d => d.DoctorId == doctorId)
-		//        .Select(d => new DoctorAppointmentsDTO()
-		//        {
-		//            Id = d.Id,
-		//           DateOfAppointment = d.DateOfAppointment,
-		//           PatientId = d.PatientId,
+        /// <summary>
+        /// Retrieves the list of Appointments for a specific Doctor.
+        /// </summary>
+        /// <param name="doctorId">The ID of the department.</param>
+        /// <returns>The list of doctors in the department.</returns>
+        //public async Task<List<DoctorAppointmentsDTO>> GetAppointmentsForDoctor(int doctorId)
+        //{
+        //    var Appointments = await _context.Appointments
+        //        .Where(d => d.DoctorId == doctorId)
+        //        .Select(d => new DoctorAppointmentsDTO()
+        //        {
+        //            Id = d.Id,
+        //           DateOfAppointment = d.DateOfAppointment,
+        //           PatientId = d.PatientId,
 
-		//        })
-		//        .ToListAsync();
+        //        })
+        //        .ToListAsync();
 
-		//    return Appointments;
-		//}
+        //    return Appointments;
+        //}
 
+        public async Task<InDoctorDTO> GetDoctorView(int DoctorId)
+        {
+            var doctor = await _context.Doctors
+                .FirstOrDefaultAsync(d => d.Id == DoctorId);
 
-	}
+            if (doctor == null)
+            {
+                throw new InvalidOperationException($"Doctor with ID {DoctorId} not found.");
+            }
+
+            var doctorDTO = new InDoctorDTO
+            {
+                Id = doctor.Id,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                Gender = doctor.Gender,
+                ContactNumber = doctor.ContactNumber,
+                Speciality = doctor.Speciality,
+                DepartmentId = doctor.DepartmentId,
+               
+            };
+
+            return doctorDTO;
+        }
+    }
 }

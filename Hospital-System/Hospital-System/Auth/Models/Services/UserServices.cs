@@ -12,15 +12,18 @@ namespace Hospital_System.Auth.Models.Services
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private RoleManager<IdentityRole> _roleManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserServices(
             UserManager<ApplicationUser> manager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = manager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<UserDTO> Register(RegisterUserDTO data, ModelStateDictionary modelState)
@@ -110,5 +113,21 @@ namespace Hospital_System.Auth.Models.Services
         {
             return await _userManager.Users.ToListAsync();
         }
+
+        public async Task<string> GetCurrentLoggedInDoctorId()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext?.User?.Identity?.IsAuthenticated == true)
+            {
+                var user = await _userManager.GetUserAsync(httpContext.User);
+                if (user != null)
+                {
+                    return user.Id;
+                }
+            }
+
+            return null; // If not authenticated or doctor not found
+        }
+
     }
 }

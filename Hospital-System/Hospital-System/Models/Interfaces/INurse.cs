@@ -41,6 +41,14 @@ namespace Hospital_System.Models.Interfaces
 		/// <param name="id">The ID of the nurse to delete.</param>
 		/// <returns>A task representing the completion of the deletion operation.</returns>
 		Task Delete(int id);
-	}
+
+        Task<InNurseDTO> GetNurseDTO(int id);
+
+
+
+
+
+
+    }
 
 }

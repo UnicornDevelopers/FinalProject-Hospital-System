@@ -95,39 +95,42 @@ namespace E_commerce_2.Controllers
 			throw new NotImplementedException();
 		}
 
-		public async Task<ActionResult<PatientDTO>> Profile()
-		{
-			var user = await _user.GetUser(this.User);
-			var prfileUserPatient =await _db.Patients.FirstOrDefaultAsync(x=>x.UserId==user.Id);
-			if(prfileUserPatient != null)
-			{
-				return RedirectToAction("PatientProfile","Auth", prfileUserPatient);
+
+        public async Task<ActionResult<PatientDTO>> Profile()
+        {
+            var user = await _user.GetUser(this.User);
+            var prfileUserPatient = await _db.Patients.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            if (prfileUserPatient != null)
+            {
+                return RedirectToAction("PatientProfile", "Auth", prfileUserPatient);
             }
 
             var prfileUserDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.UserId == user.Id);
-			if(prfileUserDoctor!=null)
-			{
+            if (prfileUserDoctor != null)
+            {
                 return RedirectToAction("DoctorProfile", "Auth", prfileUserDoctor);
             }
 
-			var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
-			if(profileUserNurse != null)
-			{
+            var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            if (profileUserNurse != null)
+            {
                 return RedirectToAction("NurseProfile", "Auth", profileUserNurse);
-
             }
 
             return View(user);
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PatientProfile(Patient patient)
+        {
+            var pateintProfile = await _patient.GetPatient(patient.Id);
+
+
+            return View(pateintProfile);
+
 		}
 
-		[HttpGet]
-		public async Task<ActionResult> PatientProfile(Patient patient)
-		{
-            var pateintProfile = await _patient.GetPatient(patient.Id);
-           
-
-			return View(pateintProfile);
-        }
 
 
         [HttpGet]
@@ -138,11 +141,19 @@ namespace E_commerce_2.Controllers
         }
 
 
+
+
 		public async Task<IActionResult> NurseProfile(Nurse nurse)
 		{
+
             var NurseProfile = await _nurse.GetNurse(nurse.Id);
             return View(NurseProfile);
         }
+
+
+
+        public async Task<IActionResult> PatientMedicalReport(int id, Patient patient)
+        {
 
 
         public async Task<IActionResult> PatientMedicalReport(int id,Patient patient)

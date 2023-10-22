@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Hospital_System.Models.DTOs.Room.OutRoomDTO>
+
+@{
+    ViewData["Title"] = "Room Details";
+    Layout = "_AdminLayout";
+}
+
+<h2>Room Details</h2>
+
+
+@if (Model == null || !Model.Any())
+{
+    <p>No patients found.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Room Number</th>
+                <th>Room Availability</th>
+                <th>Number of Beds</th>
+                <th>Delete Room</th>
+                <th>Edit Patient</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.Id</td>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.RoomAvailability</td>
+                    <td>@room.NumberOfBeds</td>
+                    <td>@room.DepartmentId</td>
+                    <td><a class="nav-link" asp-controller="Dashboards" asp-action="EditRoom" asp-route-id="@room.Id">Edit</a></td>
+                    <td><a class="nav-link" asp-controller="Dashboards" asp-action="DeleteRoom" asp-route-id="@room.Id">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

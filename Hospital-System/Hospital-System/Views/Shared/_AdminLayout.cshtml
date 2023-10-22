@@ -13,26 +13,21 @@
 </head>
 <body>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-custom">
-       
+        <span class="navbar-brand ps-3">Admin Dashboard</span>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <span class="d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0" aria-hidden="true"></span>
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <span class="nav-link">@User.Identity.Name</span>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
                     <li><hr class="dropdown-divider" /></li>
-
                     <li><a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Logout</a></li>
-
                 </ul>
             </li>
         </ul>
-      
-
-      
-
-
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -43,22 +38,25 @@
                             Home
                         </a>
                        
-                        @if (User.IsInRole("Admin"))
+                       @if (User.IsInRole("Admin"))
                         {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AddHospital">Add Hospital</a>
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AddDepartment">Add Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AddRoom">Add Room</a>
                             <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
                             <a class="nav-link" asp-controller="RegisterDoctor" asp-action="Index">Register a Doctor</a>
                             <a class="nav-link" asp-controller="RegisterNurse" asp-action="Index">Register a Nurse</a>
+                            <a class="nav-link" asp-controller="RegisterReceptionist" asp-action="Index">Register Receptionist/Users</a>
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AllPatients">All Patients</a>
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="AllRooms">All Room</a>
 
-                      }
+                     }
 
                         else if (User.IsInRole("Receptionist"))
                         {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
 
-                        }
+                       }
                         else if (User.IsInRole("Doctor"))
                         {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="ViewAppointments">View Appointments</a>
