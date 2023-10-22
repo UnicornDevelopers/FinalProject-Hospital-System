@@ -1,0 +1,50 @@
+﻿﻿@using Hospital_System.Models.DTOs.MedicalReport;
+@model List<OutMedicalReportDTO>
+
+<style>
+    body {
+        background-color: lightskyblue;
+    }
+
+</style>
+
+<script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
+
+@if (Model == null || Model.Count == 0)
+{
+    <div>
+        <span>Has no Medical Repoerts</span>
+    </div>
+}
+else
+{
+    <table class="table" style="margin-top:50px; margin-bottom:200px;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Repoert Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Doctor Name</th>
+                <th scope="col"> Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <th scope="row">@item.ReportDate</th>
+                    <td>@item.Description</td>
+                    <td>@item.DoctorName</td>
+                    <td>
+                        @*<a asp-controller="" asp-action=""><i class="fa-solid fa-pen"></i></a> |*@
+                        <a asp-controller="Dashboards" asp-action="DeleteMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
+                        @*<a asp-controller="" asp-action=""><i class="fa-solid fa-circle-info"></i></a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}

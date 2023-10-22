@@ -16,5 +16,7 @@ namespace Hospital_System.Auth.Models.Interface
         // logout method
         public Task LogOut();
         public Task<List<ApplicationUser>> getAll();
+        public Task<string> GetCurrentLoggedInDoctorId();
+
     }
 }

@@ -1,10 +1,12 @@
-﻿using Hospital_System.Data;
+﻿using Hospital_System.Auth.Models.Interface;
+using Hospital_System.Data;
 using Hospital_System.Models;
 using Hospital_System.Models.DTOs;
 using Hospital_System.Models.DTOs.Appointment;
 using Hospital_System.Models.DTOs.Department;
 using Hospital_System.Models.DTOs.Doctor;
 using Hospital_System.Models.DTOs.Hospital;
+using Hospital_System.Models.DTOs.MedicalReport;
 using Hospital_System.Models.DTOs.Nurse;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.Room;
@@ -25,11 +27,13 @@ namespace Hospital_System.Controllers
         private readonly IRoom _room;
         private readonly INurse _nurse;
 		private readonly IDoctor _doctor;
+        private readonly IMedicalReport _medicalReport;
+        private readonly IUser _user;
 
 
-		private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -39,6 +43,8 @@ namespace Hospital_System.Controllers
 			_room = room;
             _nurse = nurse;
 			_doctor = doctor;
+            _medicalReport = medicalReport;
+            _user = user;
 		}
 
 
@@ -647,5 +653,111 @@ namespace Hospital_System.Controllers
 			return RedirectToAction("GetDoctorsInDepartment", new { id = depId });
 		}
 
-	}
+
+
+        [HttpGet]
+        [ActionName("DeleteMedicalReport")]
+        public async Task<IActionResult> DeleteReport(int id)
+        {
+            var medicalReport = await _medicalReport.GetMedicalReport(id);
+            return View(medicalReport);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMedicalReport(int id)
+        {
+            var medicalReport = await _medicalReport.GetMedicalReport(id);
+            var patientId = await _context.Patients.FirstOrDefaultAsync(x => x.Id == medicalReport.PatientId);
+            await _medicalReport.DeleteMedicalReport(id);
+
+
+            return RedirectToAction("PatientMedicalReport", "Auth", patientId);
+        }
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> AddMedicalReport(int patientId)
+        //{
+        //    var doctorId = await _user.GetCurrentLoggedInDoctorId();
+
+        //    if (!int.TryParse(doctorId, out int doctorIdInt))
+        //    {
+        //        // Handle the case when the doctor ID cannot be parsed as an integer.
+        //        return RedirectToAction("Error");
+        //    }
+
+        //    var patient = await _context.Patients.FindAsync(patientId);
+
+        //    if (patient == null)
+        //    {
+        //        // Handle the case when the patient is not found, for example, redirect to an error page.
+        //        return RedirectToAction("Error");
+        //    }
+
+        //    var newMedicalReport = new InMedicalReportDTO
+        //    {
+        //        PatientId = patientId, // Set the patientId in the DTO
+        //        DoctorId = doctorIdInt, // Set the DoctorId in the DTO as an int
+        //                                // Set any other properties you want to pre-populate in the form
+        //    };
+
+        //    return View(newMedicalReport);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> AddMedicalReport(int patientId)
+        {
+            // Retrieve patient information or perform any necessary operations.
+            var patient = await _context.Patients.FindAsync(patientId);
+
+            if (patient == null)
+            {
+                // Handle the case when the patient is not found, for example, redirect to an error page.
+                return RedirectToAction("Error");
+            }
+
+            // Initialize a new InMedicalReportDTO with any required data, and pass it to the view.
+            var newMedicalReport = new InMedicalReportDTO
+            {
+                PatientId = patientId, // Set the patientId in the DTO
+                          // Set any other properties you want to pre-populate in the form
+            };
+
+            return View(newMedicalReport);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
+
+                    if (createdMedicalReport != null)
+                    {
+                        // Optionally, you can redirect to a page that shows the newly created medical report.
+                        return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
+                    }
+                    else
+                    {
+                        // Handle the case when the medical report creation fails.
+                        return RedirectToAction("Error");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that occur during the creation of the medical report.
+                    return RedirectToAction("Error");
+                }
+            }
+
+            // If ModelState is not valid, return to the same view with validation errors.
+            return View(newMedicalReportDTO);
+        }
+    }
 }

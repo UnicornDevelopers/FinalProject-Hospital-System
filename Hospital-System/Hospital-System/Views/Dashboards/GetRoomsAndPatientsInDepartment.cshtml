@@ -45,6 +45,7 @@ else
                                         <strong>Gender:</strong> @patient.Gender
                                         <strong>Contact Number:</strong> @patient.ContactNumber
                                         <a asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@patient.Id" class="btn btn-primary">Edit Patient</a> <!-- Edit Patient button -->
+                                        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-patientId="@patient.Id" class="btn btn-success">Add Medical Report</a>
                                     </li>
                                 }
                             </ul>

@@ -94,32 +94,72 @@ namespace E_commerce_2.Controllers
 			throw new NotImplementedException();
 		}
 
-		public async Task<ActionResult<PatientDTO>> Profile()
-		{
-			var user = await _user.GetUser(this.User);
-			var prfileUserPatient =await _db.Patients.FirstOrDefaultAsync(x=>x.UserId==user.Id);
-			if(prfileUserPatient != null)
-			{
-                var pateintProfile = await _patient.GetPatient(prfileUserPatient.Id);
-                ViewBag.Pateint = pateintProfile;
+        public async Task<ActionResult<PatientDTO>> Profile()
+        {
+            var user = await _user.GetUser(this.User);
+            var prfileUserPatient = await _db.Patients.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            if (prfileUserPatient != null)
+            {
+                return RedirectToAction("PatientProfile", "Auth", prfileUserPatient);
             }
 
             var prfileUserDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.UserId == user.Id);
-			if(prfileUserDoctor!=null)
-			{
-                var DoctorProfile = await _doctor.GetDoctor(prfileUserDoctor.Id);
-                ViewBag.Doctor = DoctorProfile;
+            if (prfileUserDoctor != null)
+            {
+                return RedirectToAction("DoctorProfile", "Auth", prfileUserDoctor);
             }
 
-			var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
-			if(profileUserNurse != null)
-			{
-				var NurseProfile = await _nurse.GetNurse(profileUserNurse.Id);
-                ViewBag.Nurse = NurseProfile;
-				
+            var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            if (profileUserNurse != null)
+            {
+                return RedirectToAction("NurseProfile", "Auth", profileUserNurse);
+
             }
 
             return View(user);
-		}
-	}
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PatientProfile(Patient patient)
+        {
+            var pateintProfile = await _patient.GetPatient(patient.Id);
+
+
+            return View(pateintProfile);
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> DoctorProfile(Doctor doctor)
+        {
+            var DoctorProfile = await _doctor.GetDoctor(doctor.Id);
+            return View(DoctorProfile);
+        }
+
+
+        public async Task<IActionResult> NurseProfile(Nurse nurse)
+        {
+            var NurseProfile = await _nurse.GetNurse(nurse.Id);
+            return View(NurseProfile);
+        }
+
+
+        public async Task<IActionResult> PatientMedicalReport(int id, Patient patient)
+        {
+            PatientDTO Patient;
+
+            if (id != 0)
+            {
+                Patient = await _patient.GetPatient(id);
+            }
+            else
+            {
+                Patient = await _patient.GetPatient(patient.Id);
+            }
+
+            var medicalReporsts = Patient?.MedicalReports?.ToList();
+
+            return View(medicalReporsts);
+        }
+    }
 }

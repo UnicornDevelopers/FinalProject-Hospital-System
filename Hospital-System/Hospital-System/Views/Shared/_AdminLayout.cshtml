@@ -38,8 +38,8 @@
                             Home
                         </a>
                        
-                     @*   @if (User.IsInRole("Admin"))
-                        {*@
+                       @if (User.IsInRole("Admin"))
+                        {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AddHospital">Add Hospital</a>
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AddDepartment">Add Department</a>
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AddRoom">Add Room</a>
@@ -49,25 +49,25 @@
                             <a class="nav-link" asp-controller="Dashboards" asp-action="AllPatients">All Patients</a>
                         <a class="nav-link" asp-controller="Dashboards" asp-action="AllRooms">All Room</a>
 
-                  @*    }*@
+                     }
 
-                    @*    else if (User.IsInRole("Receptionist"))
-                        {*@
+                        else if (User.IsInRole("Receptionist"))
+                        {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
 
-                       @* }
+                       }
                         else if (User.IsInRole("Doctor"))
-                        {*@
+                        {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="ViewAppointments">View Appointments</a>
                             <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
 
-                       @* }
+                        }
 
                         else if (User.IsInRole("Nurse"))
-                        {*@
+                        {
                             <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
 
-                       @* }*@
+                        }
                       
                     </div>
                 </div>
