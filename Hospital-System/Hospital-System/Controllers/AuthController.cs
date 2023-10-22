@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
+using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 
 namespace E_commerce_2.Controllers
@@ -94,6 +95,7 @@ namespace E_commerce_2.Controllers
 			throw new NotImplementedException();
 		}
 
+
         public async Task<ActionResult<PatientDTO>> Profile()
         {
             var user = await _user.GetUser(this.User);
@@ -113,10 +115,10 @@ namespace E_commerce_2.Controllers
             if (profileUserNurse != null)
             {
                 return RedirectToAction("NurseProfile", "Auth", profileUserNurse);
-
             }
 
             return View(user);
+
         }
 
         [HttpGet]
@@ -126,7 +128,9 @@ namespace E_commerce_2.Controllers
 
 
             return View(pateintProfile);
-        }
+
+		}
+
 
 
         [HttpGet]
@@ -137,27 +141,35 @@ namespace E_commerce_2.Controllers
         }
 
 
-        public async Task<IActionResult> NurseProfile(Nurse nurse)
-        {
+
+
+		public async Task<IActionResult> NurseProfile(Nurse nurse)
+		{
+
             var NurseProfile = await _nurse.GetNurse(nurse.Id);
             return View(NurseProfile);
         }
 
 
+
         public async Task<IActionResult> PatientMedicalReport(int id, Patient patient)
         {
-            PatientDTO Patient;
 
-            if (id != 0)
-            {
-                Patient = await _patient.GetPatient(id);
-            }
-            else
-            {
+
+        public async Task<IActionResult> PatientMedicalReport(int id,Patient patient)
+        {
+			PatientDTO Patient;
+
+			if (id != 0)
+			{
+				Patient = await _patient.GetPatient(id);
+			}
+			else
+			{
                 Patient = await _patient.GetPatient(patient.Id);
             }
-
-            var medicalReporsts = Patient?.MedicalReports?.ToList();
+			
+			var medicalReporsts = Patient?.MedicalReports?.ToList();
 
             return View(medicalReporsts);
         }

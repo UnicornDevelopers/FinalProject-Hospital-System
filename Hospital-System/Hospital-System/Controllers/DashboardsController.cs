@@ -25,6 +25,7 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
+
         private readonly INurse _nurse;
 		private readonly IDoctor _doctor;
         private readonly IMedicalReport _medicalReport;
@@ -34,6 +35,8 @@ namespace Hospital_System.Controllers
         private readonly HospitalDbContext _context;
 
 		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user)
+
+
 		{
 			_department = department;
 			_hospital = hospital;
@@ -41,10 +44,12 @@ namespace Hospital_System.Controllers
 			_appointment = appointment;
 			_patient = patient;
 			_room = room;
-            _nurse = nurse;
-			_doctor = doctor;
-            _medicalReport = medicalReport;
-            _user = user;
+
+          _nurse = nurse;
+			  _doctor = doctor;
+         _medicalReport = medicalReport;
+         _user = user;
+
 		}
 
 
@@ -358,40 +363,100 @@ namespace Hospital_System.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
+        //{
+        //    if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var updatedPatient = await UpdatePatient(id, patientDTO);
+
+        //            if (updatedPatient != null)
+        //            {
+        //                return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+        //            }
+        //            else
+        //            {
+        //                return View("ErrorView"); // Redirect to an error view
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Handle the exception as needed, and optionally redirect to an error view.
+        //            return View("ErrorView");
+        //        }
+        //    }
+
+        //    return View(patientDTO);
+        //}
+
+		[HttpPost]
+        // This is your original service method modified to be used within the controller.
+        public async Task<IActionResult> UpdatePatient(int id, InPatientDTO patientDTO)
         {
-            if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient != null)
             {
-                return BadRequest();
-            }
+				var current = await _patient.UpdatePatient(id, patientDTO);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var updatedPatient = await _patient.UpdatePatient(id, patientDTO);
+				var updatedPatient = await _context.Patients.FindAsync(id);
+                return RedirectToAction("PatientProfile","Auth", updatedPatient);
 
-                    if (updatedPatient != null)
-                    {
-                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
-                        return RedirectToAction(nameof(AllPatients));
-                    }
-                    else
-                    {
-                        return View("ErrorView"); // Redirect to an error view
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle the exception as needed, and optionally redirect to an error view.
-                    return View("ErrorView");
-                }
-            }
+				// Your existing logic for updating the patient.
 
-            return View(patientDTO);
+			}
+			return null; // Or the updated patient details
         }
+
+
+        [HttpPost]
+        // This is your original service method modified to be used within the controller.
+        public async Task<IActionResult> UpdateDoctor(int id, InDoctorDTO doctorDTO)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor != null)
+            {
+
+               // try
+                //{
+                //    var updatedPatient = await _patient.UpdatePatient(id, patientDTO);
+
+                 //   if (updatedPatient != null)
+                 //   {
+                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                   //     return RedirectToAction(nameof(AllPatients));
+                  //  }
+                  //  else
+                  //  {
+                  //      return View("ErrorView"); // Redirect to an error view
+                  //  }
+               // }
+               // catch (Exception ex)
+                //{
+                    // Handle the exception as needed, and optionally redirect to an error view.
+                  //  return View("ErrorView");
+               // }
+           // }
+
+                var current = await _doctor.UpdateDoctor(id, doctorDTO);
+
+                var updatedDoctor = await _context.Doctors.FindAsync(id);
+                return RedirectToAction("DoctorProfile", "Auth", updatedDoctor);
+
+
+                // Your existing logic for updating the patient.
+
+            }
+            return null; // Or the updated patient details
+        }
+
 
 
         [HttpGet]
@@ -479,6 +544,23 @@ namespace Hospital_System.Controllers
             {
                 ViewData["ErrorMessage"] = $"An error occurred while retrieving room: {ex.Message}";
                 return View();
+            }
+            }
+            
+        [HttpPost]
+        // This is your original service method modified to be used within the controller.
+        public async Task<IActionResult> UpdateNurse(int id, InNurseDTO nurseDTO)
+        {
+            var nurse = await _context.Nurses.FindAsync(id);
+            if (nurse != null)
+            {
+                var current = await _nurse.UpdateNurse(id, nurseDTO);
+
+                var updatedNurse = await _context.Nurses.FindAsync(id);
+                return RedirectToAction("NurseProfile", "Auth", updatedNurse);
+
+                // Your existing logic for updating the patient.
+
             }
         }
 
@@ -738,6 +820,7 @@ namespace Hospital_System.Controllers
                 {
                     var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
 
+
                     if (createdMedicalReport != null)
                     {
                         // Optionally, you can redirect to a page that shows the newly created medical report.
@@ -759,5 +842,28 @@ namespace Hospital_System.Controllers
             // If ModelState is not valid, return to the same view with validation errors.
             return View(newMedicalReportDTO);
         }
+
+        
+        [HttpGet]
+        [ActionName("DeleteMedicalReport")]
+        public async Task<IActionResult> DeleteReport(int id)
+        {
+            var medicalReport= await _medicalReport.GetMedicalReport(id);
+            return View(medicalReport);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMedicalReport(int id)
+        {
+            var medicalReport = await _medicalReport.GetMedicalReport(id);
+            var patientId = await _context.Patients.FirstOrDefaultAsync(x => x.Id == medicalReport.PatientId);
+            await _medicalReport.DeleteMedicalReport(id);
+            
+
+            return RedirectToAction("PatientMedicalReport", "Auth", patientId);
+        }
+
+
     }
 }
