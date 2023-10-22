@@ -23,13 +23,12 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
-        private readonly INurse _nurse;
 		private readonly IDoctor _doctor;
+		private readonly INurse _nurse;
+        private readonly IMedicalReport _medicalReport;
 
 
-		private readonly HospitalDbContext _context;
-
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,IDoctor doctor,INurse nurse, IMedicalReport medicalReport)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -37,8 +36,9 @@ namespace Hospital_System.Controllers
 			_appointment = appointment;
 			_patient = patient;
 			_room = room;
-            _nurse = nurse;
 			_doctor = doctor;
+			_nurse = nurse;
+            _medicalReport = medicalReport;
 		}
 
 
@@ -352,14 +352,14 @@ namespace Hospital_System.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
-        {
-            if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
-            {
-                return BadRequest();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
+        //{
+        //    if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
+        //    {
+        //        return BadRequest();
+        //    }
 
             if (ModelState.IsValid)
             {
@@ -384,8 +384,8 @@ namespace Hospital_System.Controllers
                 }
             }
 
-            return View(patientDTO);
-        }
+        //    return View(patientDTO);
+        //}
 
 
         [HttpGet]
@@ -648,4 +648,26 @@ namespace Hospital_System.Controllers
 		}
 
 	}
+        
+        [HttpGet]
+        [ActionName("DeleteMedicalReport")]
+        public async Task<IActionResult> DeleteReport(int id)
+        {
+            var medicalReport= await _medicalReport.GetMedicalReport(id);
+            return View(medicalReport);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMedicalReport(int id)
+        {
+            var medicalReport = await _medicalReport.GetMedicalReport(id);
+            var patientId = await _context.Patients.FirstOrDefaultAsync(x => x.Id == medicalReport.PatientId);
+            await _medicalReport.DeleteMedicalReport(id);
+            
+
+            return RedirectToAction("PatientMedicalReport", "Auth", patientId);
+        }
+
+    }
 }
