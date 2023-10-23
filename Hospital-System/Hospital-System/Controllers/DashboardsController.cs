@@ -11,6 +11,7 @@ using Hospital_System.Models.DTOs.Nurse;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
+using Hospital_System.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -29,11 +30,13 @@ namespace Hospital_System.Controllers
 		private readonly IDoctor _doctor;
         private readonly IMedicalReport _medicalReport;
         private readonly IUser _user;
+        private readonly IMedicine _medicine;
+
 
 
         private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user,IMedicine medicine)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -45,6 +48,7 @@ namespace Hospital_System.Controllers
 			_doctor = doctor;
             _medicalReport = medicalReport;
             _user = user;
+            _medicine = medicine;
 		}
 
 
@@ -705,59 +709,123 @@ namespace Hospital_System.Controllers
         //    return View(newMedicalReport);
         //}
 
-        [HttpGet]
+        //[HttpGet]
+        //public async Task<IActionResult> AddMedicalReport(int patientId)
+        //{
+        //    // Retrieve patient information or perform any necessary operations.
+        //    var patient = await _context.Patients.FindAsync(patientId);
+
+        //    if (patient == null)
+        //    {
+        //        // Handle the case when the patient is not found, for example, redirect to an error page.
+        //        return RedirectToAction("Error");
+        //    }
+
+        //    // Initialize a new InMedicalReportDTO with any required data, and pass it to the view.
+        //    var newMedicalReport = new InMedicalReportDTO
+        //    {
+        //        PatientId = patientId, // Set the patientId in the DTO
+        //                  // Set any other properties you want to pre-populate in the form
+        //    };
+
+        //    return View(newMedicalReport);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
+
+        //            if (createdMedicalReport != null)
+        //            {
+        //                // Optionally, you can redirect to a page that shows the newly created medical report.
+        //                return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
+        //            }
+        //            else
+        //            {
+        //                // Handle the case when the medical report creation fails.
+        //                return RedirectToAction("Error");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Handle any exceptions that occur during the creation of the medical report.
+        //            return RedirectToAction("Error");
+        //        }
+        //    }
+
+        //    // If ModelState is not valid, return to the same view with validation errors.
+        //    return View(newMedicalReportDTO);
+        //}
+
         public async Task<IActionResult> AddMedicalReport(int patientId)
         {
-            // Retrieve patient information or perform any necessary operations.
-            var patient = await _context.Patients.FindAsync(patientId);
+            ViewBag.Mediciens = await _medicine.GetMedicines();
 
-            if (patient == null)
+            var model = new MedicalReportViewModel
             {
-                // Handle the case when the patient is not found, for example, redirect to an error page.
-                return RedirectToAction("Error");
-            }
-
-            // Initialize a new InMedicalReportDTO with any required data, and pass it to the view.
-            var newMedicalReport = new InMedicalReportDTO
-            {
-                PatientId = patientId, // Set the patientId in the DTO
-                          // Set any other properties you want to pre-populate in the form
+                PatientId = patientId
             };
 
-            return View(newMedicalReport);
+            return View(model);
         }
-
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
+        public async Task<IActionResult> AddMedicalReport(MedicalReportViewModel reportViewModel, int PatientId)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
+                ViewBag.Mediciens = await _medicine.GetMedicines();
 
-                    if (createdMedicalReport != null)
-                    {
-                        // Optionally, you can redirect to a page that shows the newly created medical report.
-                        return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
-                    }
-                    else
-                    {
-                        // Handle the case when the medical report creation fails.
-                        return RedirectToAction("Error");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle any exceptions that occur during the creation of the medical report.
-                    return RedirectToAction("Error");
-                }
+                return View("AddMedicalReport", reportViewModel);
             }
+            try
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                int doctorId = await _doctor.GetDoctorId(userId);
 
-            // If ModelState is not valid, return to the same view with validation errors.
-            return View(newMedicalReportDTO);
+                InMedicalReportDTO inRepor = new InMedicalReportDTO
+                {
+                    PatientId = reportViewModel.PatientId,
+                    DoctorId = doctorId,
+                    Description = reportViewModel.Description,
+                    ReportDate = reportViewModel.ReportDate,
+                };
+                var added = await _medicalReport.CreateMedicalReport(inRepor);
+                if (reportViewModel.Medicines != null && reportViewModel.Medicines.Count > 0)
+                {
+                    foreach (var medicine in reportViewModel.Medicines)
+                    {
+                        await _medicalReport.AddMedicineToReport(added.Id, medicine.MedicineId, medicine.TimesInDay, medicine.MedicinePortion);
+                    }
+                }
+
+                TempData["success"] = "report added successfully";
+                return RedirectToAction("ViewAppointments");
+            }
+            catch (Exception ex)
+            {
+                TempData["fail"] = ex.Message;
+                return RedirectToAction("ViewAppointments");
+            }
         }
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> AddMedicalReport(int patientId)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+
+        //    }
+        //    return View();
+        //}
+
     }
 }

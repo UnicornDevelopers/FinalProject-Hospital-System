@@ -257,5 +257,12 @@ namespace Hospital_System.Models.Services
 
             return doctorDTO;
         }
+
+        public async Task<int> GetDoctorId(string userId)
+        {
+                var doctor = await _context.Doctors.FirstOrDefaultAsync(p => p.UserId == userId);
+                return doctor.Id;
+            
+        }
     }
 }

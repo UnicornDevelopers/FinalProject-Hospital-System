@@ -37,14 +37,17 @@ namespace Hospital_System.Models.Interfaces
 		/// <returns>The updated doctor details.</returns>
 		Task<InDoctorDTO> UpdateDoctor(int id, InDoctorDTO DoctorDTO);
 
-		/// <summary>
-		/// Deletes a doctor with the specified ID.
-		/// </summary>
-		/// <param name="id">The ID of the doctor to delete.</param>
-		/// <returns>A task representing the completion of the deletion operation.</returns>
-		Task Delete(int id);
+        /// <summary>
+        /// Deletes a doctor with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the doctor to delete.</param>
+        /// <returns>A task representing the completion of the deletion operation.</returns>
+        /// 
+        Task Delete(int id);
 
-		Task<InDoctorDTO> GetDoctorView(int DoctorId);
+        Task<InDoctorDTO> GetDoctorView(int DoctorId);
+		Task<int> GetDoctorId(string userId);
+
 
 
     }
