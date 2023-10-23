@@ -170,5 +170,40 @@ namespace Hospital_System.Models.Services
 				await _context.SaveChangesAsync();
 			}
 		}
-	}
+		/// <summary>
+		/// ///////////////////
+		/// </summary>
+		/// <param name="ReportId"></param>
+		/// <param name="MedicineId"></param>
+		/// <param name="TimesInDay"></param>
+		/// <param name="MedicinePortion"></param>
+		/// <returns></returns>
+        public async Task AddMedicineToReport(int ReportId, int MedicineId, int TimesInDay, string MedicinePortion)
+        {
+            var medicineMedicalReport = new MedicineMedicalReport
+            {
+                MedicalReportID = ReportId,
+                MedicineID = MedicineId,
+                TimesInDay = (MedicalAbbreviations)TimesInDay,
+                MedicinePortion = MedicinePortion
+            };
+            if (!_context.MedicineMedicalReports.Any(row => row.MedicalReportID == ReportId && row.MedicineID == MedicineId))
+            {
+                _context.MedicineMedicalReports.Add(medicineMedicalReport);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveMedicineFromReport(int ReportId, int MedicineId)
+        {
+            var medicineMedicalReport = await _context.MedicineMedicalReports.FirstOrDefaultAsync(
+                m => m.MedicalReportID == ReportId && m.MedicineID == MedicineId);
+
+            if (medicineMedicalReport != null)
+            {
+                _context.MedicineMedicalReports.Remove(medicineMedicalReport);
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
 }

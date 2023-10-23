@@ -11,8 +11,8 @@ using Hospital_System.Models.DTOs.Nurse;
 using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
+using Hospital_System.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -26,18 +26,17 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
-
         private readonly INurse _nurse;
 		private readonly IDoctor _doctor;
         private readonly IMedicalReport _medicalReport;
         private readonly IUser _user;
+        private readonly IMedicine _medicine;
+
 
 
         private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user)
-
-
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user,IMedicine medicine)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -45,12 +44,11 @@ namespace Hospital_System.Controllers
 			_appointment = appointment;
 			_patient = patient;
 			_room = room;
-
-          _nurse = nurse;
-			  _doctor = doctor;
-         _medicalReport = medicalReport;
-         _user = user;
-
+            _nurse = nurse;
+			_doctor = doctor;
+            _medicalReport = medicalReport;
+            _user = user;
+            _medicine = medicine;
 		}
 
 
@@ -364,100 +362,40 @@ namespace Hospital_System.Controllers
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
-        //{
-        //    if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var updatedPatient = await UpdatePatient(id, patientDTO);
-
-        //            if (updatedPatient != null)
-        //            {
-        //                return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
-        //            }
-        //            else
-        //            {
-        //                return View("ErrorView"); // Redirect to an error view
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            // Handle the exception as needed, and optionally redirect to an error view.
-        //            return View("ErrorView");
-        //        }
-        //    }
-
-        //    return View(patientDTO);
-        //}
-
-		[HttpPost]
-        // This is your original service method modified to be used within the controller.
-        public async Task<IActionResult> UpdatePatient(int id, InPatientDTO patientDTO)
-        {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient != null)
-            {
-				var current = await _patient.UpdatePatient(id, patientDTO);
-
-				var updatedPatient = await _context.Patients.FindAsync(id);
-                return RedirectToAction("PatientProfile","Auth", updatedPatient);
-
-				// Your existing logic for updating the patient.
-
-			}
-			return null; // Or the updated patient details
-        }
-
-
         [HttpPost]
-        // This is your original service method modified to be used within the controller.
-        public async Task<IActionResult> UpdateDoctor(int id, InDoctorDTO doctorDTO)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
         {
-            var doctor = await _context.Doctors.FindAsync(id);
-            if (doctor != null)
+            if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
             {
-
-               // try
-                //{
-                //    var updatedPatient = await _patient.UpdatePatient(id, patientDTO);
-
-                 //   if (updatedPatient != null)
-                 //   {
-                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
-                   //     return RedirectToAction(nameof(AllPatients));
-                  //  }
-                  //  else
-                  //  {
-                  //      return View("ErrorView"); // Redirect to an error view
-                  //  }
-               // }
-               // catch (Exception ex)
-                //{
-                    // Handle the exception as needed, and optionally redirect to an error view.
-                  //  return View("ErrorView");
-               // }
-           // }
-
-                var current = await _doctor.UpdateDoctor(id, doctorDTO);
-
-                var updatedDoctor = await _context.Doctors.FindAsync(id);
-                return RedirectToAction("DoctorProfile", "Auth", updatedDoctor);
-
-
-                // Your existing logic for updating the patient.
-
+                return BadRequest();
             }
-            return null; // Or the updated patient details
-        }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var updatedPatient = await _patient.UpdatePatient(id, patientDTO);
+
+                    if (updatedPatient != null)
+                    {
+                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                        return RedirectToAction(nameof(AllPatients));
+                    }
+                    else
+                    {
+                        return View("ErrorView"); // Redirect to an error view
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception as needed, and optionally redirect to an error view.
+                    return View("ErrorView");
+                }
+            }
+
+            return View(patientDTO);
+        }
 
 
         [HttpGet]
@@ -546,24 +484,6 @@ namespace Hospital_System.Controllers
                 ViewData["ErrorMessage"] = $"An error occurred while retrieving room: {ex.Message}";
                 return View();
             }
-            }
-            
-        [HttpPost]
-        // This is your original service method modified to be used within the controller.
-        public async Task<IActionResult> UpdateNurseProfile(int id, InNurseDTO nurseDTO)
-        {
-            var nurse = await _context.Nurses.FindAsync(id);
-            if (nurse != null)
-            {
-                var current = await _nurse.UpdateNurse(id, nurseDTO);
-
-                var updatedNurse = await _context.Nurses.FindAsync(id);
-                return RedirectToAction("NurseProfile", "Auth", updatedNurse);
-
-                // Your existing logic for updating the patient.
-
-            }
-            return null;
         }
 
 
@@ -759,6 +679,7 @@ namespace Hospital_System.Controllers
             return RedirectToAction("PatientMedicalReport", "Auth", patientId);
         }
 
+
         //[HttpGet]
         //public async Task<IActionResult> AddMedicalReport(int patientId)
         //{
@@ -788,128 +709,123 @@ namespace Hospital_System.Controllers
         //    return View(newMedicalReport);
         //}
 
-        [HttpGet]
+        //[HttpGet]
+        //public async Task<IActionResult> AddMedicalReport(int patientId)
+        //{
+        //    // Retrieve patient information or perform any necessary operations.
+        //    var patient = await _context.Patients.FindAsync(patientId);
+
+        //    if (patient == null)
+        //    {
+        //        // Handle the case when the patient is not found, for example, redirect to an error page.
+        //        return RedirectToAction("Error");
+        //    }
+
+        //    // Initialize a new InMedicalReportDTO with any required data, and pass it to the view.
+        //    var newMedicalReport = new InMedicalReportDTO
+        //    {
+        //        PatientId = patientId, // Set the patientId in the DTO
+        //                  // Set any other properties you want to pre-populate in the form
+        //    };
+
+        //    return View(newMedicalReport);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
+
+        //            if (createdMedicalReport != null)
+        //            {
+        //                // Optionally, you can redirect to a page that shows the newly created medical report.
+        //                return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
+        //            }
+        //            else
+        //            {
+        //                // Handle the case when the medical report creation fails.
+        //                return RedirectToAction("Error");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Handle any exceptions that occur during the creation of the medical report.
+        //            return RedirectToAction("Error");
+        //        }
+        //    }
+
+        //    // If ModelState is not valid, return to the same view with validation errors.
+        //    return View(newMedicalReportDTO);
+        //}
+
         public async Task<IActionResult> AddMedicalReport(int patientId)
         {
-            // Retrieve patient information or perform any necessary operations.
-            var patient = await _context.Patients.FindAsync(patientId);
+            ViewBag.Mediciens = await _medicine.GetMedicines();
 
-            if (patient == null)
+            var model = new MedicalReportViewModel
             {
-                // Handle the case when the patient is not found, for example, redirect to an error page.
-                return RedirectToAction("Error");
-            }
-
-            // Initialize a new InMedicalReportDTO with any required data, and pass it to the view.
-            var newMedicalReport = new InMedicalReportDTO
-            {
-                PatientId = patientId, // Set the patientId in the DTO
-                          // Set any other properties you want to pre-populate in the form
+                PatientId = patientId
             };
 
-            return View(newMedicalReport);
+            return View(model);
         }
-
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
+        public async Task<IActionResult> AddMedicalReport(MedicalReportViewModel reportViewModel, int PatientId)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
+                ViewBag.Mediciens = await _medicine.GetMedicines();
+
+                return View("AddMedicalReport", reportViewModel);
+            }
+            try
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                int doctorId = await _doctor.GetDoctorId(userId);
+
+                InMedicalReportDTO inRepor = new InMedicalReportDTO
                 {
-                    var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
-
-
-                    if (createdMedicalReport != null)
+                    PatientId = reportViewModel.PatientId,
+                    DoctorId = doctorId,
+                    Description = reportViewModel.Description,
+                    ReportDate = reportViewModel.ReportDate,
+                };
+                var added = await _medicalReport.CreateMedicalReport(inRepor);
+                if (reportViewModel.Medicines != null && reportViewModel.Medicines.Count > 0)
+                {
+                    foreach (var medicine in reportViewModel.Medicines)
                     {
-                        // Optionally, you can redirect to a page that shows the newly created medical report.
-                        return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
-                    }
-                    else
-                    {
-                        // Handle the case when the medical report creation fails.
-                        return RedirectToAction("Error");
+                        await _medicalReport.AddMedicineToReport(added.Id, medicine.MedicineId, medicine.TimesInDay, medicine.MedicinePortion);
                     }
                 }
-                catch (Exception ex)
-                {
-                    // Handle any exceptions that occur during the creation of the medical report.
-                    return RedirectToAction("Error");
-                }
+
+                TempData["success"] = "report added successfully";
+                return RedirectToAction("ViewAppointments");
             }
-
-            // If ModelState is not valid, return to the same view with validation errors.
-            return View(newMedicalReportDTO);
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> EditMedicalReport(int id)
-        {
-            var medicalReport = await _medicalReport.GetMedicalReport(id);
-
-            var patient = await _context.Patients.Where(x=>x.Id == medicalReport.PatientId).FirstOrDefaultAsync();
-
-            ViewBag.PatientName = patient?.FirstName+ " " + patient?.LastName;
-
-            return View(medicalReport);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> EditMedicalReport(int id,NewMedicalReportDTO medicalReport)
-        {
-            var medicalR = await _medicalReport.GetMedicalReport(id);
-            NewMedicalReportDTO newMed;
-            if (medicalR!=null)
+            catch (Exception ex)
             {
-                var InMed = new InMedicalReportDTO
-                {
-                    Id = medicalReport.Id,
-                    Description = medicalReport.Description,
-                    ReportDate = medicalReport.ReportDate,
-                    PatientId = medicalReport.PatientId,
-                    DoctorId = medicalReport.DoctorId
-                };
-                var updatedMedicalR = await _medicalReport.UpdateMedicalReport(id, InMed);
-                newMed = new NewMedicalReportDTO
-                {
-                    Id = updatedMedicalR.Id,
-                    Description = updatedMedicalR.Description,
-                    ReportDate = updatedMedicalR.ReportDate,
-                    PatientId = updatedMedicalR.PatientId,
-                    DoctorId = updatedMedicalR.DoctorId
-                };
-
-                var patient = await _context.Patients.FindAsync(newMed.PatientId);
-
-                return RedirectToAction("PatientMedicalReport","Auth", patient);
+                TempData["fail"] = ex.Message;
+                return RedirectToAction("ViewAppointments");
             }
-            else
-            {
-                return NotFound();
-            }    
         }
 
-        [HttpGet]
-        public async Task<IActionResult> MedicalRecordDetails(int id)
-        {
-            var medicalRecord = await _medicalReport.GetMedicalReport(id);
 
-            var patient = await _context.Patients.Where(x => x.Id == medicalRecord.PatientId).FirstOrDefaultAsync();
+        //[HttpPost]
+        //public async Task<IActionResult> AddMedicalReport(int patientId)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
 
-            ViewBag.PatientName = patient?.FirstName + " " + patient?.LastName;
-
-
-            var doctor = await _context.Doctors.Where(x => x.Id == medicalRecord.DoctorId).FirstOrDefaultAsync();
-
-            ViewBag.DoctorName = doctor?.FirstName + " " + doctor?.LastName;
-
-
-            return View(medicalRecord);
-        }
+        //    }
+        //    return View();
+        //}
 
     }
 }

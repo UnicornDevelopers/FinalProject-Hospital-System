@@ -4,6 +4,7 @@ using Hospital_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    partial class HospitalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022212824_JoinTableMedical")]
+    partial class JoinTableMedical
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,15 +94,15 @@ namespace Hospital_System.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7b44806-b6ed-4181-854d-23e9fb883ee9",
+                            ConcurrencyStamp = "dc840a1d-97c5-4d8e-8dd4-e557efef0b10",
                             Email = "admin@gamil.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEME42gN0WorL8tVZzJ+u+j5/3YcVbmOdGdCJLKrDzmrlXfmgjJ54IrrFIy0kG2w+oQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBCz//K2UDNUqlcp9au+jh+8ZmQKR4ugPEWyFDoT77FRK9rVn+kPOf2aRpmZi/UJhg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f79d2a2-a7a2-4fde-861f-2f34ffca6456",
+                            SecurityStamp = "09e59986-328d-40b8-a7ea-ff35a745eeb9",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -397,56 +400,6 @@ namespace Hospital_System.Migrations
                     b.HasIndex("MedicalReportId");
 
                     b.ToTable("Medicines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            MedicineName = "Ibuprofen",
-                            Portion = "200mg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            MedicineName = "Paracetamol",
-                            Portion = "500mg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            MedicineName = "Amoxicillin",
-                            Portion = "250mg"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            MedicineName = "Aspirin",
-                            Portion = "325mg"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            MedicineName = "Cetirizine",
-                            Portion = "10mg"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            MedicineName = "Diclofenac",
-                            Portion = "50mg"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            MedicineName = "Erythromycin",
-                            Portion = "500mg"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            MedicineName = "Furosemide",
-                            Portion = "40mg"
-                        });
                 });
 
             modelBuilder.Entity("Hospital_System.Models.MedicineMedicalReport", b =>
@@ -457,9 +410,8 @@ namespace Hospital_System.Migrations
                     b.Property<int>("MedicineID")
                         .HasColumnType("int");
 
-                    b.Property<string>("MedicinePortion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MedicinePortion")
+                        .HasColumnType("int");
 
                     b.Property<int>("TimesInDay")
                         .HasColumnType("int");

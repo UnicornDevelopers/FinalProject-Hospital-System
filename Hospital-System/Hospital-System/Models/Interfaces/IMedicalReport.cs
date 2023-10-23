@@ -41,6 +41,10 @@ namespace Hospital_System.Models.Interfaces
 		/// <param name="id">The ID of the medical report to delete.</param>
 		/// <returns>A task representing the completion of the deletion operation.</returns>
 		Task DeleteMedicalReport(int id);
-	}
+
+        Task AddMedicineToReport(int ReportId, int MedicineId, int TimesInDay, string MedicinePortion);
+        Task RemoveMedicineFromReport(int ReportId, int MedicineId);
+
+    }
 
 }
