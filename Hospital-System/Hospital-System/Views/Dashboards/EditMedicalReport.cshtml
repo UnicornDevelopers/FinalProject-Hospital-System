@@ -1,0 +1,83 @@
+﻿@using Hospital_System.Models.DTOs.MedicalReport;
+@model NewMedicalReportDTO
+
+
+
+
+<style>
+    /* Container styling */
+    .edit-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom:150px;
+        margin-top:50px;
+    }
+
+    /* Header styling */
+    .edit-title {
+        font-size: 24px;
+        margin: 0;
+        color: #333;
+    }
+
+    /* Form input styling */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Label styling */
+    .form-label {
+        font-weight: bold;
+    }
+
+    /* Button styling */
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+</style>
+
+
+<div>
+<h1 class="">Edit Medical Report @Model.Id</h1>
+
+<div class="edit-form">
+    <form asp-controller="Dashboards" asp-action="EditMedicalReport" method="post">
+        <input asp-for="Id" hidden />
+        <input asp-for="DoctorId" hidden />
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Description"></label>
+            <input class="form-control" asp-for="Description" value="@Model.Description" />
+            <span asp-validation-for="Description"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="ReportDate"></label>
+            <input class="form-control" type="datetime" asp-for="ReportDate" value="@Model.ReportDate" />
+            <span asp-validation-for="ReportDate"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="PatientId" hidden />
+            <label class="form-label" asp-for="PatientId"></label>
+                <input class="form-control"  value="@(ViewBag.PatientName)" readonly />
+            <span asp-validation-for="PatientId"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Save</button>
+            <a type="button" class="btn btn-outline-secondary deleteButton" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.PatientId">Cancel</a>
+        </div>
+    </form>
+</div>
+</div>

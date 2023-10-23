@@ -164,17 +164,18 @@ namespace Hospital_System.Models.Services
                     department = Department
                 };
             }
-            var patient = new PatientDTO
-            {
-                Id = Patient.Id,
-                FirstName = Patient.FirstName,
-                LastName = Patient.LastName,
-                DoB = Patient.DoB,
-                Gender = Patient.Gender,
-                ContactNumber = Patient.ContactNumber,
-                Address = Patient.Address,
-                RoomId = Patient.RoomId,
-                Rooms = Room,
+			var patient = new PatientDTO
+			{
+				Id = Patient.Id,
+				FirstName = Patient.FirstName,
+				LastName = Patient.LastName,
+				DoB = Patient.DoB,
+				Gender = Patient.Gender,
+				ContactNumber = Patient.ContactNumber,
+				Address = Patient.Address,
+				RoomId = Patient.RoomId,
+				Rooms = Room,
+				
               
             };
             return patient;

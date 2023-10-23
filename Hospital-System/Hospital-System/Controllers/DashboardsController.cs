@@ -12,6 +12,7 @@ using Hospital_System.Models.DTOs.Patient;
 using Hospital_System.Models.DTOs.Room;
 using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -549,7 +550,7 @@ namespace Hospital_System.Controllers
             
         [HttpPost]
         // This is your original service method modified to be used within the controller.
-        public async Task<IActionResult> UpdateNurse(int id, InNurseDTO nurseDTO)
+        public async Task<IActionResult> UpdateNurseProfile(int id, InNurseDTO nurseDTO)
         {
             var nurse = await _context.Nurses.FindAsync(id);
             if (nurse != null)
@@ -562,6 +563,7 @@ namespace Hospital_System.Controllers
                 // Your existing logic for updating the patient.
 
             }
+            return null;
         }
 
 
@@ -757,7 +759,6 @@ namespace Hospital_System.Controllers
             return RedirectToAction("PatientMedicalReport", "Auth", patientId);
         }
 
-
         //[HttpGet]
         //public async Task<IActionResult> AddMedicalReport(int patientId)
         //{
@@ -843,27 +844,72 @@ namespace Hospital_System.Controllers
             return View(newMedicalReportDTO);
         }
 
-        
+
         [HttpGet]
-        [ActionName("DeleteMedicalReport")]
-        public async Task<IActionResult> DeleteReport(int id)
+        public async Task<IActionResult> EditMedicalReport(int id)
         {
-            var medicalReport= await _medicalReport.GetMedicalReport(id);
+            var medicalReport = await _medicalReport.GetMedicalReport(id);
+
+            var patient = await _context.Patients.Where(x=>x.Id == medicalReport.PatientId).FirstOrDefaultAsync();
+
+            ViewBag.PatientName = patient?.FirstName+ " " + patient?.LastName;
+
             return View(medicalReport);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteMedicalReport(int id)
+        public async Task<IActionResult> EditMedicalReport(int id,NewMedicalReportDTO medicalReport)
         {
-            var medicalReport = await _medicalReport.GetMedicalReport(id);
-            var patientId = await _context.Patients.FirstOrDefaultAsync(x => x.Id == medicalReport.PatientId);
-            await _medicalReport.DeleteMedicalReport(id);
-            
+            var medicalR = await _medicalReport.GetMedicalReport(id);
+            NewMedicalReportDTO newMed;
+            if (medicalR!=null)
+            {
+                var InMed = new InMedicalReportDTO
+                {
+                    Id = medicalReport.Id,
+                    Description = medicalReport.Description,
+                    ReportDate = medicalReport.ReportDate,
+                    PatientId = medicalReport.PatientId,
+                    DoctorId = medicalReport.DoctorId
+                };
+                var updatedMedicalR = await _medicalReport.UpdateMedicalReport(id, InMed);
+                newMed = new NewMedicalReportDTO
+                {
+                    Id = updatedMedicalR.Id,
+                    Description = updatedMedicalR.Description,
+                    ReportDate = updatedMedicalR.ReportDate,
+                    PatientId = updatedMedicalR.PatientId,
+                    DoctorId = updatedMedicalR.DoctorId
+                };
 
-            return RedirectToAction("PatientMedicalReport", "Auth", patientId);
+                var patient = await _context.Patients.FindAsync(newMed.PatientId);
+
+                return RedirectToAction("PatientMedicalReport","Auth", patient);
+            }
+            else
+            {
+                return NotFound();
+            }    
         }
 
+        [HttpGet]
+        public async Task<IActionResult> MedicalRecordDetails(int id)
+        {
+            var medicalRecord = await _medicalReport.GetMedicalReport(id);
+
+            var patient = await _context.Patients.Where(x => x.Id == medicalRecord.PatientId).FirstOrDefaultAsync();
+
+            ViewBag.PatientName = patient?.FirstName + " " + patient?.LastName;
+
+
+            var doctor = await _context.Doctors.Where(x => x.Id == medicalRecord.DoctorId).FirstOrDefaultAsync();
+
+            ViewBag.DoctorName = doctor?.FirstName + " " + doctor?.LastName;
+
+
+            return View(medicalRecord);
+        }
 
     }
 }

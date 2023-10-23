@@ -76,10 +76,10 @@
 
                         <div class="col-md-12"><label class="labels">Mobile Number</label><input asp-for="ContactNumber" type="text" class="form-control editableDoctor" value="@Model.ContactNumber" readonly></div>
                         <div class="col-md-12">
-                            <label class="labels">Speciality</label><input asp-for="Speciality" type="text" class="form-control editableDoctor" value="@Model.Speciality" readonly>
+                            <label class="labels">Speciality</label><input asp-for="Speciality" type="text" class="form-control" value="@Model.Speciality" readonly>
                         </div>
                         <div class="col-md-12"><label class="labels">Gender</label><input asp-for="Gender" type="text" class="form-control editableDoctor" value="@Model.Gender" readonly></div>
-                        <div class="col-md-6"><label class="labels">Department Name</label><input asp-for="DepartmentId" type="text" class="form-control " value="@Model.DepartmentId" readonly></div>
+                        <div class="col-md-6"><label class="labels">Department Name</label><input asp-for="DepartmentId" type="text" class="form-control " value="@Model.department?.DepartmentName" readonly></div>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" id="save-doctor-profile-button" type="submit" hidden>Save Profile</button></div>
                 </form>
