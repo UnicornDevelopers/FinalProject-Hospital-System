@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
+using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 
@@ -21,13 +22,15 @@ namespace E_commerce_2.Controllers
 		private IPatient _patient;
 		private IDoctor _doctor;
 		private INurse _nurse;
-		public AuthController(IUser user, HospitalDbContext db, IPatient patient,IDoctor doctor,INurse nurse)
+		private IMedicalReport _medicalReport;
+		public AuthController(IUser user, HospitalDbContext db, IPatient patient,IDoctor doctor,INurse nurse, IMedicalReport medicalReport)
 		{
 			_user = user;
 			_db= db;
 			_patient = patient;
 			_doctor = doctor;
 			_nurse = nurse;
+			_medicalReport = medicalReport;
 		}
 		public IActionResult Index()
 		{
@@ -126,6 +129,9 @@ namespace E_commerce_2.Controllers
         {
             var pateintProfile = await _patient.GetPatient(patient.Id);
 
+			var patientMedicalReport = await _db.Patients.Where(i=>i.Id== pateintProfile.Id).OrderBy(p=>p.Id).Select(x=>x.MedicalReports).LastOrDefaultAsync();
+
+			ViewBag.description = patientMedicalReport;
 
             return View(pateintProfile);
 
@@ -152,26 +158,26 @@ namespace E_commerce_2.Controllers
 
 
 
-        public async Task<IActionResult> PatientMedicalReport(int id, Patient patient)
-        {
-
-
         public async Task<IActionResult> PatientMedicalReport(int id,Patient patient)
         {
 			PatientDTO Patient;
+			List<MedicalReport> patientMedicalReport;
 
-			if (id != 0)
+
+            if (id != 0)
 			{
 				Patient = await _patient.GetPatient(id);
-			}
+				 patientMedicalReport = await _db.MedicalReports.Where(x => x.PatientId == Patient.Id).ToListAsync();
+            }
 			else
 			{
                 Patient = await _patient.GetPatient(patient.Id);
+                patientMedicalReport = await _db.MedicalReports.Where(x => x.PatientId == Patient.Id).ToListAsync();
             }
 			
-			var medicalReporsts = Patient?.MedicalReports?.ToList();
+			//var medicalReporsts = Patient?.MedicalReports?.ToList();
 
-            return View(medicalReporsts);
+            return View(patientMedicalReport);
         }
     }
 }

@@ -1,6 +1,9 @@
 @using Hospital_System.Models.DTOs.Patient;
 @model PatientDTO
 
+@{
+    List<MedicalReport> medicalReport = ViewBag.description;
+}
 
 <style>
     body {
@@ -84,7 +87,7 @@
                         <div class="col-md-12"><label class="labels">Date of Birth</label><input asp-for="DoB" type="datetime" class="form-control editablePatient" value="@Model.DoB" readonly></div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-6"><label class="labels">Room Number</label><input asp-for="RoomId" type="text" class="form-control" value="@(Model.Rooms==null?"Patient has no Room":Model.RoomId)" readonly></div>
+                        <div class="col-md-6"><label class="labels">Room Number</label><input asp-for="RoomId" type="text" class="form-control" value="@(Model.Rooms==null?"Patient has no Room":Model.Rooms.RoomNumber)" readonly></div>
                         <div class="col-md-6"><label class="labels">Department</label><input type="text" class="form-control" value="@(Model.Rooms?.department?.DepartmentName)" readonly></div>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" id="save-patient-profile-button" type="submit" hidden>Save Profile</button></div>
@@ -104,8 +107,8 @@
             <div class="col-md-4">
                 <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience"><span>Medical report</span><a class="border px-3 p-1 add-experience" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.Id">Medical report</a></div><br>
-                <div class="col-md-12"><label class="labels">Descriptions</label><input type="text" class="form-control" value="@(Model.MedicalReports?.Select(d=>d.Description).LastOrDefault())" style="height:300px;" readonly></div> <br>
-                <div class="col-md-12"><label class="labels">Doctor Name</label><input type="text" class="form-control" value="@(Model.MedicalReports?.Select(d=>d.DoctorName).LastOrDefault())" readonly></div>
+                <div class="col-md-12"><label class="labels">Descriptions</label><input type="text" class="form-control" value="@(medicalReport.Select(x=>x.Description).LastOrDefault())" style="height:300px;" readonly></div> <br>
+                <div class="col-md-12"><label class="labels">Doctor Name</label><input type="text" class="form-control" value="@(medicalReport.Select(f=>f.doctor?.FirstName).LastOrDefault()) @(medicalReport.Select(f=>f.doctor?.LastName).LastOrDefault())" readonly></div>
                 </div>
             </div>
 
