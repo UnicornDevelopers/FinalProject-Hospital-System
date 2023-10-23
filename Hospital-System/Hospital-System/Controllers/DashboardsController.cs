@@ -815,7 +815,7 @@ namespace Hospital_System.Controllers
                 return RedirectToAction("ViewAppointments");
             }
         }
-        public async Task<IActionResult> GetMedicalReportPatientSide( int MedicalReportId=5)
+        public async Task<IActionResult> GetMedicalReportPatientSide( int MedicalReportId)
         {
             var medicalReport=await _medicalReport.GetMedicalReportWithIncludes(MedicalReportId);
             if (medicalReport == null)
