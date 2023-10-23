@@ -7,20 +7,20 @@ namespace Hospital_System.Models
 {
 	public class AppointmentSlot
 	{
-        public int Id { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime DateOfSlot { get; set; }
-        public TimeSpan SlotHour { get; set; }
-        public List<Appointment>? Appointments { get; set; }
+		public int Id { get; set; }
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:d}")]
+		public DateTime DateOfSlot { get; set; }
+		public TimeSpan SlotHour { get; set; }
+		public List<Appointment>? Appointments { get; set; }
 
-        public int DoctorId { get; set; }
+		public int DoctorId { get; set; }
 
 
-        [ForeignKey("DoctorId")]
-        public Doctor doctor { get; set; }
+		[ForeignKey("DoctorId")]
+		public Doctor doctor { get; set; }
 
-    }
+	}
 }
 
 
@@ -48,4 +48,3 @@ public void InitializeTimeSlots(Doctor doctor, DateTime startDate, DateTime endD
         }
     }
 }*/
-

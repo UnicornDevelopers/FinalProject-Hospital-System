@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Add Hospital";
+    Layout = "_AdminLayout";
+
 }
 
 <h2>Add Hospital</h2>
@@ -11,7 +13,7 @@
     <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
 }
 
-<form asp-controller="Dashboards" asp-action="AddHospital" method="post">
+<form asp-controller="Dashboards" asp-action="AddHospital" method="post" class="mb-5 mt-5">
     <div class="form-group">
         <label asp-for="HospitalName">Hospital Name</label>
         <input asp-for="HospitalName" class="form-control" />
@@ -30,5 +32,5 @@
         <span asp-validation-for="ContactNumber" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" style="background-color: #14274E; border-color: #14274E;">Submit</button>
 </form>

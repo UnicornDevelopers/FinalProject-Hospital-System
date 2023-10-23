@@ -1,0 +1,148 @@
+﻿@model Hospital_System.Models.DTOs.Nurse.InNurseDTO
+
+@{
+    ViewData["Title"] = "Edit Nurse";
+    Layout = "_AdminLayout";
+}
+
+@if (TempData["Fail"] != null)
+{
+    <div class="alert alert-danger col-md-10">
+        @TempData["Fail"]
+    </div>
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success col-md-10">
+        @TempData["success"]
+    </div>
+}
+
+<h3>Edit Nurse Information</h3>
+
+<form asp-controller="Dashboards" asp-action="UpdateNurse" method="post" class="mb-2">
+    @Html.AntiForgeryToken()
+   
+    <div class="row">
+        <div class="col-md-10 mb-4">
+
+            <div class="form-outline">
+                <label class="form-label" for="firstName">First Name</label>
+
+                <input asp-for="@Model.FirstName" type="text" name="FirstName" id="FirstName" class="form-control form-control-lg" />
+                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-10 mb-4">
+
+            <div class="form-outline">
+                <label class="form-label" for="lastName">Last Name</label>
+
+                <input asp-for="@Model.LastName" name="LastName" type="text" id="LastName" class="form-control form-control-lg" />
+                <span class="text-danger" asp-validation-for="@Model.LastName"></span>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+
+
+        <div class="col-md-10 mb-4  ">
+            <label class="form-label select-label">Gender</label>
+            <br />
+            <div class="px-2 ms-2">
+                <div class="form-check form-check-inline">
+                    <input asp-for="@Model.Gender" class="form-check-input" type="radio" name="Gender" id="femaleGender" value="Female" checked="@(Model.Gender == "Female")" />
+                    <label class="me-1" for="femaleGender">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="@Model.Gender" class="form-check-input ms-1 p-0" type="radio" name="Gender" id="maleGender" value="Male" checked="@(Model.Gender == "Male")" />
+                    <label class="me-1" for="maleGender">Male</label>
+                </div>
+            </div>
+
+            <span asp-validation-for="@Model.Gender"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 mb-4 pb-2">
+
+            <div class="form-outline">
+                <label class="form-label" for="phoneNumber">Contact Number</label>
+
+                <input asp-for="@Model.ContactNumber" name="ContactNumber" type="tel" id="ContactNumber" class="form-control form-control-lg" />
+                <span class="text-danger" asp-validation-for="@Model.ContactNumber"></span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-md-10 mb-4">
+
+            <div class="form-outline">
+                <label asp-for="Shift" class="form-label">Shift</label>
+                <select asp-for="Shift" name="Shift" id="Shift" class="select form-control-lg w-100">
+                    <option value="" disabled>Choose Shift</option>
+                    <option value="0">Morning</option>
+                    <option value="1">Night</option>
+                    <option value="2">Afternoon</option>
+                </select>
+                <span asp-validation-for="Shift" class="text-danger"></span>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+
+       @* <div class="col-md-10 mb-4">
+            <label asp-for="DepartmentId"></label>
+            <input asp-for="DepartmentId" class="form-control" />
+            <span class="text-danger" asp-validation-for="@Model.DepartmentId"></span>
+        </div>*@
+        <div class="col-md-10 mb-4">
+            <label asp-for="DepartmentId">Department</label>
+            <br />
+            <select asp-for="@Model.DepartmentId" name="DepartmentId" id="DepartmentId" class="select form-control-lg w-100">
+                <option value="" disabled>Choose Department</option>
+                @foreach (var department in ViewBag.Depatments)
+                {
+                    if (Model.DepartmentId == department.Id)
+                    {
+                        <option value="@department.Id" selected>@department.DepartmentName</option>
+                    }
+                    else
+                    {
+                        <option value="@department.Id">@department.DepartmentName</option>
+                    }
+                }
+            </select>
+        </div>
+
+    </div>
+
+
+    <input name="id" type="number" class="form-control" asp-for="@Model.Id" hidden value="@Model.Id" />
+    <br />
+    <div class="row">
+        <div class=" col-md-10">
+            <button type="submit" class="btn btn-primary" style="background-color: #14274E; border-color: #14274E;">Update </button>
+        </div>
+    </div>
+</form>

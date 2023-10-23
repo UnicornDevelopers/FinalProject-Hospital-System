@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Update Department";
+    Layout = "_AdminLayout";
+
 }
 
 <h2>Update Department</h2>
@@ -11,7 +13,7 @@
     <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
 }
 
-<form asp-controller="Dashboards" asp-action="UpdateDepartment" method="post" enctype="multipart/form-data">
+<form asp-controller="Dashboards" asp-action="UpdateDepartment" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
     <input type="hidden" name="id" value="@Model.Id" />
 
     <div class="form-group">
@@ -31,5 +33,5 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" style="background-color: #14274E; border-color: #14274E;">Submit</button>
 </form>

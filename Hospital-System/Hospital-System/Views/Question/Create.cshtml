@@ -1,0 +1,22 @@
+﻿@model Question
+
+@{
+    ViewData["Title"] = "Create Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Create Question</h2>
+
+<form asp-controller="Question" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Subject"></label>
+        <input asp-for="Subject" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="QuestionText"></label>
+        <input asp-for="QuestionText" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

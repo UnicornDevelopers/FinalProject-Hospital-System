@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_System.Models.DTOs.AppointmentSlot
 {
-    public class TimeSlotViewDto
-    {
-        public DateTime DateView { get; set; }
-        public TimeSpan HourView { get; set; }
-        public int DoctorId { get; set; }
+	public class TimeSlotViewDto
+	{
+		public DateTime DateView { get; set; }
+		public TimeSpan HourView { get; set; }
+		public int DoctorId { get; set; }
 
-    }
+	}
 }

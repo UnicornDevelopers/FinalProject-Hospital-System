@@ -70,14 +70,17 @@ namespace Hospital_System.Models.Services
         /// </summary>
         /// <param name="nurseID">The ID of the nurse to retrieve.</param>
         /// <returns>Detailed nurse information.</returns>
-        public async Task<NurseDTO> GetNurse(int nurseID)
+        public async Task<NurseDTO> GetNurse(int id)
         {
             var nurse = await _context.Nurses
                 .Include(n => n.department)
-                .FirstOrDefaultAsync(n => n.Id == nurseID);
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+
 
             if (nurse == null)
                 return null;
+
 
             var nurseDTO = new NurseDTO
             {
@@ -88,6 +91,7 @@ namespace Hospital_System.Models.Services
                 ContactNumber = nurse.ContactNumber,
                 Shift = nurse.shift,
                 DepartmentId = nurse.DepartmentId,
+
                 department = new OutDepartmentDTO
                 {
                     Id = nurse.department.Id,
@@ -137,7 +141,7 @@ namespace Hospital_System.Models.Services
 
             if (departmentExists == null)
             {
-                throw new InvalidOperationException($"Invalid Department with ID {nurse.DepartmentId} not found.");
+                throw new InvalidOperationException($"Invalid Department Id");
             }
 
             nurse.FirstName = nurseDto.FirstName;
@@ -165,6 +169,27 @@ namespace Hospital_System.Models.Services
                 _context.Entry(nurse).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<InNurseDTO> GetNurseDTO(int id)
+        {
+
+            var nurse = await _context.Nurses
+                            .FirstOrDefaultAsync(n => n.Id == id);
+            if (nurse == null)
+                return null;
+            var nurseDTO = new InNurseDTO
+            {
+                Id = nurse.Id,
+                FirstName = nurse.FirstName,
+                LastName = nurse.LastName,
+                Gender = nurse.Gender,
+                ContactNumber = nurse.ContactNumber,
+                Shift = nurse.shift,
+                DepartmentId = nurse.DepartmentId,
+            };
+            return nurseDTO;
+
         }
     }
 }

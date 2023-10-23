@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Hospital_System.Models
 {
-    public class SignInModel
-    {
-        [EmailAddress]
-        [Key]
-        public string Email { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        [Display(Name ="Remember Me")]
-        public bool RememberMe { get; set; }
+	public class SignInModel
+	{
+		[EmailAddress]
+		[Key]
+		public string Email { get; set; }
+		[Required]
+		[DataType(DataType.Password)]
+		public string Password { get; set; }
+		[Display(Name = "Remember Me")]
+		public bool RememberMe { get; set; }
 
 
-    }
+	}
 }

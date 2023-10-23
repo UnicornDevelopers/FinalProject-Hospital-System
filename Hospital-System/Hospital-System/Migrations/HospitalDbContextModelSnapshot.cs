@@ -22,7 +22,7 @@ namespace Hospital_System.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Hospital_System.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Hospital_System.Auth.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -85,6 +85,51 @@ namespace Hospital_System.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "83cd395e-cc5a-4137-86b0-e47d29eb2946",
+                            Email = "admin@gamil.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGeP8Y9vVHKu4NQEyeG8oaz5ZPs6xXq1IpCOmcuxI0ZKxHbRLLe6fbVh9SLE5t7Yog==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "963cb977-911d-4ff4-806b-4e364b3a43ef",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Appointment", b =>
@@ -168,6 +213,88 @@ namespace Hospital_System.Migrations
                     b.HasIndex("HospitalID");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DepartmentName = "Cardiology",
+                            Description = "Specializing in heart care and treatment.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/h2.png"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DepartmentName = "Orthopedics",
+                            Description = "Dealing with bone and joint-related issues.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Bone.png"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DepartmentName = "Nephrology",
+                            Description = "Focused on kidney-related diseases and care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Nephrology.png"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DepartmentName = "Neurology",
+                            Description = "Specializing in brain and nervous system care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/brain.png"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DepartmentName = "Ophthalmology",
+                            Description = "Focused on eye and vision care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/optics.png"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DepartmentName = "Hepatology",
+                            Description = "Dealing with liver and digestive system issues.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Liver.png"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DepartmentName = "Gastroenterology",
+                            Description = "Specializing in intestinal care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Intestines.png"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DepartmentName = "Pulmonology",
+                            Description = "Focused on lung and respiratory care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/lung.png"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DepartmentName = "Obstetrics",
+                            Description = "Specializing in maternity care and prenatal services.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Pediatrics.png"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DepartmentName = "Obstetrics and Gynecology",
+                            Description = "Dedicated to women's health and maternity care.",
+                            HospitalID = 1,
+                            Image = "https://storageaccbookimages.blob.core.windows.net/images/Obstetrics.png"
+                        });
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Doctor", b =>
@@ -234,6 +361,15 @@ namespace Hospital_System.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Test",
+                            ContactNumber = "079999999",
+                            HospitalName = "Test"
+                        });
                 });
 
             modelBuilder.Entity("Hospital_System.Models.MedicalReport", b =>
@@ -245,7 +381,6 @@ namespace Hospital_System.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DoctorId")
@@ -375,6 +510,35 @@ namespace Hospital_System.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnswerCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Questions");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -432,10 +596,10 @@ namespace Hospital_System.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "admin",
+                            Id = "nurse",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Name = "Nurse",
+                            NormalizedName = "NURSE"
                         },
                         new
                         {
@@ -446,10 +610,10 @@ namespace Hospital_System.Migrations
                         },
                         new
                         {
-                            Id = "doctor",
+                            Id = "users",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Doctor",
-                            NormalizedName = "DOCTOR"
+                            Name = "Users",
+                            NormalizedName = "USERS"
                         },
                         new
                         {
@@ -460,10 +624,17 @@ namespace Hospital_System.Migrations
                         },
                         new
                         {
-                            Id = "nurse",
+                            Id = "doctor",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Nurse",
-                            NormalizedName = "NURSE"
+                            Name = "Doctor",
+                            NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = "admin",
+                            ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -490,92 +661,6 @@ namespace Hospital_System.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 13,
-                            ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "admin"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            ClaimType = "permissions",
-                            ClaimValue = "update",
-                            RoleId = "admin"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            ClaimType = "permissions",
-                            ClaimValue = "delete",
-                            RoleId = "admin"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "receptionist"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            ClaimType = "permissions",
-                            ClaimValue = "update",
-                            RoleId = "receptionist"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            ClaimType = "permissions",
-                            ClaimValue = "delete",
-                            RoleId = "receptionist"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "doctor"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            ClaimType = "permissions",
-                            ClaimValue = "update",
-                            RoleId = "doctor"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            ClaimType = "permissions",
-                            ClaimValue = "delete",
-                            RoleId = "doctor"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "patient"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            ClaimType = "permissions",
-                            ClaimValue = "update",
-                            RoleId = "patient"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            ClaimType = "permissions",
-                            ClaimValue = "delete",
-                            RoleId = "patient"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -638,6 +723,13 @@ namespace Hospital_System.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1",
+                            RoleId = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -657,6 +749,25 @@ namespace Hospital_System.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.Answer", b =>
+                {
+                    b.HasOne("Hospital_System.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hospital_System.Models.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Appointment", b =>
@@ -689,6 +800,7 @@ namespace Hospital_System.Migrations
                     b.HasOne("Hospital_System.Models.Doctor", "doctor")
                         .WithMany("AppointmentSlots")
                         .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("doctor");
@@ -762,6 +874,17 @@ namespace Hospital_System.Migrations
                     b.Navigation("Rooms");
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.Question", b =>
+                {
+                    b.HasOne("Hospital_System.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Room", b =>
                 {
                     b.HasOne("Hospital_System.Models.Department", "department")
@@ -784,7 +907,7 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -793,7 +916,7 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -808,7 +931,7 @@ namespace Hospital_System.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -817,7 +940,7 @@ namespace Hospital_System.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Hospital_System.Models.ApplicationUser", null)
+                    b.HasOne("Hospital_System.Auth.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -862,6 +985,11 @@ namespace Hospital_System.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("MedicalReports");
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.Question", b =>
+                {
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Room", b =>

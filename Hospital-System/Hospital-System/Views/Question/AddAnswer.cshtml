@@ -1,0 +1,20 @@
+﻿@model Answer
+
+@{
+    ViewData["Title"] = "Add Answer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Add Answer</h2>
+
+<form asp-action="AddAnswer">
+    <div class="form-group">
+        <label asp-for="AnswerText"></label>
+        <input asp-for="AnswerText" class="form-control" />
+    </div>
+
+    <input type="hidden" asp-for="QuestionId" value="@Model.QuestionId" />
+
+    <button type="submit" class="btn btn-primary">Add Answer</button>
+</form>

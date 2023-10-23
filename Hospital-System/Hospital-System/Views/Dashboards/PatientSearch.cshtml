@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Hospital_System.Models.Patient>
+@{
+    ViewData["Title"] = "Patient Search";
+    Layout = "_AdminLayout";
+}
+
+<h2>Patient Search</h2>
+
+<p>Use this search to find patients by their first name.</p>
+
+<form method="get" asp-controller="Dashboards" asp-action="PatientSearch">
+    <div class="input-group mb-3">
+        <input type="text" name="patientname" class="form-control" placeholder="Search by First Name">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No patients found.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Edit Patient</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@patient.Id</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.DoB</td>
+                    <td>@patient.Gender</td>
+                    <td>@patient.ContactNumber</td>
+                    <td>@patient.Address</td>
+                    <td><a class="nav-link" asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@patient.Id">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

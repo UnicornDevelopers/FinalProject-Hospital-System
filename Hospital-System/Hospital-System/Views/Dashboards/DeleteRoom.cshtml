@@ -1,0 +1,17 @@
+﻿@model Hospital_System.Models.Room
+
+@{
+    ViewData["Title"] = "Confirm Delete";
+    Layout = "_AdminLayout";
+
+}
+
+<h2>Confirm Delete</h2>
+
+<p>Are you sure you want to delete the Room with ID @Model.Id and Room Number '@Model.RoomNumber'?</p>
+
+<form asp-controller="Dashboards" asp-action="DeleteRoom" method="post" class="mb-5 mt-5">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="GetRoomsInDepartment" class="btn btn-secondary">Cancel</a>
+</form>

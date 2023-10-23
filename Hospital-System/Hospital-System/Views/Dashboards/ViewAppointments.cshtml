@@ -1,0 +1,57 @@
+﻿@model List<Appointment>
+@{
+    ViewData["Title"] = "View Appointments";
+    Layout = "_AdminLayout";
+}
+<h2 class="text-center mt-4 mb-3">Appointments Schendule</h2>
+@if (Model.Count > 0)
+{
+    <div class="table-responsive mt-3 ml-3 mr-3 mb-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Patient</th>
+                    <th>Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appointment in Model)
+                {
+                    <tr>
+                        <td>@appointment.appointmentSlot.DateOfSlot.ToShortDateString()</td>
+                        <td>@appointment.appointmentSlot.SlotHour</td>
+                        <td>@appointment.patient.FirstName @appointment.patient.LastName</td>
+                        <td>
+                            @if (!appointment.IsAvailable)
+                            {
+                                <form asp-controller="Dashboards" asp-action="CancelAppointment" method="post">
+                                    <input type="hidden" name="appointmentId" value="@appointment.Id" />
+                                    <input type="hidden" name="isAvailable" value="@appointment.IsAvailable" />
+                                    <button type="submit" id="cancel" class="btn btn-danger">Cancel Appointment</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Canceled</span>
+                            }
+                            
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>No appointments found.</p>
+}
+<style>
+    #cancel {
+        background-color: #444;
+        color: #fff;
+    }
+</style>
