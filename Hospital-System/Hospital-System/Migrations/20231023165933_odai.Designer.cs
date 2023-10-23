@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20231021161139_seedDepartments")]
-    partial class seedDepartments
+    [Migration("20231023165933_odai")]
+    partial class odai
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,15 +94,15 @@ namespace Hospital_System.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "245229e8-b989-4d2a-8f96-64b9a597f040",
+                            ConcurrencyStamp = "1c3b6fc2-7764-46ed-9673-64332b0fff86",
                             Email = "admin@gamil.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPS1ejh046VxcdInTVbdB/JHg40a1mTZMnb1ElwCK5PovfU4uhl8W7Mrx23XXBqfHw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAx7ap3AvkB6gaZvmi9pwDmLOC7FnMgaG1o5b9j6mfmSk3Upj5Ae9Unbs604ubwThA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93b2d4fd-1752-43e2-a1a7-812b674dc7d9",
+                            SecurityStamp = "01a08462-bab4-436c-a069-79014d7dbe87",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -393,7 +393,6 @@ namespace Hospital_System.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Portion")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -401,6 +400,78 @@ namespace Hospital_System.Migrations
                     b.HasIndex("MedicalReportId");
 
                     b.ToTable("Medicines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MedicineName = "Ibuprofen",
+                            Portion = "200mg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            MedicineName = "Paracetamol",
+                            Portion = "500mg"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            MedicineName = "Amoxicillin",
+                            Portion = "250mg"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            MedicineName = "Aspirin",
+                            Portion = "325mg"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            MedicineName = "Cetirizine",
+                            Portion = "10mg"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            MedicineName = "Diclofenac",
+                            Portion = "50mg"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            MedicineName = "Erythromycin",
+                            Portion = "500mg"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            MedicineName = "Furosemide",
+                            Portion = "40mg"
+                        });
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.MedicineMedicalReport", b =>
+                {
+                    b.Property<int>("MedicalReportID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicineID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MedicinePortion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TimesInDay")
+                        .HasColumnType("int");
+
+                    b.HasKey("MedicalReportID", "MedicineID");
+
+                    b.HasIndex("MedicineID");
+
+                    b.ToTable("MedicineMedicalReports");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Nurse", b =>
@@ -782,6 +853,25 @@ namespace Hospital_System.Migrations
                     b.Navigation("medicalReport");
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.MedicineMedicalReport", b =>
+                {
+                    b.HasOne("Hospital_System.Models.MedicalReport", "MedicalReport")
+                        .WithMany("MedicinesMedicalReport")
+                        .HasForeignKey("MedicalReportID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hospital_System.Models.Medicine", "Medicine")
+                        .WithMany("MedicinesMedicalReport")
+                        .HasForeignKey("MedicineID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MedicalReport");
+
+                    b.Navigation("Medicine");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Nurse", b =>
                 {
                     b.HasOne("Hospital_System.Models.Department", "department")
@@ -895,6 +985,13 @@ namespace Hospital_System.Migrations
             modelBuilder.Entity("Hospital_System.Models.MedicalReport", b =>
                 {
                     b.Navigation("Medicines");
+
+                    b.Navigation("MedicinesMedicalReport");
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.Medicine", b =>
+                {
+                    b.Navigation("MedicinesMedicalReport");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Patient", b =>
