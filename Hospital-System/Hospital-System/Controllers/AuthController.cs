@@ -8,6 +8,7 @@ using Hospital_System.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using NuGet.Protocol.Plugins;
 using System.Linq;
 using System.Numerics;
@@ -129,9 +130,9 @@ namespace E_commerce_2.Controllers
         {
             var pateintProfile = await _patient.GetPatient(patient.Id);
 
-			var patientMedicalReport = await _db.Patients.Where(i=>i.Id== pateintProfile.Id).OrderBy(p=>p.Id).Select(x=>x.MedicalReports).LastOrDefaultAsync();
+			//var patientMedicalReport = await _db.Patients.Where(i=>i.Id== pateintProfile.Id).OrderBy(p=>p.Id).Select(x=>x.MedicalReports).LastOrDefaultAsync();
 
-			ViewBag.description = patientMedicalReport;
+			//ViewBag.description = patientMedicalReport;
 
             return View(pateintProfile);
 
@@ -167,15 +168,17 @@ namespace E_commerce_2.Controllers
             if (id != 0)
 			{
 				Patient = await _patient.GetPatient(id);
-				 patientMedicalReport = await _db.MedicalReports.Where(x => x.PatientId == Patient.Id).ToListAsync();
+				 patientMedicalReport = await _db.MedicalReports.Include(m=>m.Medicines).Where(x => x.PatientId == Patient.Id).ToListAsync();
             }
 			else
 			{
                 Patient = await _patient.GetPatient(patient.Id);
-                patientMedicalReport = await _db.MedicalReports.Where(x => x.PatientId == Patient.Id).ToListAsync();
+                patientMedicalReport = await _db.MedicalReports.Include(m => m.Medicines).Where(x => x.PatientId == Patient.Id).ToListAsync();
             }
 			
 			//var medicalReporsts = Patient?.MedicalReports?.ToList();
+
+			
 
             return View(patientMedicalReport);
         }

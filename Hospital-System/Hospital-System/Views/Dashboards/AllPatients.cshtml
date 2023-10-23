@@ -53,7 +53,8 @@ else
                     <td><a class="nav-link" asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@patient.Id">Edit</a></td>
                      @if (User.IsInRole("Doctor"))
                    { <td>
-                        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@patient.Id">add medical report</a>
+                        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@patient.Id">add medical report</a><span>|</span>
+                            <a asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@patient.Id">View Patient Medical Reports</a>
                     </td>
                    }
                 </tr>

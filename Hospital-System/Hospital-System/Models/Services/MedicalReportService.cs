@@ -163,9 +163,10 @@ namespace Hospital_System.Models.Services
 		/// <param name="id">The ID of the medical report to delete.</param>
 		public async Task DeleteMedicalReport(int id)
 		{
-			MedicalReport medicalReport = await _context.MedicalReports.FindAsync(id);
+			MedicalReport medicalReport = await _context.MedicalReports.Include(x=>x.Medicines).FirstOrDefaultAsync(x=>x.Id==id);
 			if (medicalReport != null)
 			{
+				_context.Medicines.RemoveRange(medicalReport.Medicines);
 				_context.Entry(medicalReport).State = EntityState.Deleted;
 				await _context.SaveChangesAsync();
 			}

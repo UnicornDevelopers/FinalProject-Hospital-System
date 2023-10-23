@@ -1,9 +1,9 @@
 @using Hospital_System.Models.DTOs.Patient;
 @model PatientDTO
 
-@{
+@*@{
     List<MedicalReport> medicalReport = ViewBag.description;
-}
+}*@
 
 <style>
     body {
@@ -44,11 +44,19 @@
         font-size: 11px;
     }
 
+    .add-experience{
+        margin-top: 20px;
+    }
     .add-experience:hover {
         background: #BA68C8;
         color: #fff;
         cursor: pointer;
         border: solid 1px #BA68C8;
+        
+    }
+
+    .experience{
+        margin-top:80px;
     }
 </style>
 
@@ -106,9 +114,9 @@
 
             <div class="col-md-4">
                 <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><span>Medical report</span><a class="border px-3 p-1 add-experience" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.Id">Medical report</a></div><br>
-                <div class="col-md-12"><label class="labels">Descriptions</label><input type="text" class="form-control" value="@(medicalReport.Select(x=>x.Description).LastOrDefault())" style="height:300px;" readonly></div> <br>
-                <div class="col-md-12"><label class="labels">Doctor Name</label><input type="text" class="form-control" value="@(medicalReport.Select(f=>f.doctor?.FirstName).LastOrDefault()) @(medicalReport.Select(f=>f.doctor?.LastName).LastOrDefault())" readonly></div>
+                <div class="d-flex flex-column justify-content-between align-items-center experience"><span>See Medical report</span><a class="border px-3 p-1 add-experience" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.Id">Medical report</a></div><br>
+                @*<div class="col-md-12"><label class="labels">Descriptions</label><input type="text" class="form-control" value="@(medicalReport.Select(x=>x.Description).LastOrDefault())" style="height:300px;" readonly></div> <br>
+                <div class="col-md-12"><label class="labels">Doctor Name</label><input type="text" class="form-control" value="@(medicalReport.Select(f=>f.doctor?.FirstName).LastOrDefault()) @(medicalReport.Select(f=>f.doctor?.LastName).LastOrDefault())" readonly></div>*@
                 </div>
             </div>
 
