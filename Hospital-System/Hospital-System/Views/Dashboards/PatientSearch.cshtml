@@ -34,6 +34,11 @@ else
                 <th>Contact Number</th>
                 <th>Address</th>
                 <th>Edit Patient</th>
+                @if (User.IsInRole("Doctor"))
+
+                {
+                    <th>Add Medical Report</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -48,6 +53,12 @@ else
                     <td>@patient.ContactNumber</td>
                     <td>@patient.Address</td>
                     <td><a class="nav-link" asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@patient.Id">Edit</a></td>
+                    @if (User.IsInRole("Doctor"))
+                    {
+                        <td>
+                            <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@patient.Id">add medical report</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

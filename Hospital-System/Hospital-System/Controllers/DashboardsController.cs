@@ -815,17 +815,21 @@ namespace Hospital_System.Controllers
                 return RedirectToAction("ViewAppointments");
             }
         }
+        public async Task<IActionResult> GetMedicalReportPatientSide( int MedicalReportId=5)
+        {
+            var medicalReport=await _medicalReport.GetMedicalReportWithIncludes(MedicalReportId);
+            if (medicalReport == null)
+            {
+                return NotFound();
+            }
+            var dep = await _department.GetDepartment(medicalReport.doctor.DepartmentId);
+            TempData["departmentName"] = dep.DepartmentName;
+            return View(medicalReport);
+        }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddMedicalReport(int patientId)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
 
-        //    }
-        //    return View();
-        //}
+
 
     }
 }

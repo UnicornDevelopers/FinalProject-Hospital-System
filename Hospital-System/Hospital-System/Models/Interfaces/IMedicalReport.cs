@@ -45,6 +45,8 @@ namespace Hospital_System.Models.Interfaces
         Task AddMedicineToReport(int ReportId, int MedicineId, int TimesInDay, string MedicinePortion);
         Task RemoveMedicineFromReport(int ReportId, int MedicineId);
 
+		Task<MedicalReport> GetMedicalReportWithIncludes(int id);
+       
     }
 
 }
