@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
+using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 
 namespace E_commerce_2.Controllers
@@ -94,38 +95,40 @@ namespace E_commerce_2.Controllers
 			throw new NotImplementedException();
 		}
 
-        public async Task<ActionResult<PatientDTO>> Profile()
-        {
-            var user = await _user.GetUser(this.User);
-            var prfileUserPatient = await _db.Patients.FirstOrDefaultAsync(x => x.UserId == user.Id);
-            if (prfileUserPatient != null)
-            {
-                return RedirectToAction("PatientProfile", "Auth", prfileUserPatient);
+		public async Task<ActionResult<PatientDTO>> Profile()
+		{
+			var user = await _user.GetUser(this.User);
+			var prfileUserPatient =await _db.Patients.FirstOrDefaultAsync(x=>x.UserId==user.Id);
+			if(prfileUserPatient != null)
+			{
+				return RedirectToAction("PatientProfile","Auth", prfileUserPatient);
+                ViewBag.Pateint = pateintProfile;
+                ViewBag.Pateint = pateintProfile;
             }
 
             var prfileUserDoctor = await _db.Doctors.FirstOrDefaultAsync(x => x.UserId == user.Id);
-            if (prfileUserDoctor != null)
-            {
+			if(prfileUserDoctor!=null)
+			{
                 return RedirectToAction("DoctorProfile", "Auth", prfileUserDoctor);
             }
 
-            var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
-            if (profileUserNurse != null)
-            {
+			var profileUserNurse = await _db.Nurses.FirstOrDefaultAsync(x => x.UserId == user.Id);
+			if(profileUserNurse != null)
+			{
                 return RedirectToAction("NurseProfile", "Auth", profileUserNurse);
 
             }
 
             return View(user);
-        }
+		}
 
-        [HttpGet]
-        public async Task<ActionResult> PatientProfile(Patient patient)
-        {
+		[HttpGet]
+		public async Task<ActionResult> PatientProfile(Patient patient)
+		{
             var pateintProfile = await _patient.GetPatient(patient.Id);
+           
 
-
-            return View(pateintProfile);
+			return View(pateintProfile);
         }
 
 
@@ -137,27 +140,27 @@ namespace E_commerce_2.Controllers
         }
 
 
-        public async Task<IActionResult> NurseProfile(Nurse nurse)
-        {
+		public async Task<IActionResult> NurseProfile(Nurse nurse)
+		{
             var NurseProfile = await _nurse.GetNurse(nurse.Id);
             return View(NurseProfile);
         }
 
 
-        public async Task<IActionResult> PatientMedicalReport(int id, Patient patient)
+        public async Task<IActionResult> PatientMedicalReport(int id,Patient patient)
         {
-            PatientDTO Patient;
+			PatientDTO Patient;
 
-            if (id != 0)
-            {
-                Patient = await _patient.GetPatient(id);
-            }
-            else
-            {
+			if (id != 0)
+			{
+				Patient = await _patient.GetPatient(id);
+			}
+			else
+			{
                 Patient = await _patient.GetPatient(patient.Id);
             }
-
-            var medicalReporsts = Patient?.MedicalReports?.ToList();
+			
+			var medicalReporsts = Patient?.MedicalReports?.ToList();
 
             return View(medicalReporsts);
         }

@@ -1,5 +1,4 @@
-﻿﻿@using Hospital_System.Models.DTOs.MedicalReport;
-@model List<OutMedicalReportDTO>
+﻿@model List<OutMedicalReportDTO>
 
 <style>
     body {
@@ -7,10 +6,10 @@
     }
 
 </style>
-
+     
 <script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
 
-@if (Model == null || Model.Count == 0)
+@if(Model==null || Model.Count==0)
 {
     <div>
         <span>Has no Medical Repoerts</span>
@@ -29,7 +28,6 @@ else
             </tr>
         </thead>
         <tbody class="bg-white">
-            @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.Id</td>
@@ -48,3 +46,9 @@ else
 
 
 }
+
+
+
+
+
+

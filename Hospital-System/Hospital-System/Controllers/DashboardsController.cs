@@ -25,15 +25,14 @@ namespace Hospital_System.Controllers
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
-        private readonly INurse _nurse;
 		private readonly IDoctor _doctor;
+		private readonly INurse _nurse;
         private readonly IMedicalReport _medicalReport;
-        private readonly IUser _user;
 
 
-        private readonly HospitalDbContext _context;
+		private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user)
+		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor)
 		{
 			_department = department;
 			_hospital = hospital;
@@ -41,10 +40,7 @@ namespace Hospital_System.Controllers
 			_appointment = appointment;
 			_patient = patient;
 			_room = room;
-            _nurse = nurse;
 			_doctor = doctor;
-            _medicalReport = medicalReport;
-            _user = user;
 		}
 
 
@@ -358,14 +354,14 @@ namespace Hospital_System.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
-        {
-            if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
-            {
-                return BadRequest();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
+        //{
+        //    if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
+        //    {
+        //        return BadRequest();
+        //    }
 
             if (ModelState.IsValid)
             {
@@ -390,8 +386,8 @@ namespace Hospital_System.Controllers
                 }
             }
 
-            return View(patientDTO);
-        }
+        //    return View(patientDTO);
+        //}
 
 
         [HttpGet]
@@ -727,37 +723,5 @@ namespace Hospital_System.Controllers
             return View(newMedicalReport);
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
-
-                    if (createdMedicalReport != null)
-                    {
-                        // Optionally, you can redirect to a page that shows the newly created medical report.
-                        return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
-                    }
-                    else
-                    {
-                        // Handle the case when the medical report creation fails.
-                        return RedirectToAction("Error");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle any exceptions that occur during the creation of the medical report.
-                    return RedirectToAction("Error");
-                }
-            }
-
-            // If ModelState is not valid, return to the same view with validation errors.
-            return View(newMedicalReportDTO);
-        }
-    }
+	}
 }

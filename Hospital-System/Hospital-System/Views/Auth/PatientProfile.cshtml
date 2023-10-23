@@ -1,4 +1,4 @@
-﻿﻿@using Hospital_System.Models.DTOs.Patient;
+﻿@using Hospital_System.Models.DTOs.Patient;
 @model PatientDTO
 
 
@@ -60,50 +60,50 @@
         </div>
         <div class="col-md-5 border-right">
 
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4> <i class="fa-solid fa-pen-to-square" id="edit-patient-profile-icon" style="cursor:pointer;"></i>
-                </div>
-                <form method="post" asp-controller="Dashboards" asp-action="UpdatePatient">
-                    <input asp-for="@Model.Id" hidden />
-                    <div class="row mt-2">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4> <i class="fa-solid fa-pen-to-square" id="edit-patient-profile-icon" style="cursor:pointer;"></i>
+                    </div>
+                    <form method="post" asp-controller="Dashboards" asp-action="UpdatePatient">
+                        <input asp-for="@Model.Id" hidden />
+                        <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">First Name</label><input asp-for="FirstName" type="text" class="form-control editablePatient" value="@Model.FirstName" readonly></div>
                         <div class="col-md-6"><label class="labels">Last Name</label><input asp-for="LastName" type="text" class="form-control editablePatient" value="@Model.LastName" readonly></div>
-                    </div>
-                    <div class="row mt-3">
+                        </div>
+                        <div class="row mt-3">
 
                         <div class="col-md-12"><label class="labels">Mobile Number</label><input asp-for="ContactNumber" type="text" class="form-control editablePatient" value="@Model.ContactNumber" readonly></div>
-                        <div class="col-md-12">
-                            <label class="labels">Address Line 1</label>
+                            <div class="col-md-12">
+                                <label class="labels">Address Line 1</label>
 
                             <input asp-for="@Model.Address" type="text" class="form-control editablePatient" placeholder="enter address line 1" value="@Model.Address" readonly>
-                        </div>
+                            </div>
 
                         <div class="col-md-12"><label class="labels">Gender</label><input asp-for="Gender" type="text" class="form-control editablePatient" value="@Model.Gender" readonly></div>
                         <div class="col-md-12"><label class="labels">Date of Birth</label><input asp-for="DoB" type="datetime" class="form-control editablePatient" value="@Model.DoB" readonly></div>
-                    </div>
-                    <div class="row mt-3">
+                        </div>
+                        <div class="row mt-3">
                         <div class="col-md-6"><label class="labels">Room Number</label><input asp-for="RoomId" type="text" class="form-control" value="@(Model.Rooms==null?"Patient has no Room":Model.RoomId)" readonly></div>
                         <div class="col-md-6"><label class="labels">Department</label><input type="text" class="form-control" value="@(Model.Rooms?.department?.DepartmentName)" readonly></div>
-                    </div>
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" id="save-patient-profile-button" type="submit" hidden>Save Profile</button></div>
-                </form>
+                        </div>
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" id="save-patient-profile-button" type="submit" hidden>Save Profile</button></div>
+                    </form>
 
-            </div>
-
-
+                </div>
+           
+            
 
 
 
         </div>
 
-        <div class="col-md-4">
-            <div class="p-3 py-5">
+            <div class="col-md-4">
+                <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience"><span>Medical report</span><a class="border px-3 p-1 add-experience" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.Id">Medical report</a></div><br>
                 <div class="col-md-12"><label class="labels">Descriptions</label><input type="text" class="form-control" value="@(Model.MedicalReports?.Select(d=>d.Description).LastOrDefault())" style="height:300px;" readonly></div> <br>
                 <div class="col-md-12"><label class="labels">Doctor Name</label><input type="text" class="form-control" value="@(Model.MedicalReports?.Select(d=>d.DoctorName).LastOrDefault())" readonly></div>
+                </div>
             </div>
-        </div>
 
     </div>
 </div>
@@ -121,3 +121,5 @@
         document.getElementById('save-patient-profile-button').removeAttribute('hidden');
     });
 </script>
+
+
