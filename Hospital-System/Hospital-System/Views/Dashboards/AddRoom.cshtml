@@ -7,39 +7,61 @@
 }
 
 
-<h2>Add Room</h2>
-
 @if (ViewData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
 }
+<section class="vh-100 mb-3">
+    <div class="container py-2 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Add Room</h3>
+                        <form asp-controller="Dashboards" asp-action="AddRoom" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
 
-<form asp-controller="Dashboards" asp-action="AddRoom" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
-    <div class="form-group">
-        <label asp-for="RoomNumber">Room Number</label>
-        <input asp-for="RoomNumber" class="form-control" />
-        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                                    <div class="form-group">
+                                        <label asp-for="RoomNumber">Room Number</label>
+                                        <input asp-for="RoomNumber" class="form-control" />
+                                        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label asp-for="NumberOfBeds">Number Of Beds</label>
+                                        <input asp-for="NumberOfBeds" class="form-control" />
+                                        <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="col-12">
+                                        <label class="form-label select-label">Department</label>
+                                        <br />
+                                        <select asp-for="DepartmentId" name="DepartmentId" id="DepartmentId" class="select form-control-lg">
+                                            <option value="" disabled>Choose Department</option>
+                                            @await Component.InvokeAsync("Department")
+                                        </select>
+                                        <span asp-validation-for="DepartmentId"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="RoomAvailability">Room Availability</label>
-        <input asp-for="RoomAvailability" class="form-control" />
-        <span asp-validation-for="RoomAvailability" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="NumberOfBeds">Number Of Beds</label>
-        <input asp-for="NumberOfBeds" class="form-control" />
-        <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="DepartmentId">Department Id</label>
-        <input asp-for="DepartmentId" class="form-control" />
-        <span asp-validation-for="DepartmentId" class="text-danger"></span>
-    </div>
-
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</section>

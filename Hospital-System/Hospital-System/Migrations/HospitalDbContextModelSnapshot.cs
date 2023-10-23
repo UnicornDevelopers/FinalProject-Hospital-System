@@ -91,15 +91,15 @@ namespace Hospital_System.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7b44806-b6ed-4181-854d-23e9fb883ee9",
+                            ConcurrencyStamp = "1c3b6fc2-7764-46ed-9673-64332b0fff86",
                             Email = "admin@gamil.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEME42gN0WorL8tVZzJ+u+j5/3YcVbmOdGdCJLKrDzmrlXfmgjJ54IrrFIy0kG2w+oQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAx7ap3AvkB6gaZvmi9pwDmLOC7FnMgaG1o5b9j6mfmSk3Upj5Ae9Unbs604ubwThA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f79d2a2-a7a2-4fde-861f-2f34ffca6456",
+                            SecurityStamp = "01a08462-bab4-436c-a069-79014d7dbe87",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
