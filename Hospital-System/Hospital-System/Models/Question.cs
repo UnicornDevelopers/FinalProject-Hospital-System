@@ -11,7 +11,7 @@ namespace Hospital_System.Models
             public Patient Patient { get; set; }
             public List<Answer> ? Answers { get; set; }
 
-             public int AnswerCount { get; set; } 
+             public int? AnswerCount { get; set; } 
 
     }
 
