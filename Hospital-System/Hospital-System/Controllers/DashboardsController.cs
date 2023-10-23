@@ -827,5 +827,62 @@ namespace Hospital_System.Controllers
         //    return View();
         //}
 
+
+        [HttpGet]
+        public async Task<IActionResult> EditMedicalReport(int id)
+        {
+            var medicalR = await _medicalReport.GetMedicalReport(id);
+
+            var patientName=await _context.Patients.FirstOrDefaultAsync(x=>x.Id==medicalR.PatientId);
+
+            ViewBag.PatientName=patientName?.FirstName+" "+patientName?.LastName;
+
+            return View(medicalR);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditMedicalReport(int id, NewMedicalReportDTO medicalRep)
+        {
+            var medicalR = await _medicalReport.GetMedicalReport(id);
+
+            if (medicalR != null)
+            {
+                var newMed = new InMedicalReportDTO
+                {
+                    Id = medicalRep.Id,
+                    Description = medicalRep.Description,
+                    ReportDate = medicalRep.ReportDate,
+                    PatientId = medicalRep.PatientId,
+                    DoctorId = medicalRep.DoctorId,
+                };
+
+                var updatedReport = await _medicalReport.UpdateMedicalReport(id, newMed);
+
+
+                var medicalreport = new NewMedicalReportDTO
+                {
+                    Id = updatedReport.Id,
+                    Description = updatedReport.Description,
+                    ReportDate = updatedReport.ReportDate,
+                    PatientId = updatedReport.PatientId,
+                    DoctorId = updatedReport.DoctorId
+                };
+
+                var patient=await _context.Patients.FindAsync(medicalreport.PatientId);
+
+                return RedirectToAction("PatientMedicalReport","Auth", patient);
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MedicalRecordDetails(int id)
+        {
+            var medicalReport = await _context.MedicalReports.Include(d=>d.doctor).Include(p=>p.patient).Include(x => x.Medicines).FirstOrDefaultAsync(x=>x.Id==id);
+
+            return View(medicalReport);
+        }
+
     }
 }
