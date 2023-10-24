@@ -45,9 +45,11 @@
 	<link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/css/responsive.css">
+	<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+
 		
     </head>
-    <body>
+    <body >
 	
 		<!-- Preloader -->
      @*   <div class="preloader">
@@ -96,8 +98,7 @@
 							<!-- Contact -->
 							<ul class="top-link">
 							<li><a asp-controller ="AboutUs" >About</a></li>
-								<li><a href="#">Doctors</a></li>
-								<li><a href="#">Contact</a></li>
+
 							@if(User.Identity.IsAuthenticated)
 							{
 								<li><a asp-controller="Auth" asp-action="Profile">Profile</a></li>
@@ -107,31 +108,7 @@
 								<li><a aria-hidden="true" asp-controller="Auth" asp-action="Logout">Logout</a></li>
 
 								<li><a href="/Home">Welcome, @User.Identity.Name!</a></li>
-								@*@if (User.IsInRole("Patient"))
-								{
-									<li class="nav-item order-4 ">
-									<li><a href="/Home">Welcome Patient!</a></li>
-									</li>
-								}
-								@if (User.IsInRole("Doctor"))
-								{
-									<li class="nav-item order-4 ">
-									<li><a href="/Home">Welcome Doctor!</a></li>
-									</li>
-								}
-								@if (User.IsInRole("Receptionist"))
-								{
-									<li class="nav-item order-4 ">
-									<li><a href="/Home">Welcome Receptionist!</a></li>
-									</li>
-								}
-								@if (User.IsInRole("Nurse"))
-								{
-									<li class="nav-item order-4 ">
-									<li><a href="/Home">Welcome Nurse!</a></li>
-									</li>
-								}
-							}*@
+								
 							}
 							else
 							{
@@ -202,7 +179,8 @@
 												}
 											</ul>
 											</li>
-											
+										<li><a asp-controller="Question" asp-action="index">Q&A</a></li>
+
 										<li><a href="/ContactUs">Contact Us</a></li>
 										@if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Nurse") || User.IsInRole("Receptionist"))
 										{
@@ -216,8 +194,18 @@
 							</div>
 							<div class="col-lg-2 col-12">
 								<div class="get-quote">
+									@if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+							{
 								<a asp-controller="Appointment" asp-action="SelectDepartment" class="btn">Book Appointment</a>
+							}
+								else
+								{
+									<a href="/LogIn" class="btn">Book Appointment</a>
+
+								}
 							</div>
+							
+							
 							</div>
 						</div>
 					</div>
@@ -226,12 +214,9 @@
 			<!--/ End Header Inner -->
 		</header>
 		<!-- End Header Area -->
-	<body>
-		<div class="container">
-			@RenderBody()
-		</div>
 
-	</body>
+			@RenderBody()
+
 		
 		
 		<!-- Footer Area -->

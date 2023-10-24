@@ -1,0 +1,102 @@
+﻿@model Hospital_System.ViewModels.QuestionViewModel
+
+@{
+    ViewData["Title"] = "Questions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@if (Model.Questions.Count() == 0)
+{
+    <p>No questions available.</p>
+}
+else
+{
+    <h2 class="text-center text-primary">Questions</h2>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 mt-3 mb-3">
+                @if (Model.Questions.Count() == 0)
+                {
+                    <div class="alert alert-info" role="alert">
+                        No questions available.
+                    </div>
+                }
+                else
+                {
+                    @foreach (var question in Model.Questions)
+                    {
+                        <div class="card row-hover pos-relative py-3 px-3 mb-3 border-warning border-top-0 border-right-0 border-bottom-0 rounded-0">
+                            <div class="row align-items-center ">
+                                <div class="col-md-8 mb-3 mb-sm-0">
+                                    <h5>
+                                        <a href="#" class="text-primary">@question.Subject</a>
+                                    </h5>
+                                    <p class="text-sm">
+                                        <span class="op-6">Posted</span>
+                                        <span class="op-6"> by</span>
+                                        <a class="text-black" href="#"> @question.Patient.FirstName</a>
+                                    </p>
+
+                                </div>
+                                <div class="col-md-4 op-7">
+                                    <div class="row text-center op-7">
+
+                                        <div class="col px-1">
+                                            <i class="ion-ios-chatboxes-outline icon-1x"></i>
+
+                                            <span class="d-block text-sm">@question.AnswerCount Replys</span>
+
+                                        </div>
+                                        <div class="col px-1">
+                                            <a asp-controller="Question" asp-action="Details" asp-route-id="@question.Id">
+
+                                                <i class="ion-ios-eye-outline icon-1x"></i>
+                                                <span class="d-block text-sm"> View</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+<style>
+
+
+    body {
+        background: #eee;
+        color: #708090;
+    }
+   /* .container {
+        max-width: 10000px;
+    }*/
+    .icon-1x {
+        font-size: 24px !important;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+        .text-primary, a.text-primary:focus, a.text-primary:hover {
+            color: #1A76D1 !important;
+        }
+
+    .text-black, .text-hover-black:hover {
+        color: #000 !important;
+    }
+
+    .font-weight-bold {
+        font-weight: 700 !important;
+    }
+</style>

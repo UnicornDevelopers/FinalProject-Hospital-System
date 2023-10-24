@@ -6,7 +6,12 @@
 
 <style>
     body {
-        background: lightskyblue;
+        /* fallback for old browsers */
+        background: #3876BF;
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to bottom right, rgba(50, 147, 251, 1), rgba(45, 87, 108, 1));
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to bottom right, rgba(30, 147, 251, 1), rgba(40, 87, 108, 1))
     }
 
     .form-control:focus {

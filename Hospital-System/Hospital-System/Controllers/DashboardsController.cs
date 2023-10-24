@@ -724,12 +724,13 @@ namespace Hospital_System.Controllers
                 }
 
                 TempData["success"] = "report added successfully";
-                return RedirectToAction("PatientMedicalReport", "Auth", reportViewModel.PatientId);
+
+                return RedirectToAction("PatientMedicalReport", "Auth", new { id = reportViewModel.PatientId });
             }
             catch (Exception ex)
             {
                 TempData["fail"] = ex.Message;
-                return RedirectToAction("PatientMedicalReport", "Auth", reportViewModel.PatientId);
+                return RedirectToAction("PatientMedicalReport", "Auth", new { id = reportViewModel.PatientId });
 
             }
         }

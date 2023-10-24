@@ -2,9 +2,9 @@
 @model List<MedicalReport>
 
 <style>
-    body {
+   /* body {
         background-color: lightskyblue;
-    }
+    }*/
 
     .no-items {
         background-color: white;
@@ -42,7 +42,9 @@
 }
 else
 {
-    <table class="table" style="margin-top:50px; margin-bottom:200px;">
+    <div class="d-flex justify-content-center" style="background-color:#eee">
+
+    <table class="table w-75 align-self-center" style="margin-top:50px; margin-bottom:200px;background-color:">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
@@ -101,7 +103,7 @@ else
                         }
                         else if (User.IsInRole("Patient"))
                         {
-                            <a asp-controller="Dashboards" asp-action="GetMedicalReportPatientSide" asp-route-MedicalReportId="@item.Id"><i class="fa-solid fa-file-waveform"></i></a>
+                            <a asp-controller="Dashboards" asp-action="GetMedicalReportPatientSide" asp-route-MedicalReportId="@item.Id"><i class="fa-solid fa-file-waveform fa-lg"></i></a>
 
                         }
                     </td>
@@ -109,7 +111,7 @@ else
             }
         </tbody>
     </table>
-
+    </div>
 
 
 }

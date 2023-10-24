@@ -26,14 +26,14 @@
 
 @if (TempData["Fail"] != null)
 {
-    <div class="alert alert-danger col-md-10">
+    <div class="alert alert-danger ">
         @TempData["Fail"]
     </div>
 }
 
 @if (TempData["success"] != null)
 {
-    <div class="alert alert-success col-md-10">
+    <div class="alert alert-success ">
         @TempData["success"]
     </div>
 }
@@ -41,7 +41,7 @@
 @if (User.IsInRole("Doctor") && TempData["patientId"]!=null)
 {
     <div class="d-flex justify-content-end">
-        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@TempData["patientId"]" class="btn"><i class="fa-solid fa-plus"></i></a>
+        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@TempData["patientId"]" class="btn" style="background-color: #14274E; border-color: #14274E;"><i class="fa-solid fa-plus fa-lg" style="color:antiquewhite"></i></a>
     </div>
 }
 
