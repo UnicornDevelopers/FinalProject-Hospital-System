@@ -1,5 +1,5 @@
 ﻿@model Hospital_System.Models.DTOs.Department.InDepartmentDTO
- 
+
 
 @{
     ViewData["Title"] = "Add Department";
@@ -22,12 +22,24 @@
         <span asp-validation-for="DepartmentName" class="text-danger"></span>
     </div>
 
+    @*<div class="form-group">
+    <label asp-for="HospitalID">Hospital ID</label>
+    <input asp-for="HospitalID" class="form-control" />
+    </div>*@
     <div class="form-group">
-        <label asp-for="HospitalID">Hospital ID</label>
-        <input asp-for="HospitalID" class="form-control" />
-        <span asp-validation-for="HospitalID" class="text-danger"></span>
-    </div>
+                    <label asp-for="HospitalID">Hospital</label>
+<br />
+        <select asp-for="@Model.HospitalID" class="select form-control w-100">
+            <option value="" disabled>Choose Hospital</option>
+            @foreach (var hospital in ViewBag.Hospitals)
+            {
+                <option value="@hospital.Id">@hospital.HospitalName</option>
 
+            }
+            <span asp-validation-for="HospitalID" class="text-danger"></span>
+
+        </select>
+    </div>
 
     <div class="form-group">
         <label for="file">Select Image</label>
