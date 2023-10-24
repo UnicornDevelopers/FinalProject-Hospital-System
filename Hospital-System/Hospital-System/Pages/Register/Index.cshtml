@@ -7,8 +7,165 @@
 
 }
 
+<div class="container w-100">
+	<section class="vh-100">
+		<div class="container-fluid h-custom d-flex justify-content-center">
+			<div class="row d-flex justify-content-around align-items-center h-100">
 
-<section class="vh-100 gradient-custom mb-3">
+					<div class="col-md-3 col-lg-6 col-xl-5 d-flex justify-content-start">
+
+						<img src="https://storageaccbookimages.blob.core.windows.net/images/register.jpg" class="img-fluid" alt="Sample image">
+					</div>
+				<div class="d-flex justify-content-center">
+					<form method="post" class="w-100 ms-1">
+						<h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Registration</h3>
+
+						@Html.AntiForgeryToken()
+						<div style="font-size: 16px" asp-validation-summary="All"></div>
+
+						<div class="row">
+							<div class="col-md-6 mb-4">
+
+								<div class="form-outline">
+									<label class="form-label" for="firstName">First Name</label>
+
+									<input required asp-for="@Model.patient.FirstName" type="text" name="FirstName" id="FirstName" class="form-control form-control-lg" />
+									<span asp-validation-for="@Model.patient.FirstName" class="text-danger"></span>
+
+
+								</div>
+
+							</div>
+							<div class="col-md-6 mb-4">
+
+								<div class="form-outline">
+									<label class="form-label" for="lastName">Last Name</label>
+
+									<input required asp-for="@Model.patient.LastName" name="LastName" type="text" id="LastName" class="form-control form-control-lg" />
+									<span asp-validation-for="@Model.patient.LastName"></span>
+
+								</div>
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-4">
+
+								<div class="form-outline">
+									<label class="form-label" for="Username">Username</label>
+
+									<input asp-for="@Model.registerUser.Username" name="Username" type="text" id="Username" class="form-control form-control-lg" />
+									<span asp-validation-for="@Model.registerUser.Username" class="text-danger"></span>
+
+
+								</div>
+
+							</div>
+							<div class="col-md-6 mb-4">
+
+								<div class="form-outline">
+									<label class="form-label" for="Password">Password</label>
+
+									<input asp-for="@Model.registerUser.Password" name="Password" type="password" id="Password" class="form-control form-control-lg" />
+								</div>
+
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-4 pb-2">
+
+								<div class="form-outline">
+									<label class="form-label" for="email">Email</label>
+
+									<input required asp-for="@Model.registerUser.Email" name="Email" type="email" id="Email" class="form-control form-control-lg" />
+									<span asp-validation-for="@Model.registerUser.Email"></span>
+
+								</div>
+
+							</div>
+
+							<div class="col-md-6 mb-4  ">
+								<label class="form-label select-label">Gender</label>
+								<br />
+								<div class="px-2 ms-2">
+									<div class="form-check form-check-inline">
+										<input asp-for="@Model.patient.Gender" class="form-check-input" type="radio" name="Gender" id="femaleGender" value="Female" />
+										<label class="me-1" for="femaleGender">Female   </label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input asp-for="@Model.patient.Gender" class="form-check-input" type="radio" name="Gender" id="maleGender" value="Male" checked />
+										<label class="me-1" for="maleGender">  Male</label>
+									</div>
+								</div>
+								<span asp-validation-for="@Model.patient.Gender"></span>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-md-6 mb-4 pb-2">
+
+								<div class="form-outline">
+									<label class="form-label" for="phoneNumber">Contact Number</label>
+
+									<input required asp-for="@Model.patient.ContactNumber" name="ContactNumber" type="tel" id="ContactNumber" class="form-control form-control-lg" />
+									<span asp-validation-for="@Model.patient.ContactNumber"></span>
+
+								</div>
+
+							</div>
+							<div class="col-md-6 mb-4">
+
+								<div class="form-outline">
+									<label class="form-label" for="address">Address</label>
+
+									<input required asp-for="@Model.patient.Address" name="Address" type="text" id="Address" class="form-control form-control-lg" />
+									<span asp-validation-for="@Model.patient.Address"></span>
+
+								</div>
+
+
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-12">
+								<label class="form-label select-label">Date Of Birth</label>
+								<input required name="DoB" type="date" id="DoB" class="form-control" asp-for="@Model.patient.DoB" />
+								<span asp-validation-for="@Model.patient.DoB"></span>
+
+
+							</div>
+
+						</div>
+						<input name="Roles" type="text" id="Roles" class="form-control" asp-for="@Model.registerUser.Roles" hidden value="Patient" />
+						<span asp-validation-for="@Model.registerUser.Roles"></span>
+						<div class="d-flex justify-content-center ">
+							<button type="submit" class="btn btn-primary btn-lg mt-2" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+								Register
+							</button>
+						</div>
+						<div class="d-flex justify-content-center ">
+							<p class="small fw-bold mt-2 pt-1 mb-2" style="font-size: 16px">
+								Have an account?
+								<a asp-page="/LogIn/Index" style="color:#1A76D1">LogIn</a>
+							</p>
+						</div>
+
+					</form>
+				</div>
+
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+@*<section class="vh-100 gradient-custom mb-3">
 	<div class="container py-5 h-100">
 		<div class="row justify-content-center align-items-center h-100">
 			<div class="col-12 col-lg-9 col-xl-7">
@@ -151,7 +308,7 @@
 		</div>
 	</div>
 </section>
-
+*@
 
 <style>
 	.gradient-custom {
