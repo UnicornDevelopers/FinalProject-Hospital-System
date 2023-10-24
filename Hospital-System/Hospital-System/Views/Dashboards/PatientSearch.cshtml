@@ -34,7 +34,7 @@ else
                 <th>Contact Number</th>
                 <th>Address</th>
                 <th>Edit Patient</th>
-                @if (User.IsInRole("Doctor"))
+                @if (User.IsInRole("Doctor") || User.IsInRole("Nurse"))
 
                 {
                     <th>Add Medical Report</th>
@@ -56,7 +56,16 @@ else
                     @if (User.IsInRole("Doctor"))
                     {
                         <td>
-                            <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@patient.Id">add medical report</a>
+                            <a class="btn" asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@patient.Id"><i class="fa-solid fa-plus"></i></a><span>|</span>
+                            <a class="btn" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@patient.Id"><i class="fa-solid fa-eye"></i></a>
+
+                        </td>
+                    }
+                    else if (User.IsInRole("Nurse"))
+                    {
+                        <td>
+                            <a asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@patient.Id"><i class="fa-solid fa-eye"></i></a>
+
                         </td>
                     }
                 </tr>

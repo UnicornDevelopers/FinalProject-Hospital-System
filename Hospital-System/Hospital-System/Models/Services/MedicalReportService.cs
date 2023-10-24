@@ -216,5 +216,16 @@ namespace Hospital_System.Models.Services
                 .FirstOrDefaultAsync(mr => mr.Id == id);
         }
 
-    }
+		public async Task<List<MedicalReport>> GetMedicalReportsOfPatient(int id)
+		{
+			var medicalReports = await _context.MedicalReports
+							.Include(m => m.Medicines)
+							.Include(m => m.doctor)
+							.Include(m => m.patient)
+							.Where(m => m.PatientId == id)
+							.ToListAsync();
+
+			return medicalReports;
+		}
+	}
 }

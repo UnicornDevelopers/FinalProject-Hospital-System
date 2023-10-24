@@ -46,7 +46,9 @@ namespace Hospital_System.Models.Interfaces
         Task RemoveMedicineFromReport(int ReportId, int MedicineId);
 
 		Task<MedicalReport> GetMedicalReportWithIncludes(int id);
-       
-    }
+
+		Task<List<MedicalReport>> GetMedicalReportsOfPatient(int id);
+
+	}
 
 }

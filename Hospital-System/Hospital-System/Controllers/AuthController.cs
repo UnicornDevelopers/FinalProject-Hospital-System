@@ -13,6 +13,7 @@ using NuGet.Protocol.Plugins;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 
 namespace E_commerce_2.Controllers
 {
@@ -175,12 +176,22 @@ namespace E_commerce_2.Controllers
                 Patient = await _patient.GetPatient(patient.Id);
                 patientMedicalReport = await _db.MedicalReports.Include(m => m.Medicines).Where(x => x.PatientId == Patient.Id).ToListAsync();
             }
-			
+
 			//var medicalReporsts = Patient?.MedicalReports?.ToList();
 
-			
+			TempData["patientId"] = id;
 
             return View(patientMedicalReport);
         }
-    }
+		public async Task<IActionResult> MedicalReportsUsingUserId()
+		{
+			string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			int id = await _patient.GetPatientId(UserId);
+			var patientMedicalReport=await _medicalReport.GetMedicalReportsOfPatient(id);
+
+			return View(patientMedicalReport);
+
+		}
+	}
 }

@@ -680,89 +680,6 @@ namespace Hospital_System.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> AddMedicalReport(int patientId)
-        //{
-        //    var doctorId = await _user.GetCurrentLoggedInDoctorId();
-
-        //    if (!int.TryParse(doctorId, out int doctorIdInt))
-        //    {
-        //        // Handle the case when the doctor ID cannot be parsed as an integer.
-        //        return RedirectToAction("Error");
-        //    }
-
-        //    var patient = await _context.Patients.FindAsync(patientId);
-
-        //    if (patient == null)
-        //    {
-        //        // Handle the case when the patient is not found, for example, redirect to an error page.
-        //        return RedirectToAction("Error");
-        //    }
-
-        //    var newMedicalReport = new InMedicalReportDTO
-        //    {
-        //        PatientId = patientId, // Set the patientId in the DTO
-        //        DoctorId = doctorIdInt, // Set the DoctorId in the DTO as an int
-        //                                // Set any other properties you want to pre-populate in the form
-        //    };
-
-        //    return View(newMedicalReport);
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> AddMedicalReport(int patientId)
-        //{
-        //    // Retrieve patient information or perform any necessary operations.
-        //    var patient = await _context.Patients.FindAsync(patientId);
-
-        //    if (patient == null)
-        //    {
-        //        // Handle the case when the patient is not found, for example, redirect to an error page.
-        //        return RedirectToAction("Error");
-        //    }
-
-        //    // Initialize a new InMedicalReportDTO with any required data, and pass it to the view.
-        //    var newMedicalReport = new InMedicalReportDTO
-        //    {
-        //        PatientId = patientId, // Set the patientId in the DTO
-        //                  // Set any other properties you want to pre-populate in the form
-        //    };
-
-        //    return View(newMedicalReport);
-        //}
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddMedicalReport(InMedicalReportDTO newMedicalReportDTO)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var createdMedicalReport = await _medicalReport.CreateMedicalReport(newMedicalReportDTO);
-
-        //            if (createdMedicalReport != null)
-        //            {
-        //                // Optionally, you can redirect to a page that shows the newly created medical report.
-        //                return RedirectToAction("GetRoomsAndPatientsInDepartment", new { id = createdMedicalReport.Id });
-        //            }
-        //            else
-        //            {
-        //                // Handle the case when the medical report creation fails.
-        //                return RedirectToAction("Error");
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            // Handle any exceptions that occur during the creation of the medical report.
-        //            return RedirectToAction("Error");
-        //        }
-        //    }
-
-        //    // If ModelState is not valid, return to the same view with validation errors.
-        //    return View(newMedicalReportDTO);
-        //}
 
         public async Task<IActionResult> AddMedicalReport(int patientId)
         {
@@ -807,12 +724,13 @@ namespace Hospital_System.Controllers
                 }
 
                 TempData["success"] = "report added successfully";
-                return RedirectToAction("ViewAppointments");
+                return RedirectToAction("PatientMedicalReport", "Auth", reportViewModel.PatientId);
             }
             catch (Exception ex)
             {
                 TempData["fail"] = ex.Message;
-                return RedirectToAction("ViewAppointments");
+                return RedirectToAction("PatientMedicalReport", "Auth", reportViewModel.PatientId);
+
             }
         }
         public async Task<IActionResult> GetMedicalReportPatientSide( int MedicalReportId)
@@ -826,10 +744,6 @@ namespace Hospital_System.Controllers
             TempData["departmentName"] = dep.DepartmentName;
             return View(medicalReport);
         }
-
-
-
-
 
 
         [HttpGet]
@@ -888,5 +802,7 @@ namespace Hospital_System.Controllers
             return View(medicalReport);
         }
 
-    }
+		
+
+	}
 }

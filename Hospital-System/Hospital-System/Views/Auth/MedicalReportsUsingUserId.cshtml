@@ -1,10 +1,10 @@
-@using Hospital_System.Models.DTOs.MedicalReport;
+﻿@using Hospital_System.Models.DTOs.MedicalReport;
 @model List<MedicalReport>
-@{
-    Layout = "_AdminLayout";
-}
+
 <style>
-    
+    body {
+        background-color: lightskyblue;
+    }
 
     .no-items {
         background-color: white;
@@ -24,33 +24,19 @@
 
 <script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
 
-@if (TempData["Fail"] != null)
-{
-    <div class="alert alert-danger col-md-10">
-        @TempData["Fail"]
-    </div>
-}
 
-@if (TempData["success"] != null)
-{
-    <div class="alert alert-success col-md-10">
-        @TempData["success"]
-    </div>
-}
-
-@if (User.IsInRole("Doctor") && TempData["patientId"]!=null)
+@*@if (User.IsInRole("Doctor"))
 {
     <div class="d-flex justify-content-end">
-        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@TempData["patientId"]" class="btn"><i class="fa-solid fa-plus"></i></a>
-    </div>
-}
+        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@Model[0].PatientId" class="btn"><i class="fa-solid fa-plus"></i></a>
 
-<h2>Medical reports </h2>
+    </div>
+}*@
 @if (Model == null || Model.Count == 0)
 {
     <div class="no-items">
         <div class="center-element">
-            <h3>Has no Medical Reports</h3>
+            <h2>Has no Medical Reports</h2>
         </div>
     </div>
 }
@@ -101,7 +87,7 @@ else
             }*@
 
                     <td>
-                        @if (User.IsInRole("Doctor") )
+                        @if (User.IsInRole("Doctor"))
                         {
                             <a asp-controller="Dashboards" asp-action="EditMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> <span>|</span>
                             <a asp-controller="Dashboards" asp-action="DeleteMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a> <span>|</span>

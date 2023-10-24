@@ -7,36 +7,36 @@
 
 <style>
     body {
-        background: rgb(99, 39, 120);
+        background: lightskyblue;
     }
 
     .form-control:focus {
         box-shadow: none;
-        border-color: #BA68C8
+        border-color: #23C6D4
     }
 
     .profile-button {
-        background: rgb(99, 39, 120);
+        background: #2C9AB5;
         box-shadow: none;
         border: none;
     }
 
         .profile-button:hover {
-            background: #682773;
+            background: lightskyblue;
         }
 
         .profile-button:focus {
-            background: #682773;
+            background: #23A4AF;
             box-shadow: none
         }
 
         .profile-button:active {
-            background: #682773;
+            background: #268F98;
             box-shadow: none;
         }
 
     .back:hover {
-        color: #682773;
+        color: #23A4AF;
         cursor: pointer;
     }
 
@@ -44,19 +44,11 @@
         font-size: 11px;
     }
 
-    .add-experience{
-        margin-top: 20px;
-    }
     .add-experience:hover {
-        background: #BA68C8;
+        background: #23A4AF;
         color: #fff;
         cursor: pointer;
-        border: solid 1px #BA68C8;
-        
-    }
-
-    .experience{
-        margin-top:80px;
+        border: solid 1px #23A4AF;
     }
 </style>
 
@@ -112,13 +104,13 @@
 
 
 
-            <div class="col-md-4">
-                <div class="p-3 py-5">
-                <div class="d-flex flex-column justify-content-between align-items-center experience"><span>See Medical report</span><a class="border px-3 p-1 add-experience" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.Id">Medical report</a></div><br>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex flex-column justify-content-between align-items-center experience"><span>See Medical report</span><a class="border px-3 p-1 add-experience" asp-controller="Auth" asp-action="MedicalReportsUsingUserId">Medical report</a></div><br>
                 @*<div class="col-md-12"><label class="labels">Descriptions</label><input type="text" class="form-control" value="@(medicalReport.Select(x=>x.Description).LastOrDefault())" style="height:300px;" readonly></div> <br>
                 <div class="col-md-12"><label class="labels">Doctor Name</label><input type="text" class="form-control" value="@(medicalReport.Select(f=>f.doctor?.FirstName).LastOrDefault()) @(medicalReport.Select(f=>f.doctor?.LastName).LastOrDefault())" readonly></div>*@
-                </div>
             </div>
+        </div>
 
     </div>
 </div>

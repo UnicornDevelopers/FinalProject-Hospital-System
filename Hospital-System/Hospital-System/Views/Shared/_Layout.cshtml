@@ -11,6 +11,7 @@
 		<meta name="description" content="">
 		<meta name='copyright' content=''>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="https://kit.fontawesome.com/89a14a4c2c.js" crossorigin="anonymous"></script>
 
 		<!-- Title -->
         <title>Mediplus - Free Medical and Doctor Directory HTML Template.</title>
@@ -185,18 +186,29 @@
 
 										}
 
-											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
+											<li><a href="#">Services <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="404.html">404 Error</a></li>
-												</ul>
+												@if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+												{
+													<li>
+														<a asp-controller="Auth" asp-action="MedicalReportsUsingUserId" >View My Medical Reports</a>
+													</li>
+												}
+												else
+												{
+													<li>
+														<a  href="/LogIn">View Medical Reports</a>
+													</li>
+												}
+											</ul>
 											</li>
 											
 										<li><a href="/ContactUs">Contact Us</a></li>
-										@*@if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Nurse") || User.IsInRole("Receptionist"))
-										{*@
+										@if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Nurse") || User.IsInRole("Receptionist"))
+										{
 											<li><a asp-controller="Dashboards" asp-action="Index">Dashboard</a></li>
 
-										@*}*@
+										}
 										</ul>
 									</nav>
 								</div>
