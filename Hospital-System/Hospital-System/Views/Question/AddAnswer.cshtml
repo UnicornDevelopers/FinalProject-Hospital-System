@@ -1,0 +1,59 @@
+﻿@model Answer
+
+@{
+    ViewData["Title"] = "Add Answer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="row">
+                    <!-- Left Column for Text and Image -->
+                    <div class="col-md-6 mb-3">
+                        <div class="text-center">
+                            <p><img src="https://storageaccbookimages.blob.core.windows.net/images/doctorImage.jpg" alt="Image" class="img-fluid"></p>
+                        </div>
+                    </div>
+                    <!-- Right Column for Form with Margin -->
+                    <div class="col-md-6 mt-4">
+                        <div class="text-center">
+                            <h3 class="heading mb-4">Answer This Question</h3>
+                            @*<p>You can add more than one answer</p>*@
+
+                        </div>
+                        <form asp-action="AddAnswer" method="post" id="answerForm" name="answerForm">
+                            <div class="form-group">
+                                <label asp-for="AnswerText">Answer Text</label>
+                                <textarea asp-for="AnswerText" class="form-control" rows="10" placeholder="Write your answer"></textarea>
+                            </div>
+                            <input type="hidden" asp-for="QuestionId" value="@Model.QuestionId" />
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary rounded-0 py-2 px-4">Add Answer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .form-control {
+        border: none;
+        background: #f3f3f3;
+    }
+
+        .form-control:active, .form-control:focus {
+            outline: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            border-color: #000;
+            background: #f3f3f3;
+        }
+</style>

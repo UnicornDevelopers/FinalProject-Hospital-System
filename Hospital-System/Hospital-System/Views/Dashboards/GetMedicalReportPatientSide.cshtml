@@ -1,0 +1,223 @@
+﻿@model Hospital_System.Models.MedicalReport
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="d-flex justify-content-end">
+    <button id="download" class="btn"><i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+</div>
+<div class="container border border-gray border-2 w-75 px-4 py-2 my-3" id="medical-report">
+    <!-- Report Date -->
+    <div class="row justify-content-end">
+        <div class="col-12 text-right fw-light">
+            @Model.ReportDate
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="row">
+        <div class="col-6 text-left">
+            <span class="fw-bold " style="font-size:2rem;font-weight:700;color:#5096DC">+Medi</span><span style="font-size:2rem;font-weight:700;color:black">Plus</span>
+
+@*            <img src="https://storageaccbookimages.blob.core.windows.net/images/logoMedi.png" alt="Hospital Logo" />
+*@        </div>
+        <div class="col-6 text-right">
+            <p>ww.MediPlus.com</p>
+            <p> Khalda 77001</p>
+            <p> 123-456-7890</p>
+        </div>
+    </div>
+    <h3>Medical Report <span style="font-size:medium;font-weight:400">@Model.Id</span></h3>
+
+    <hr />
+   
+    <!-- Patient Details Section -->
+    <div class="row">
+        <div class="col-12">
+            <h4>Patient Details</h4>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-6">
+            <p>Name: @Model.patient.FirstName @Model.patient.LastName</p>
+        </div>
+        <div class="col-6">
+
+            <p>Date of Birth: @Model.patient.DoB.ToString("dd/MM/yyyy")</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+
+            <p>Contact Number: @Model.patient.ContactNumber</p>
+        </div>
+        <div class="col-6">
+
+            <p>Address: @Model.patient.Address</p>
+        </div>
+    </div>
+    <hr />
+
+    <!-- Medical Report Section -->
+    <h4>Medical Detail</h4>
+
+    <!-- Medical Report Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12">
+                    <p>
+                        Description:
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="px-2 py-2 m-2 bg-light border border-primary rounded" style="word-wrap: break-word;">
+                        <p> @Model.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+
+            <div class="row">
+@*                <h4 >Medicines</h4>
+*@                <div class="col-12">
+
+                    @if (Model.MedicinesMedicalReport != null && Model.MedicinesMedicalReport.Any())
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Medicine Name</th>
+                                    <th scope="col">Medicine Portion</th>
+                                    <th scope="col">Times In Day</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var mmr in Model.MedicinesMedicalReport)
+                                    {
+                                        if (mmr.Medicine != null)
+                                        {
+                                            <tr>
+                                                <th scope="row">@count</th>
+                                                <td>@mmr.Medicine.MedicineName</td>
+                                                <td>@mmr.MedicinePortion</td>
+                                                <td>@GetTimesInDayDescription(mmr.TimesInDay)</td>
+                                            </tr>
+                                            count++;
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>The doctor did not prescribe any medicine</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Doctor Details Section -->
+    <div class="row">
+        <div class="col-12">
+            <p>Doctor Name: @Model.doctor.FirstName @Model.doctor.LastName</p>
+            @if (TempData["departmentName"]!=null)
+            {
+                <p>Department: @TempData["departmentName"]</p>
+            }
+            else
+            {
+            <p>Speciality: @Model.doctor.Speciality</p>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="https://kit.fontawesome.com/89a14a4c2c.js" crossorigin="anonymous"></script>
+
+@functions {
+    public string GetTimesInDayDescription(MedicalAbbreviations timesInDay)
+    {
+        switch (timesInDay)
+        {
+            case MedicalAbbreviations.QD:
+                return "once a day";
+            case MedicalAbbreviations.BID:
+                return "twice a day";
+            case MedicalAbbreviations.TID:
+                return "three times a day";
+            case MedicalAbbreviations.QID:
+                return "four times daily";
+            case MedicalAbbreviations.QHS:
+                return "every night at bedtime";
+            case MedicalAbbreviations.Q4H:
+                return "every four hours";
+            case MedicalAbbreviations.Q6H:
+                return "every six hours";
+            case MedicalAbbreviations.Q8H:
+                return "every eight hours";
+            default:
+                return "";
+        }
+    }
+}
+<style>
+    .container {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        font-size:large
+    }
+
+    .border-gray {
+        border-color: #808080 !important; /* Replace with your preferred shade of gray */
+    }
+
+    h2 {
+        font-size: 1.5em;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 2.5rem;
+
+        margin-bottom: 10px;
+        font-weight:600;
+    }
+
+    h4 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    document.getElementById('download').addEventListener('click', function () {
+        var element = document.getElementById('medical-report'); // replace 'medical-report' with the id of your report's container element
+        html2pdf().from(element).save('medical-report.pdf');
+    });
+
+</script>

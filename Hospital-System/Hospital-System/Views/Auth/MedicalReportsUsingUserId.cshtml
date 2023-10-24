@@ -1,10 +1,10 @@
-@using Hospital_System.Models.DTOs.MedicalReport;
+﻿@using Hospital_System.Models.DTOs.MedicalReport;
 @model List<MedicalReport>
-@{
-    Layout = "_AdminLayout";
-}
+
 <style>
-    
+   /* body {
+        background-color: lightskyblue;
+    }*/
 
     .no-items {
         background-color: white;
@@ -24,39 +24,27 @@
 
 <script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
 
-@if (TempData["Fail"] != null)
-{
-    <div class="alert alert-danger ">
-        @TempData["Fail"]
-    </div>
-}
 
-@if (TempData["success"] != null)
-{
-    <div class="alert alert-success ">
-        @TempData["success"]
-    </div>
-}
-
-@if (User.IsInRole("Doctor") && TempData["patientId"]!=null)
+@*@if (User.IsInRole("Doctor"))
 {
     <div class="d-flex justify-content-end">
-        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@TempData["patientId"]" class="btn" style="background-color: #14274E; border-color: #14274E;"><i class="fa-solid fa-plus fa-lg" style="color:antiquewhite"></i></a>
-    </div>
-}
+        <a asp-controller="Dashboards" asp-action="AddMedicalReport" asp-route-PatientId="@Model[0].PatientId" class="btn"><i class="fa-solid fa-plus"></i></a>
 
-<h2>Medical reports </h2>
+    </div>
+}*@
 @if (Model == null || Model.Count == 0)
 {
     <div class="no-items">
         <div class="center-element">
-            <h3>Has no Medical Reports</h3>
+            <h2>Has no Medical Reports</h2>
         </div>
     </div>
 }
 else
 {
-    <table class="table" style="margin-top:50px; margin-bottom:200px;">
+    <div class="d-flex justify-content-center" style="background-color:#eee">
+
+    <table class="table w-75 align-self-center" style="margin-top:50px; margin-bottom:200px;background-color:">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
@@ -101,7 +89,7 @@ else
             }*@
 
                     <td>
-                        @if (User.IsInRole("Doctor") )
+                        @if (User.IsInRole("Doctor"))
                         {
                             <a asp-controller="Dashboards" asp-action="EditMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> <span>|</span>
                             <a asp-controller="Dashboards" asp-action="DeleteMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a> <span>|</span>
@@ -115,7 +103,7 @@ else
                         }
                         else if (User.IsInRole("Patient"))
                         {
-                            <a asp-controller="Dashboards" asp-action="GetMedicalReportPatientSide" asp-route-MedicalReportId="@item.Id"><i class="fa-solid fa-file-waveform"></i></a>
+                            <a asp-controller="Dashboards" asp-action="GetMedicalReportPatientSide" asp-route-MedicalReportId="@item.Id"><i class="fa-solid fa-file-waveform fa-lg"></i></a>
 
                         }
                     </td>
@@ -123,7 +111,7 @@ else
             }
         </tbody>
     </table>
-
+    </div>
 
 
 }

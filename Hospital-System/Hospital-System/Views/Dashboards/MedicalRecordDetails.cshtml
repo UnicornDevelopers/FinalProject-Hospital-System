@@ -5,6 +5,9 @@
     string patientFullName = Model.patient?.FirstName + " " + Model.patient?.LastName;
 }
 
+@{
+    Layout = "_AdminLayout";
+}
 <style>
     /* Container styling */
     .record-details {
@@ -16,8 +19,8 @@
         margin: 0 auto;
         text-align: left;
         font-family: Arial, sans-serif;
-        margin-top:50px;
-        margin-bottom:150px;
+        margin-top: 50px;
+        margin-bottom: 150px;
     }
 
     /* Header styling */
@@ -41,10 +44,10 @@
 
 <div>
     <h1 class="">Details of Medical Record @Model.Id</h1>
-<div class="record-details">
-    <div class="record-info">
-        <span class="record-label">Medical Record Date:</span> @Model.ReportDate<br />
-        <span class="record-label">Medical Record Description:</span> @Model.Description<br />
+    <div class="record-details">
+        <div class="record-info">
+            <span class="record-label">Medical Record Date:</span> @Model.ReportDate<br />
+            <span class="record-label">Medical Record Description:</span> @Model.Description<br />
             <span class="record-label">Doctor Name:</span> @(doctorFullName)<br />
             <span class="record-label">Patient Name:</span> @(patientFullName)<br />
             @if (Model.Medicines?.Count != 0 || Model.Medicines != null)
@@ -59,10 +62,10 @@
 
                 <br />
             }
-            
-    </div>
 
-</div>
+        </div>
+
+    </div>
     <a type="button" class="btn btn-outline-secondary deleteButton" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.PatientId" style="margin-top:-100px;">Go Back</a>
 
 </div>

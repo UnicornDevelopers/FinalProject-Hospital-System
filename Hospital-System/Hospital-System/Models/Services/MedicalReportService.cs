@@ -206,5 +206,26 @@ namespace Hospital_System.Models.Services
                 await _context.SaveChangesAsync();
             }
         }
-    }
+        public async Task<MedicalReport> GetMedicalReportWithIncludes(int id)
+        {
+            return await _context.MedicalReports
+                .Include(mr => mr.doctor)
+                .Include(mr => mr.patient)
+                .Include(mr => mr.MedicinesMedicalReport)
+                    .ThenInclude(mmr => mmr.Medicine)
+                .FirstOrDefaultAsync(mr => mr.Id == id);
+        }
+
+		public async Task<List<MedicalReport>> GetMedicalReportsOfPatient(int id)
+		{
+			var medicalReports = await _context.MedicalReports
+							.Include(m => m.Medicines)
+							.Include(m => m.doctor)
+							.Include(m => m.patient)
+							.Where(m => m.PatientId == id)
+							.ToListAsync();
+
+			return medicalReports;
+		}
+	}
 }
