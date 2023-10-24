@@ -1,0 +1,41 @@
+﻿@model Question
+
+@{
+    ViewData["Title"] = "Question Details";
+}
+
+<div class="container">
+    <h2>Question Details</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text"><strong>Subject:</strong> @Model.Subject</p>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Question:</strong> @Model.QuestionText</p>
+        </div>
+    </div>
+
+    <h3>Answers</h3>
+
+    @if (Model.Answers.Count == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            No answers available for this question.
+        </div>
+    }
+    else
+    {
+        <ul class="list-group">
+            @foreach (var answer in Model.Answers)
+            {
+                <li class="list-group-item">@answer.AnswerText</li>
+            }
+        </ul>
+    }
+
+    @if (User.IsInRole("Doctor"))
+    {
+        <a asp-action="AddAnswer" asp-route-questionId="@Model.Id" class="btn btn-success mt-3">Add Answer</a>
+    }
+</div>

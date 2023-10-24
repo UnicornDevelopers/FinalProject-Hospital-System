@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_System.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20231022235823_seedMedicine")]
-    partial class seedMedicine
+    [Migration("20231024093201_question")]
+    partial class question
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,18 +94,45 @@ namespace Hospital_System.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7b44806-b6ed-4181-854d-23e9fb883ee9",
+                            ConcurrencyStamp = "50ab61c8-1790-40ca-899d-51042cc52e25",
                             Email = "admin@gamil.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEME42gN0WorL8tVZzJ+u+j5/3YcVbmOdGdCJLKrDzmrlXfmgjJ54IrrFIy0kG2w+oQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPjv9BN8nZ7DaLzb0DhpizoyLF29acw+ubuRxTho/E2zvLocr5eylfGnBsLwQcNjcQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f79d2a2-a7a2-4fde-861f-2f34ffca6456",
+                            SecurityStamp = "b93fff66-83df-49d8-acd7-462e2b30fe17",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Appointment", b =>
@@ -557,6 +584,35 @@ namespace Hospital_System.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AnswerCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Questions");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -769,6 +825,25 @@ namespace Hospital_System.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.Answer", b =>
+                {
+                    b.HasOne("Hospital_System.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hospital_System.Models.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Appointment", b =>
                 {
                     b.HasOne("Hospital_System.Models.AppointmentSlot", "appointmentSlot")
@@ -892,6 +967,17 @@ namespace Hospital_System.Migrations
                     b.Navigation("Rooms");
                 });
 
+            modelBuilder.Entity("Hospital_System.Models.Question", b =>
+                {
+                    b.HasOne("Hospital_System.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("Hospital_System.Models.Room", b =>
                 {
                     b.HasOne("Hospital_System.Models.Department", "department")
@@ -999,6 +1085,11 @@ namespace Hospital_System.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("MedicalReports");
+                });
+
+            modelBuilder.Entity("Hospital_System.Models.Question", b =>
+                {
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("Hospital_System.Models.Room", b =>

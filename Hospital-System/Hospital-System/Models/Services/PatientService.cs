@@ -278,5 +278,11 @@ namespace Hospital_System.Models.Services
 			}
 			return null;
 		}
-	}
+
+        public async Task<int> GetPatientId(string userId)
+        {
+            var Patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
+            return Patient.Id;
+        }
+    }
 }

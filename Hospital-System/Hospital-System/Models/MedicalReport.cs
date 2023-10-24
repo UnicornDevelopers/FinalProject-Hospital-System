@@ -25,8 +25,3 @@ namespace Hospital_System.Models
 
 	}
 }
-class MedicalReportView
-{
-    public DateTime ReportDate { get; set; }
-    public string? Description { get; set; }
-}
