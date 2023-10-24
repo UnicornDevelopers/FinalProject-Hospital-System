@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Hospital_System.Models.DTOs.Room.OutRoomDTO>
+
+
+@foreach (var room in Model)
+{
+    <option value="@room.Id">@room.RoomNumber</option>
+}
+
+
+
+</div>

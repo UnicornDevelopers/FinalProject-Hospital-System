@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Department>
+
+
+@foreach (var department in Model)
+{
+    <option value="@department.Id">@department.DepartmentName</option>
+}
+
+
+</div>

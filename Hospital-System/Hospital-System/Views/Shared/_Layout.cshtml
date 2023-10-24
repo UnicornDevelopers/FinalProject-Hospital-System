@@ -94,7 +94,7 @@
 						<div class="col-lg-6 col-md-5 col-12">
 							<!-- Contact -->
 							<ul class="top-link">
-								<li><a href="#">About</a></li>
+							<li><a asp-controller ="AboutUs" >About</a></li>
 								<li><a href="#">Doctors</a></li>
 								<li><a href="#">Contact</a></li>
 							@if(User.Identity.IsAuthenticated)
@@ -192,11 +192,11 @@
 											</li>
 											
 										<li><a href="/ContactUs">Contact Us</a></li>
-										@if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Nurse") || User.IsInRole("Receptionist"))
-										{
+										@*@if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Doctor") || User.IsInRole("Nurse") || User.IsInRole("Receptionist"))
+										{*@
 											<li><a asp-controller="Dashboards" asp-action="Index">Dashboard</a></li>
 
-										}
+										@*}*@
 										</ul>
 									</nav>
 								</div>

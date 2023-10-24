@@ -1,7 +1,9 @@
-﻿@using Hospital_System.Models.DTOs.MedicalReport;
-@model NewMedicalReportDTO
+﻿@model MedicalReport
 
-
+@{
+    string doctorFullName = Model.doctor?.FirstName + " " + Model.doctor?.LastName;
+    string patientFullName = Model.patient?.FirstName + " " + Model.patient?.LastName;
+}
 
 <style>
     /* Container styling */
@@ -43,11 +45,24 @@
     <div class="record-info">
         <span class="record-label">Medical Record Date:</span> @Model.ReportDate<br />
         <span class="record-label">Medical Record Description:</span> @Model.Description<br />
-            <span class="record-label">Doctor Name:</span> @(ViewBag.DoctorName)<br />
-            <span class="record-label">Patient Name:</span> @(ViewBag.PatientName)<br />
+            <span class="record-label">Doctor Name:</span> @(doctorFullName)<br />
+            <span class="record-label">Patient Name:</span> @(patientFullName)<br />
+            @if (Model.Medicines?.Count != 0 || Model.Medicines != null)
+            {
+                <span class="record-label">Medicens:</span>
+                <ul>
+                    @foreach (var item in Model.Medicines)
+                    {
+                        <li>Name: <span>@item.MedicineName</span> ,Portion: <span>@item.Portion</span></li>
+                    }
+                </ul>
+
+                <br />
+            }
+            
     </div>
 
 </div>
-    <a type="button" class="btn btn-outline-secondary deleteButton" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.PatientId" style="margin-top:-100px;">Cancel</a>
+    <a type="button" class="btn btn-outline-secondary deleteButton" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.PatientId" style="margin-top:-100px;">Go Back</a>
 
 </div>

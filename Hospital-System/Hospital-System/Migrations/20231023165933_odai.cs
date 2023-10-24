@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hospital_System.Migrations
 {
     /// <inheritdoc />
-    public partial class seedDepartments : Migration
+    public partial class odai : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -378,7 +378,7 @@ namespace Hospital_System.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicineName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Portion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Portion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MedicalReportId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -389,6 +389,32 @@ namespace Hospital_System.Migrations
                         column: x => x.MedicalReportId,
                         principalTable: "MedicalReports",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MedicineMedicalReports",
+                columns: table => new
+                {
+                    MedicalReportID = table.Column<int>(type: "int", nullable: false),
+                    MedicineID = table.Column<int>(type: "int", nullable: false),
+                    MedicinePortion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TimesInDay = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicineMedicalReports", x => new { x.MedicalReportID, x.MedicineID });
+                    table.ForeignKey(
+                        name: "FK_MedicineMedicalReports_MedicalReports_MedicalReportID",
+                        column: x => x.MedicalReportID,
+                        principalTable: "MedicalReports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MedicineMedicalReports_Medicines_MedicineID",
+                        column: x => x.MedicineID,
+                        principalTable: "Medicines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -407,12 +433,27 @@ namespace Hospital_System.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "245229e8-b989-4d2a-8f96-64b9a597f040", "admin@gamil.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS1ejh046VxcdInTVbdB/JHg40a1mTZMnb1ElwCK5PovfU4uhl8W7Mrx23XXBqfHw==", null, false, "93b2d4fd-1752-43e2-a1a7-812b674dc7d9", false, "admin" });
+                values: new object[] { "1", 0, "1c3b6fc2-7764-46ed-9673-64332b0fff86", "admin@gamil.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEAx7ap3AvkB6gaZvmi9pwDmLOC7FnMgaG1o5b9j6mfmSk3Upj5Ae9Unbs604ubwThA==", null, false, "01a08462-bab4-436c-a069-79014d7dbe87", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Hospitals",
                 columns: new[] { "Id", "Address", "ContactNumber", "HospitalName" },
                 values: new object[] { 1, "Test", "079999999", "Test" });
+
+            migrationBuilder.InsertData(
+                table: "Medicines",
+                columns: new[] { "Id", "MedicalReportId", "MedicineName", "Portion" },
+                values: new object[,]
+                {
+                    { 1, null, "Ibuprofen", "200mg" },
+                    { 2, null, "Paracetamol", "500mg" },
+                    { 3, null, "Amoxicillin", "250mg" },
+                    { 4, null, "Aspirin", "325mg" },
+                    { 5, null, "Cetirizine", "10mg" },
+                    { 6, null, "Diclofenac", "50mg" },
+                    { 7, null, "Erythromycin", "500mg" },
+                    { 8, null, "Furosemide", "40mg" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -516,6 +557,11 @@ namespace Hospital_System.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MedicineMedicalReports_MedicineID",
+                table: "MedicineMedicalReports",
+                column: "MedicineID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Medicines_MedicalReportId",
                 table: "Medicines",
                 column: "MedicalReportId");
@@ -558,7 +604,7 @@ namespace Hospital_System.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Medicines");
+                name: "MedicineMedicalReports");
 
             migrationBuilder.DropTable(
                 name: "Nurses");
@@ -571,6 +617,9 @@ namespace Hospital_System.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Medicines");
 
             migrationBuilder.DropTable(
                 name: "MedicalReports");

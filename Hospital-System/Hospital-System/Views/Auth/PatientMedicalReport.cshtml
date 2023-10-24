@@ -6,6 +6,19 @@
         background-color: lightskyblue;
     }
 
+    .no-items{
+        background-color:white;
+        width:100%;
+        height:100px;
+        border-radius:10px;
+        text-align:center;
+        margin-bottom:50px;
+    }
+
+    .center-element{
+        padding-top: 3%
+    }
+
 </style>
 
      
@@ -13,8 +26,10 @@
 
 @if(Model==null || Model.Count==0)
 {
-    <div>
-        <span>Has no Medical Repoerts</span>
+    <div class="no-items">
+        <div class="center-element">
+        <h2>Has no Medical Repoerts</h2>
+        </div>
     </div>
 }
 else
@@ -26,6 +41,7 @@ else
                 <th scope="col">Repoert Date</th>
                 <th scope="col">Description</th>
                 <th scope="col">Doctor Name</th>
+                <th scope="col">Medicens</th>
                 <th scope="col"> Actions</th>
             </tr>
         </thead>
@@ -39,9 +55,25 @@ else
                     <th scope="row">@item.ReportDate</th>
                     <td>@item.Description</td>
                     <td>@item.doctor?.FirstName @item.doctor?.LastName</td>
+                    @if(item.Medicines?.Count!=0 || item.Medicines!=null)
+                    {
+                        <td>
+                            <ul>
+                                @foreach(var medItem in item.Medicines)
+                                {
+                                    <li>Name: <span>@medItem.MedicineName</span> ,Portion: <span>@medItem.Portion</span></li>
+                                }
+                            </ul>
+                        </td>
+                    }
+                    
                     <td>
-                        <a asp-controller="Dashboards" asp-action="EditMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> |
-                        <a asp-controller="Dashboards" asp-action="DeleteMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a> |
+                        @if (User.IsInRole("Doctor"))
+                        {
+                            <a asp-controller="Dashboards" asp-action="EditMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> <span>|</span>
+                            <a asp-controller="Dashboards" asp-action="DeleteMedicalReport" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a> <span>|</span>
+                        }
+                        
                         <a asp-controller="Dashboards" asp-action="MedicalRecordDetails" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info"></i></a>
                     </td>
                 </tr>
