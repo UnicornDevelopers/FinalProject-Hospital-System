@@ -15,86 +15,89 @@ using System.Security.Claims;
 
 namespace Hospital_System.Controllers
 {
-	public class AppointmentController : Controller
-	{
-		private readonly IAppointment _appointmentService;
-		private readonly IDepartment _departmentService;
-		private readonly IAppointmentSlot _appointmentSlotService;
-		private readonly IDoctor _doctorService;
+    public class AppointmentController : Controller
+    {
+        private readonly IAppointment _appointmentService;
+        private readonly IDepartment _departmentService;
+        private readonly IAppointmentSlot _appointmentSlotService;
+        private readonly IDoctor _doctorService;
 
 
-		public AppointmentController(IAppointment appointmentService, IDepartment departmentService, IAppointmentSlot appointmentSlotService,IDoctor doctorService)
-		{
-			_appointmentService = appointmentService;
-			_departmentService = departmentService;
-			_appointmentSlotService = appointmentSlotService;
-			_doctorService = doctorService;
+        public AppointmentController(IAppointment appointmentService, IDepartment departmentService, IAppointmentSlot appointmentSlotService, IDoctor doctorService)
+        {
+            _appointmentService = appointmentService;
+            _departmentService = departmentService;
+            _appointmentSlotService = appointmentSlotService;
+            _doctorService = doctorService;
 
         }
 
 
 
 
-		//public async Task<IActionResult> Index()
-		//{
-		//    var appointments = await _appointmentService.GetAppointments();
+        //public async Task<IActionResult> Index()
+        //{
+        //    var appointments = await _appointmentService.GetAppointments();
 
-		//    var appointmentDTOs = appointments.Select(outAppointment => new AppointmentDTO
-		//    {
-		//        IsAvailable = outAppointment.IsAvailable
-		//    }).ToList();
+        //    var appointmentDTOs = appointments.Select(outAppointment => new AppointmentDTO
+        //    {
+        //        IsAvailable = outAppointment.IsAvailable
+        //    }).ToList();
 
-		//    return View(appointmentDTOs);
-		//}
+        //    return View(appointmentDTOs);
+        //}
 
 
 
-		public async Task<IActionResult> SelectDepartment()
-		{
-			var departments = await _departmentService.GetDepartments();
+        public async Task<IActionResult> SelectDepartment()
+        {
+            var departments = await _departmentService.GetDepartments();
 
-			var departmentDTOs = departments.Select(outdepartment => new DepartmentDTO
-			{
-				Id = outdepartment.Id,
-				DepartmentName = outdepartment.DepartmentName,
-                Image= outdepartment.Image,
+            var departmentDTOs = departments.Select(outdepartment => new DepartmentDTO
+            {
+                Id = outdepartment.Id,
+                DepartmentName = outdepartment.DepartmentName,
+                Image = outdepartment.Image,
 
                 Description = outdepartment.Description
 
-			}).ToList();
+            }).ToList();
 
-			return View(departmentDTOs);
-		}
-
-
+            return View(departmentDTOs);
+        }
 
 
-		[HttpGet]
-		public async Task<IActionResult> SelectDoctor(int departmentId)
-		{
-			var doctors = await _departmentService.GetDoctorsInDepartment(departmentId);
-			var department = await _departmentService.GetDepartment(departmentId);
 
 
-			var appointmentDTO = new AppointmentDTO
-			{
-				Id = departmentId
-			};
+        [HttpGet]
+        public async Task<IActionResult> SelectDoctor(int departmentId)
+        {
+            var doctors = await _departmentService.GetDoctorsInDepartment(departmentId);
+            var department = await _departmentService.GetDepartment(departmentId);
 
-			ViewBag.Doctors = doctors;
-			ViewBag.DepartmentName = department.DepartmentName; // Pass the department name to the view
 
-			return View(appointmentDTO);
-		}
+            var appointmentDTO = new AppointmentDTO
+            {
+                Id = departmentId
+            };
+            if (!doctors.Any())
+            {
+                TempData["noDoctor"] = "true";
+            }
+            ViewBag.Doctors = doctors;
+            ViewBag.DepartmentName = department.DepartmentName; // Pass the department name to the view
+
+            return View(appointmentDTO);
+        }
 
 
         public async Task<IActionResult> SelectTimeSlot(int doctorId, int pageIndex = 1)
         {
-			int pageSize = 6;
+            int pageSize = 6;
 
-            var doctor=await _doctorService.GetDoctor(doctorId);
+            var doctor = await _doctorService.GetDoctor(doctorId);
 
-			TempData["doctorName"] = $"{doctor.FirstName} {doctor.LastName}";
+            TempData["doctorName"] = $"{doctor.FirstName} {doctor.LastName}";
             TempData["doctorId"] = doctor.Id;
             var appointmentSlots = await _appointmentSlotService.GetTimeSlotView(doctorId);
 
@@ -111,31 +114,31 @@ namespace Hospital_System.Controllers
 
 
         [HttpPost]
-		public async Task<IActionResult> AddAppointment(int doctorId, DateTime date, TimeSpan time)
-		{
-			string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        public async Task<IActionResult> AddAppointment(int doctorId, DateTime date, TimeSpan time)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			TimeSlotViewDto timeSlot = new TimeSlotViewDto
-			{
-				DoctorId = doctorId,
-				DateView = date,
-				HourView = time
-			};
+            TimeSlotViewDto timeSlot = new TimeSlotViewDto
+            {
+                DoctorId = doctorId,
+                DateView = date,
+                HourView = time
+            };
 
-			try
-			{
-				await _appointmentSlotService.AddAppointment(timeSlot, UserId);
-				TempData["success"] = "Appointment has booked successfully";
+            try
+            {
+                await _appointmentSlotService.AddAppointment(timeSlot, UserId);
+                TempData["success"] = "Appointment has booked successfully";
 
-				return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });
-			}
-			catch (Exception ex)
-			{
-				TempData["fail"] = ex.Message;
+                return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });
+            }
+            catch (Exception ex)
+            {
+                TempData["fail"] = ex.Message;
 
-				return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });
-			}
-		}
+                return RedirectToAction("SelectTimeSlot", new { doctorId = doctorId });
+            }
+        }
 
 
         [HttpGet]
