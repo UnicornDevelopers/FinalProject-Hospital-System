@@ -22,8 +22,10 @@ namespace Hospital_System.Models.Services
         {
             return await _context.Questions
                 .Include(q => q.Answers)
+                .ThenInclude(a => a.Doctor)
                 .FirstOrDefaultAsync(q => q.Id == id);
         }
+
 
         public async Task AddQuestionAsync(Question question, string userId)
         {

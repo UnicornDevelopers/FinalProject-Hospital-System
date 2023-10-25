@@ -42,6 +42,8 @@ namespace Hospital_System.Models.Interfaces
 		Task Delete(int id);
 
 		Task<int> GetPatientId(string userId);
+		Task<Patient> GetPatientById(int PatientID);
+
 
 
     }
