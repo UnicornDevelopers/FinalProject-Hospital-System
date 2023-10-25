@@ -17,8 +17,17 @@
                             <h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
                             <p>We have built this system for the convenience of visitors, book your appointment, take a medical consultation, and more. </p>
                             <div class="button">
-                                <a href="/Appointment/SelectDepartment" class="btn">Get Appointment</a>
-                                <a href="/ContactUs" class="btn primary">Contact Now</a>
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                                {
+                                    <a asp-controller="Appointment" asp-action="SelectDepartment" class="btn">Get Appointment</a>
+                                }
+                                else
+                                {
+                                    <a href="/LogIn" class="btn">Get Appointment</a>
+
+                                }
+@*                                <a href="/Appointment/SelectDepartment" class="btn">Get Appointment</a>
+*@                                <a href="/ContactUs" class="btn primary">Contact Now</a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +44,16 @@
                             <h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
                             <p>We have built this system for the convenience of visitors, book your appointment, take a medical consultation, and more. </p>
                             <div class="button">
-                                <a href="/Appointment/SelectDepartment" class="btn">Get Appointment</a>
+@*                                <a href="/Appointment/SelectDepartment" class="btn">Get Appointment</a>
+*@                                @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                                {
+                                    <a asp-controller="Appointment" asp-action="SelectDepartment" class="btn">Get Appointment</a>
+                                }
+                                else
+                                {
+                                    <a href="/LogIn" class="btn">Get Appointment</a>
+
+                                }
                                 <a href="/ContactUs" class="btn primary">Contact Now</a>
                             </div>
                         </div>
@@ -53,7 +71,16 @@
                             <h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
                             <p>We have built this system for the convenience of visitors, book your appointment, take a medical consultation, and more. </p>
                             <div class="button">
-                                <a href="/Appointment/SelectDepartment" class="btn">Get Appointment</a>
+@*                                <a href="/Appointment/SelectDepartment" class="btn">Get Appointment</a>
+*@                                @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                                {
+                                    <a asp-controller="Appointment" asp-action="SelectDepartment" class="btn">Get Appointment</a>
+                                }
+                                else
+                                {
+                                    <a href="/LogIn" class="btn">Get Appointment</a>
+
+                                }
                                 <a href="/ContactUs" class="btn primary">Contact Now</a>
                             </div>
                         </div>
