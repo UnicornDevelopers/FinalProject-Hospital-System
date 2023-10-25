@@ -71,8 +71,9 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4> <i class="fa-solid fa-pen-to-square" id="edit-doctor-profile-icon" style="cursor:pointer;"></i>
                 </div>
-                <form method="post" asp-controller="Dashboards" asp-action="UpdateDoctor">
+                <form method="post" asp-controller="Dashboards" asp-action="UpdateDoctorProfile">
                     <input asp-for="Id" hidden />
+                    <input asp-for="DepartmentId" hidden />
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">First Name</label><input asp-for="FirstName" type="text" class="form-control editableDoctor" value="@Model.FirstName" readonly></div>
                         <div class="col-md-6"><label class="labels">Last Name</label><input asp-for="LastName" type="text" class="form-control editableDoctor" value="@Model.LastName" readonly></div>

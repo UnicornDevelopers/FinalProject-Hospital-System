@@ -795,15 +795,92 @@ namespace Hospital_System.Controllers
             return NotFound();
         }
 
+
         [HttpGet]
         public async Task<IActionResult> MedicalRecordDetails(int id)
         {
-            var medicalReport = await _context.MedicalReports.Include(d=>d.doctor).Include(p=>p.patient).Include(x => x.Medicines).FirstOrDefaultAsync(x=>x.Id==id);
+            var medicalReport = await _context.MedicalReports.Include(x => x.MedicinesMedicalReport!).ThenInclude(m => m.Medicine).Include(p => p.patient).Include(d => d.doctor).FirstOrDefaultAsync(x => x.Id == id);
+
 
             return View(medicalReport);
         }
 
-		
+        [HttpPost]
+        public async Task<IActionResult> UpdatePatientProfile(int id, PatientDTO patientDTO)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient != null)
+            {
+                var InPatient = new InPatientDTO
+                {
+                    Id = patientDTO.Id,
+                    FirstName = patientDTO.FirstName,
+                    LastName = patientDTO.LastName,
+                    ContactNumber = patientDTO.ContactNumber,
+                    Gender = patientDTO.Gender,
+                    UserId = patient.UserId,
+                    DoB = patientDTO.DoB,
+                    RoomId = patientDTO.RoomId,
+                    Address = patientDTO.Address
+                };
+                var current = await _patient.UpdatePatient(id, InPatient);
 
-	}
+                var updatedPatient = await _context.Patients.FindAsync(id);
+                return RedirectToAction("PatientProfile", "Auth", updatedPatient);
+            }
+            return null; // Or the updated patient details
+        }
+
+        [HttpPost]
+        // This is your original service method modified to be used within the controller.
+        public async Task<IActionResult> UpdateDoctorProfile(int id, DoctorDTO doctorDTO)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor != null)
+            {
+                var InDoctor = new InDoctorDTO
+                {
+                    Id = doctorDTO.Id,
+                    FirstName = doctorDTO.FirstName,
+                    LastName = doctorDTO.LastName,
+                    ContactNumber = doctorDTO.ContactNumber,
+                    Speciality = doctorDTO.Speciality,
+                    Gender = doctorDTO.Gender,
+                    FullName = doctorDTO.FirstName + " " + doctorDTO.LastName,
+                    DepartmentId = doctorDTO.DepartmentId,
+                    UserId = doctor.UserId
+                };
+                var current = await _doctor.UpdateDoctor(id, InDoctor);
+
+                var updatedDoctor = await _context.Doctors.FindAsync(id);
+                return RedirectToAction("DoctorProfile", "Auth", updatedDoctor);
+            }
+            return null;
+        }
+
+
+        public async Task<IActionResult> UpdateNurseProfile(int id, NurseDTO nurseDTO)
+        {
+            var nurse = await _context.Nurses.FindAsync(id);
+            if (nurse != null)
+            {
+                var InNurse = new InNurseDTO
+                {
+                    Id = nurseDTO.Id,
+                    FirstName = nurseDTO.FirstName,
+                    LastName = nurseDTO.LastName,
+                    ContactNumber = nurseDTO.ContactNumber,
+                    Gender = nurseDTO.Gender,
+                    DepartmentId = nurseDTO.DepartmentId,
+                    Shift = nurseDTO.Shift,
+                    UserId = nurse.UserId
+                };
+                var current = await _nurse.UpdateNurse(id, InNurse);
+
+                var updatedNurse = await _context.Nurses.FindAsync(id);
+                return RedirectToAction("NurseProfile", "Auth", updatedNurse);
+            }
+            return null;
+        }
+    }
 }
