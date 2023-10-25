@@ -20,11 +20,13 @@ namespace Hospital_System.Controllers
 
         private readonly IQuestion _questionService;
         private readonly HospitalDbContext _context;
+        private readonly IPatient _patient;
 
-        public QuestionController(IQuestion questionService, HospitalDbContext context)
+        public QuestionController(IQuestion questionService, HospitalDbContext context, IPatient patient)
         {
             _questionService = questionService;
             _context = context;
+            _patient = patient;
         }
 
         public async Task<IActionResult> Index()
@@ -44,9 +46,17 @@ namespace Hospital_System.Controllers
             return View(viewModel);
         }
 
+      
         public async Task<IActionResult> Details(int id)
         {
+
             var question = await _questionService.GetQuestionByIdAsync(id);
+
+            question.Answers = await _questionService.GetAnswersForQuestionAsync(id);
+            question.AnswerCount = question.Answers.Count;
+            question.Patient = await _patient.GetPatientById(question.PatientId);
+
+
             return View(question);
         }
 
