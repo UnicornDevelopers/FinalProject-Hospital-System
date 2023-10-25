@@ -72,6 +72,7 @@
                 </div>
                 <form method="post" asp-controller="Dashboards" asp-action="UpdateNurseProfile">
                     <input asp-for="Id" hidden />
+                    <input asp-for="DepartmentId" hidden />
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">First Name</label><input asp-for="FirstName" type="text" class="form-control editableNurse" value="@Model.FirstName" readonly></div>
                         <div class="col-md-6"><label class="labels">Last Name</label><input asp-for="LastName" type="text" class="form-control editableNurse" value="@Model.LastName" readonly></div>

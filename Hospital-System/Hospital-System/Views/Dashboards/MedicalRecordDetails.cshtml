@@ -50,14 +50,14 @@
             <span class="record-label">Medical Record Description:</span> @Model.Description<br />
             <span class="record-label">Doctor Name:</span> @(doctorFullName)<br />
             <span class="record-label">Patient Name:</span> @(patientFullName)<br />
-            @if (Model.Medicines?.Count != 0 || Model.Medicines != null)
+            @if (Model.MedicinesMedicalReport != null && Model.MedicinesMedicalReport.Any())
             {
                 <span class="record-label">Medicens:</span>
                 <ul>
-                    @foreach (var item in Model.Medicines)
-                    {
-                        <li>Name: <span>@item.MedicineName</span> ,Portion: <span>@item.Portion</span></li>
-                    }
+                @foreach (var item in Model.MedicinesMedicalReport)
+                {
+                    <li>Name: <span>@item.Medicine?.MedicineName</span> ,Portion: <span>@item.Medicine?.Portion</span></li>
+                }
                 </ul>
 
                 <br />
