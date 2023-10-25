@@ -5,24 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<div class="container d-flex w-75  justify-content-end">
 
+
+    @if (User.IsInRole("Patient"))
+    {
+        <a asp-controller="Question" asp-action="Create" class="btn btn-primary">Create New Question <i class="fa-solid fa-plus"></i></a>
+    }
+</div>
 
 @if (Model.Questions.Count() == 0)
 {
-    <p>No questions available.</p>
+    <p class="no-items">No questions available.</p>
 }
 else
 {
     <h2 class="text-center text-primary">Questions</h2>
 
     <div class="container">
-        <div class="row justify-content-end">
-
-        @if (User.IsInRole("Patient"))
-        {
-            <a asp-controller="Question" asp-action="Create" class="btn btn-primary mb-2 ms-2">Create New Question</a>
-        }
-        </div>
+        
         <div class="row justify-content-center">
             <div class="col-lg-12 mt-3 mb-3">
                 @if (Model.Questions.Count() == 0)
@@ -106,4 +107,20 @@ else
     .font-weight-bold {
         font-weight: 700 !important;
     }
+
+
+
+    .no-items {
+        width: 100%;
+        height: 100px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 50px;
+        font-size:2rem
+    }
+
+    .center-element {
+        padding-top: 3%
+    }
+
 </style>
