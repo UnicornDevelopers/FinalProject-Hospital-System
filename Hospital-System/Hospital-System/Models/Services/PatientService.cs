@@ -279,10 +279,28 @@ namespace Hospital_System.Models.Services
 			return null;
 		}
 
+
         public async Task<int> GetPatientId(string userId)
         {
             var Patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == userId);
             return Patient.Id;
+        }
+        public async Task<Patient> GetPatientById(int PatientID)
+        {
+            var Patient = await _context.Patients
+            .Include(r => r.Rooms)
+            .ThenInclude(d => d.department)
+            .Include(p => p.MedicalReports)
+            .ThenInclude(mr => mr.doctor)
+            .FirstOrDefaultAsync(f => f.Id == PatientID);
+            if (Patient == null)
+            {
+                return null;
+            }
+
+            return Patient;
+
+
         }
     }
 }

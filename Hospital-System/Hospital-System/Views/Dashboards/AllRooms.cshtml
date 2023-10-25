@@ -5,12 +5,25 @@
     Layout = "_AdminLayout";
 }
 
-<h2>Room Details</h2>
+@if (TempData["Failed"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Failed"]
+    </div>
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["success"]
+    </div>
+}
+<h2>All Rooms </h2>
 
 
 @if (Model == null || !Model.Any())
 {
-    <p>No patients found.</p>
+    <p>No Rooms found.</p>
 }
 else
 {
@@ -22,7 +35,7 @@ else
                 <th>Room Availability</th>
                 <th>Number of Beds</th>
                 <th>Delete Room</th>
-                <th>Edit Patient</th>
+                <th>Edit Room</th>
             </tr>
         </thead>
         <tbody>

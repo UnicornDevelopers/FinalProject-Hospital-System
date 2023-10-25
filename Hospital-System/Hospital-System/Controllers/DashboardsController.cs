@@ -18,16 +18,16 @@ using System.Security.Claims;
 
 namespace Hospital_System.Controllers
 {
-	public class DashboardsController : Controller
-	{
+    public class DashboardsController : Controller
+    {
 
-		private readonly IDepartment _department;
-		private readonly IHospital _hospital;
+        private readonly IDepartment _department;
+        private readonly IHospital _hospital;
         private readonly IAppointment _appointment;
         private readonly IPatient _patient;
         private readonly IRoom _room;
         private readonly INurse _nurse;
-		private readonly IDoctor _doctor;
+        private readonly IDoctor _doctor;
         private readonly IMedicalReport _medicalReport;
         private readonly IUser _user;
         private readonly IMedicine _medicine;
@@ -36,69 +36,77 @@ namespace Hospital_System.Controllers
 
         private readonly HospitalDbContext _context;
 
-		public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment,IPatient patient,IRoom room,INurse nurse,IDoctor doctor,IMedicalReport medicalReport,IUser user,IMedicine medicine)
-		{
-			_department = department;
-			_hospital = hospital;
-			_context = context;
-			_appointment = appointment;
-			_patient = patient;
-			_room = room;
+        public DashboardsController(IDepartment department, IHospital hospital, HospitalDbContext context, IAppointment appointment, IPatient patient, IRoom room, INurse nurse, IDoctor doctor, IMedicalReport medicalReport, IUser user, IMedicine medicine)
+        {
+            _department = department;
+            _hospital = hospital;
+            _context = context;
+            _appointment = appointment;
+            _patient = patient;
+            _room = room;
             _nurse = nurse;
-			_doctor = doctor;
+            _doctor = doctor;
             _medicalReport = medicalReport;
             _user = user;
             _medicine = medicine;
-		}
+        }
 
 
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
 
 
-		[HttpGet]
-		public IActionResult AddDepartment()
-		{
-			return View();
-		}
-
-		
-
-		[HttpPost]
-		public async Task<IActionResult> AddDepartment(InDepartmentDTO department, IFormFile file)
-		{
-			if (ModelState.IsValid && file != null)
-			{
-				// Upload the image to Azure Blob Storage and get the URI
-				await _department.GetFile(file, department);
-
-				// Save the product to the database
-				await _department.CreateDepartment(department);
-
-				return RedirectToAction("Index", "Home");
-			}
-
-			return View(department);
-		}
+        [HttpGet]
+        public async Task<IActionResult> AddDepartment()
+        {
+            ViewBag.Hospitals = await _hospital.GetHospitals();
+            return View();
+        }
 
 
 
-		[HttpGet]
-		public IActionResult AddHospital()
-		{
-			return View();
-		}
+        [HttpPost]
+        public async Task<IActionResult> AddDepartment(InDepartmentDTO department, IFormFile file)
+        {
+            ViewBag.Hospitals = await _hospital.GetHospitals();
 
-		[HttpPost]
-		public async Task<IActionResult> AddHospital(OutHospitalDTO hospital)
-		{
-			await _hospital.Create(hospital);
+            if (ModelState.IsValid && file != null)
+            {
+                // Upload the image to Azure Blob Storage and get the URI
+                await _department.GetFile(file, department);
 
-			return View(hospital);
-		}
+                // Save the product to the database
+                await _department.CreateDepartment(department);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(department);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult AddHospital()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddHospital(OutHospitalDTO hospital)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(hospital);
+            }
+
+            await _hospital.Create(hospital);
+
+            return View(hospital);
+        }
 
 
 
@@ -119,158 +127,174 @@ namespace Hospital_System.Controllers
 
         [HttpPost, ActionName("DeleteRoom")]
         [ValidateAntiForgeryToken]
-		public async Task<IActionResult> ConfirmDeleteRoom(int id)
-		{
-			try
-			{
-				var room = await _context.Rooms.FindAsync(id);
+        public async Task<IActionResult> ConfirmDeleteRoom(int id)
+        {
 
-				if (room == null)
-				{
-					return NotFound();
-				}
+            var room = await _context.Rooms.Include(r => r.Patients).FirstOrDefaultAsync(r => r.Id == id);
+            if (room == null)
+            {
+                return NotFound();
+            }
 
-				_context.Entry(room).State = EntityState.Deleted;
-				await _context.SaveChangesAsync();
+            if (room.Patients != null && room.Patients.Count > 0)
+            {
+                TempData["failed"] = "Cannot delete room because it has patients.";
+                return RedirectToAction("AllRooms");
+            }
 
-				return RedirectToAction("Rooms"); // Redirect to a page displaying the list of rooms after deletion.
-			}
-			catch (Exception ex)
-			{
-				// Handle the exception as needed and optionally redirect to an error view.
-				return View("ErrorView");
-			}
-		}
+            _context.Rooms.Remove(room);
+            await _context.SaveChangesAsync();
+            TempData["success"] = "The room deleted successfully. ";
 
-
-            [HttpGet]
-		public async Task<IActionResult> UpdateDepartment(int? id)
-		{
-			if (id == null || _context.Departments == null)
-			{
-				return NotFound();
-			}
-
-			var department = await _context.Departments.FindAsync(id);
-			if (department == null)
-			{
-				return NotFound();
-			}
-			return View(department);
-		}
+            return RedirectToAction("AllRooms");
+        }
+    
+        
 
 
-		[HttpPost]
-		public async Task<IActionResult> UpdateDepartment(int id, OutDepartmentDTO updateDepartmentDTO, IFormFile? file)
-		{
-			if (file != null)
-			{
-				await _department.GetFile2(file, updateDepartmentDTO);
+        [HttpGet]
+        public async Task<IActionResult> UpdateDepartment(int? id)
+        {
+            if (id == null || _context.Departments == null)
+            {
+                return NotFound();
+            }
 
-			}
+            var department = await _context.Departments.FindAsync(id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            OutDepartmentDTO dep = new OutDepartmentDTO
+            {
+                Id = department.Id,
+                DepartmentName = department.DepartmentName,
+                Image = department.Image,
+                Description = department.Description
+            };
 
-			await _department.UpdateDepartment(id, updateDepartmentDTO);
-			return RedirectToAction("UpdateDepartment", "Dashboards");
-		}
-
-
-		[HttpGet]
-		public async Task<IActionResult> GetDepartments()
-		{
-			try
-			{
-				var departments = await _department.GetDepartments();
-
-				if (departments == null || departments.Count == 0)
-				{
-					ViewData["ErrorMessage"] = "No departments found.";
-					return View();
-				}
-
-				return View(departments);
-			}
-			catch (Exception ex)
-			{
-				ViewData["ErrorMessage"] = $"An error occurred while retrieving departments: {ex.Message}";
-				return View();
-			}
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> DeleteDepartment(int id)
-		{
-			var department = await _context.Departments.FindAsync(id);
-
-			if (department == null)
-			{
-				// Handle case where department is not found
-				return NotFound();
-			}
-
-			return View(department);
-		}
+            return View(dep);
+        }
 
 
-		[HttpPost, ActionName("DeleteDepartment")]
-		public async Task<IActionResult> ConfirmDelete(int id)
-		{
-			var department = await _context.Departments.FindAsync(id);
+        [HttpPost]
+        public async Task<IActionResult> UpdateDepartment(int id, OutDepartmentDTO updateDepartmentDTO, IFormFile? file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updateDepartmentDTO);
+            }
+            if (file != null)
+            {
+                await _department.GetFile2(file, updateDepartmentDTO);
 
-			if (department == null)
-			{
-				// Handle case where department is not found
-				return NotFound();
-			}
+            }
 
-			_context.Departments.Remove(department);
-			await _context.SaveChangesAsync();
+            await _department.UpdateDepartment(id, updateDepartmentDTO);
 
-			return RedirectToAction("GetDepartments");
-		}
+            TempData["success"] = "The department updated successfully";
+
+            return RedirectToAction("UpdateDepartment", "Dashboards");
+        }
 
 
-		[HttpGet]
-		public async Task<IActionResult> GetDepartment(int id)
-		{
-			var department = await _department.GetDepartment(id);
+        [HttpGet]
+        public async Task<IActionResult> GetDepartments()
+        {
+            try
+            {
+                var departments = await _department.GetDepartments();
 
-			if (department == null)
-			{
-				return NotFound();
-			}
+                if (departments == null || departments.Count == 0)
+                {
+                    ViewData["ErrorMessage"] = "No departments found.";
+                    return View();
+                }
 
-			return View(department);
-		}
+                return View(departments);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = $"An error occurred while retrieving departments: {ex.Message}";
+                return View();
+            }
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> GetDoctorsInDepartment(int id)
-		{
-			var doctors = await _department.GetDoctorsInDepartment(id);
-			if (doctors == null)
-			{
-				return NotFound();
-			}
+        [HttpGet]
+        public async Task<IActionResult> DeleteDepartment(int id)
+        {
+            var department = await _context.Departments.FindAsync(id);
+
+            if (department == null)
+            {
+                // Handle case where department is not found
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+
+        [HttpPost, ActionName("DeleteDepartment")]
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            var department = await _context.Departments.FindAsync(id);
+
+            if (department == null)
+            {
+                // Handle case where department is not found
+                return NotFound();
+            }
+
+            _context.Departments.Remove(department);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("GetDepartments");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetDepartment(int id)
+        {
+            var department = await _department.GetDepartment(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDoctorsInDepartment(int id)
+        {
+            var doctors = await _department.GetDoctorsInDepartment(id);
+            if (doctors == null)
+            {
+                return NotFound();
+            }
 
             var dep = await _department.GetDepartment(id);
             TempData["DepartmentName"] = dep.DepartmentName;
 
             return View(doctors);
-		}
+        }
 
 
-		[HttpGet]
-		public async Task<IActionResult> GetNursesInDepartment(int id)
-		{
-			var nurses = await _department.GetNursesInDepartment(id);
-			if (nurses == null)
-			{
-				return NotFound();
-			}
-			var dep = await _department.GetDepartment(id);
-			TempData["DepartmentName"] = dep.DepartmentName;
+        [HttpGet]
+        public async Task<IActionResult> GetNursesInDepartment(int id)
+        {
+            var nurses = await _department.GetNursesInDepartment(id);
+            if (nurses == null)
+            {
+                return NotFound();
+            }
+            var dep = await _department.GetDepartment(id);
+            TempData["DepartmentName"] = dep.DepartmentName;
 
             return View(nurses);
-		}
+        }
 
 
         [HttpGet]
@@ -289,15 +313,15 @@ namespace Hospital_System.Controllers
 
 
         [HttpGet]
-		public async Task<IActionResult> GetRoomsInDepartment(int id)
-		{
-			var rooms = await _department.GetRoomsInDepartment(id);
-			if (rooms == null)
-			{
-				return NotFound();
-			}
-			return View(rooms);
-		}
+        public async Task<IActionResult> GetRoomsInDepartment(int id)
+        {
+            var rooms = await _department.GetRoomsInDepartment(id);
+            if (rooms == null)
+            {
+                return NotFound();
+            }
+            return View(rooms);
+        }
 
 
         [HttpGet]
@@ -357,8 +381,24 @@ namespace Hospital_System.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Rooms = await _room.GetRooms();
 
-            return View(patientDTO); // Assuming you have an EditPatient view for displaying and editing patient details.
+            InPatientDTO inPatientDTO = new InPatientDTO
+            {
+                Id = patientDTO.Id,
+                FirstName = patientDTO.FirstName,
+                LastName = patientDTO.LastName,
+                DoB = patientDTO.DoB,
+                Gender = patientDTO.Gender,
+                ContactNumber = patientDTO.ContactNumber,
+                Address = patientDTO.Address,
+
+                RoomId = patientDTO.RoomId,
+            };
+
+
+
+            return View(inPatientDTO); // Assuming you have an EditPatient view for displaying and editing patient details.
         }
 
 
@@ -366,6 +406,8 @@ namespace Hospital_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPatient(int id, InPatientDTO patientDTO)
         {
+            ViewBag.Rooms = await _room.GetRooms();
+
             if (id != patientDTO.Id) // Replace 'Id' with the actual property name for the patient's identifier.
             {
                 return BadRequest();
@@ -379,18 +421,20 @@ namespace Hospital_System.Controllers
 
                     if (updatedPatient != null)
                     {
-                        //return RedirectToAction("PatientDetails", new { id = updatedPatient.Id });
+                        TempData["success"] = "Patients information details updeted successfully";
                         return RedirectToAction(nameof(AllPatients));
                     }
                     else
                     {
-                        return View("ErrorView"); // Redirect to an error view
+                        TempData["fail"] = "Room is not avilable ";
+
+                        return View(patientDTO); // Redirect to an error view
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception as needed, and optionally redirect to an error view.
-                    return View("ErrorView");
+                    TempData["failed"] = ex.Message;
+                    return View(patientDTO);
                 }
             }
 
@@ -449,17 +493,28 @@ namespace Hospital_System.Controllers
 
 
         [HttpGet]
-        public IActionResult AddRoom()
+        public async Task<IActionResult> AddRoom()
         {
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddRoom(OutRoomDTO room)
         {
-            await _room.CreateRoom(room);
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
 
-            return View(room);
+            if (!ModelState.IsValid)
+            {
+                return View("AddRoom", room);
+
+            }
+
+            await _room.CreateRoom(room);
+            TempData["success"] = "Room added successfully";
+
+            return RedirectToAction("AddRoom");
         }
 
 
@@ -524,7 +579,7 @@ namespace Hospital_System.Controllers
 
 
         [HttpPost]
-        public  IActionResult AllPatients(string patientname)
+        public IActionResult AllPatients(string patientname)
         {
             HttpContext.Session.SetString("patientname", patientname);
             return RedirectToAction("PatientSearch");
@@ -562,7 +617,7 @@ namespace Hospital_System.Controllers
             // Remove the nurse
             _context.Nurses.Remove(nurse);
             await _context.SaveChangesAsync();
-            return RedirectToAction("GetNursesInDepartment", new {id= depId });
+            return RedirectToAction("GetNursesInDepartment", new { id = depId });
         }
         [HttpGet]
         public async Task<IActionResult> EditNurse(int id)
@@ -585,9 +640,9 @@ namespace Hospital_System.Controllers
 
                 return View("EditNurse", nurse);
 
-               
+
             }
-			try
+            try
             {
                 await _nurse.UpdateNurse(Id, nurse);
                 TempData["success"] = "Nurse has been updated successfully !";
@@ -599,63 +654,63 @@ namespace Hospital_System.Controllers
             ViewBag.Depatments = await _department.GetDepartmentsDto();
             return View("EditNurse", nurse);
         }
-		[HttpGet]
-		public async Task<IActionResult> EditDoctor(int id)
-		{
-			var doctorDto = await _doctor.GetDoctorView(id);
-			if (doctorDto == null)
-			{
-				return NotFound();
-			}
-			ViewBag.Depatments = await _department.GetDepartmentsDto();
-			return View(doctorDto);
-		}
+        [HttpGet]
+        public async Task<IActionResult> EditDoctor(int id)
+        {
+            var doctorDto = await _doctor.GetDoctorView(id);
+            if (doctorDto == null)
+            {
+                return NotFound();
+            }
+            ViewBag.Depatments = await _department.GetDepartmentsDto();
+            return View(doctorDto);
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> EditDoctor(int Id, InDoctorDTO doctorDto)
-		{
-			if (!ModelState.IsValid)
-			{
+        [HttpPost]
+        public async Task<IActionResult> EditDoctor(int Id, InDoctorDTO doctorDto)
+        {
+            if (!ModelState.IsValid)
+            {
                 ViewBag.Depatments = await _department.GetDepartmentsDto();
 
                 return View("EditDoctor", doctorDto);
 
-			}
-			try
-			{
-				await _doctor.UpdateDoctor(Id, doctorDto);
-				TempData["success"] = "Doctor has been updated successfully !";
-				
-			}
-			catch (Exception ex) 
-			{
-				TempData["Fail"] = ex.Message;
-			}
+            }
+            try
+            {
+                await _doctor.UpdateDoctor(Id, doctorDto);
+                TempData["success"] = "Doctor has been updated successfully !";
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Fail"] = ex.Message;
+            }
             ViewBag.Depatments = await _department.GetDepartmentsDto();
 
             return View("EditDoctor", doctorDto);
-		}
-		[HttpGet]
-		public async Task<IActionResult> DeleteDoctor(int id)
-		{
-			var doctor = await _context.Doctors.FindAsync(id);
-			if (doctor == null)
-			{
-				return NotFound();
-			}
-			int depId = doctor.DepartmentId;
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteDoctor(int id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+            int depId = doctor.DepartmentId;
 
-			var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == doctor.UserId);
-			if (user != null)
-			{
-				// Remove the user
-				_context.Users.Remove(user);
-			}
-			// Remove the nurse
-			_context.Doctors.Remove(doctor);
-			await _context.SaveChangesAsync();
-			return RedirectToAction("GetDoctorsInDepartment", new { id = depId });
-		}
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == doctor.UserId);
+            if (user != null)
+            {
+                // Remove the user
+                _context.Users.Remove(user);
+            }
+            // Remove the nurse
+            _context.Doctors.Remove(doctor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("GetDoctorsInDepartment", new { id = depId });
+        }
 
 
 
@@ -734,9 +789,9 @@ namespace Hospital_System.Controllers
 
             }
         }
-        public async Task<IActionResult> GetMedicalReportPatientSide( int MedicalReportId)
+        public async Task<IActionResult> GetMedicalReportPatientSide(int MedicalReportId)
         {
-            var medicalReport=await _medicalReport.GetMedicalReportWithIncludes(MedicalReportId);
+            var medicalReport = await _medicalReport.GetMedicalReportWithIncludes(MedicalReportId);
             if (medicalReport == null)
             {
                 return NotFound();
@@ -752,9 +807,9 @@ namespace Hospital_System.Controllers
         {
             var medicalR = await _medicalReport.GetMedicalReport(id);
 
-            var patientName=await _context.Patients.FirstOrDefaultAsync(x=>x.Id==medicalR.PatientId);
+            var patientName = await _context.Patients.FirstOrDefaultAsync(x => x.Id == medicalR.PatientId);
 
-            ViewBag.PatientName=patientName?.FirstName+" "+patientName?.LastName;
+            ViewBag.PatientName = patientName?.FirstName + " " + patientName?.LastName;
 
             return View(medicalR);
         }
@@ -788,9 +843,9 @@ namespace Hospital_System.Controllers
                     DoctorId = updatedReport.DoctorId
                 };
 
-                var patient=await _context.Patients.FindAsync(medicalreport.PatientId);
+                var patient = await _context.Patients.FindAsync(medicalreport.PatientId);
 
-                return RedirectToAction("PatientMedicalReport","Auth", patient);
+                return RedirectToAction("PatientMedicalReport", "Auth", patient);
             }
             return NotFound();
         }
@@ -799,11 +854,15 @@ namespace Hospital_System.Controllers
         [HttpGet]
         public async Task<IActionResult> MedicalRecordDetails(int id)
         {
+
             var medicalReport = await _context.MedicalReports.Include(x => x.MedicinesMedicalReport!).ThenInclude(m => m.Medicine).Include(p => p.patient).Include(d => d.doctor).FirstOrDefaultAsync(x => x.Id == id);
+
+
 
 
             return View(medicalReport);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdatePatientProfile(int id, PatientDTO patientDTO)
@@ -882,5 +941,9 @@ namespace Hospital_System.Controllers
             }
             return null;
         }
+
+
+
+
     }
 }
