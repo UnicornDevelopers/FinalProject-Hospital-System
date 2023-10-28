@@ -1,0 +1,59 @@
+﻿@page
+@model Hospital_System.Pages.LogIn.IndexModel
+@{
+
+    ViewBag.Title = "Sign In Razor Page";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<section class="contact-us section">
+	<div class="container">
+		<section class="vh-100">
+			<div style="font-size: 16px" asp-validation-summary="All"></div>
+			<div class="container-fluid h-custom">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-md-9 col-lg-6 col-xl-5">
+
+						<img src="https://storageaccbookimages.blob.core.windows.net/images/logInHos.jpg" class="img-fluid" alt="Sample image">
+					</div>
+					<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+						<form method="post">
+							<h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">LogIn</h3>
+
+							<!-- UserName input -->
+							<div class="form-outline mb-4">
+								<input name="Username" type="text" id="form3Example3" class="form-control form-control-lg"
+									   placeholder="Enter a valid User Name" />
+								<label class="form-label" for="form3Example3">User Name</label>
+							</div>
+
+							<!-- Password input -->
+							<div class="form-outline mb-3">
+								<input name="Password" type="password" id="form3Example4" class="form-control form-control-lg"
+									   placeholder="Enter password" />
+								<label class="form-label" for="form3Example4">Password</label>
+							</div>
+
+							<div class="text-center mt-4 pt-2">
+								<button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+									Login
+								</button>
+								<p class="small fw-bold mt-2 pt-1 mb-0" style="font-size: 16px">
+									Don't have an account?
+									<a asp-page="/Register/Index" style="color:#1A76D1">Register</a>
+								</p>
+							</div>
+
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</div>
+</section>
+
+

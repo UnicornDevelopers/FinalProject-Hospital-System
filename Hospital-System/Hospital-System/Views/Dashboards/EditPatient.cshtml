@@ -1,0 +1,144 @@
+﻿@model Hospital_System.Models.DTOs.Patient.InPatientDTO
+@{
+    ViewData["Title"] = "Edit Patient";
+ 
+    Layout = "_AdminLayout";
+}
+
+
+
+@if (TempData["Fail"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Fail"]
+    </div>
+}
+
+@if (TempData["failed"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Fail"]
+    </div>
+}
+
+<section class="vh-100 mb-3">
+    <div class="container py-2 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Edit Patient</h3>
+                        <form asp-controller="Dashboards" asp-action="EditPatient" asp-route-id="@Model.Id" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <label asp-for="FirstName"></label>
+                                        <input asp-for="FirstName" class="form-control" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <label asp-for="LastName"></label>
+                                        <input asp-for="LastName" class="form-control" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <label asp-for="DoB"></label>
+                                        <input asp-for="DoB" class="form-control" />
+                                        <span asp-validation-for="DoB" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <label asp-for="Gender"></label>
+                                        <input asp-for="Gender" class="form-control" />
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <label asp-for="ContactNumber"></label>
+                                        <input asp-for="ContactNumber" class="form-control" />
+                                        <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+
+                                    <div class="form-group">
+                                        <label asp-for="Address"></label>
+                                        <input asp-for="Address" class="form-control" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <label class="form-label select-label">Room</label>
+                                        <br />
+                                        <select asp-for="RoomId" name="RoomId" id="RoomId" class="select form-control-lg">
+                                            <option value="" >Choose Room</option>
+                                            @foreach (var room in ViewBag.Rooms)
+                                            {
+                                                if (Model.RoomId != null)
+                                                {
+                                                    if (Model.RoomId == room.Id)
+                                                    {
+                                                        <option value="@room.Id" selected>@room.RoomNumber</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@room.Id">@room.RoomNumber</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option value="@room.Id">@room.RoomNumber</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="RoomId"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <a asp-controller="Dashboards" asp-action="AllPatients" class="btn btn-secondary">Cancel</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

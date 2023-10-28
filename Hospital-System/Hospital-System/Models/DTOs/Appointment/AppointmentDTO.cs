@@ -1,26 +1,27 @@
-﻿using Hospital_System.Models.DTOs.Patient;
+﻿using System;
+using Hospital_System.Models.DTOs.Patient;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Hospital_System.Models.DTOs.AppointmentSlot;
 
-namespace Hospital_System.Models.DTOs.AppointmentDTO
+namespace Hospital_System.Models.DTOs.Appointment
 {
-    public class AppointmentDTO
-    {
+	public class AppointmentDTO
+	{
 
-        public int Id { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime DateOfAppointment { get; set; }
+		public int Id { get; set; }
 
-        public int PatientId { get; set; }
+		public bool IsAvailable { get; set; } // Accepted, Cancelled
 
-        public int DoctorId { get; set; }
-
-
-        // Nav
-        public OutDocDTO? doctor { get; set; }
-        public OutPatientDTO? patient { get; set; }
+		public int PatientId { get; set; }
+		public int DoctorId { get; set; }
+		public int AppointmentSlotId { get; set; }
 
 
-    }
+		// Nav
+		public OutDocDTO? doctor { get; set; }
+		public OutPatientDTO? patient { get; set; }
+		public AppointmentSlotDto? appointmentSlot { get; set; }
+
+
+	}
 }

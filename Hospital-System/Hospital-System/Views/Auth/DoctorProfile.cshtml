@@ -1,0 +1,118 @@
+@using Hospital_System.Models.DTOs;
+
+@model DoctorDTO
+
+
+
+<style>
+    body {
+        /* fallback for old browsers */
+        background: #3876BF;
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to bottom right, rgba(50, 147, 251, 1), rgba(45, 87, 108, 1));
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to bottom right, rgba(30, 147, 251, 1), rgba(40, 87, 108, 1))
+    }
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #23C6D4
+    }
+
+    .profile-button {
+        background: #2C9AB5;
+        box-shadow: none;
+        border: none;
+    }
+
+        .profile-button:hover {
+            background: lightskyblue;
+        }
+
+        .profile-button:focus {
+            background:#23A4AF;
+            
+            box-shadow: none
+        }
+
+        .profile-button:active {
+            background: #268F98;
+            box-shadow: none;
+        }
+
+    .back:hover {
+        color: #23A4AF;
+        cursor: pointer;
+    }
+
+    .labels {
+        font-size: 11px;
+    }
+
+    .add-experience:hover {
+        background: #23A4AF;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #23A4AF;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
+
+
+
+<div class="container rounded bg-white mt-5 mb-5 justify-content-evenly">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">@Model.FirstName @Model.LastName</span>@*<span class="text-black-50">@Model.Email</span><span> </span>*@</div>
+        </div>
+        <div class="col-md-5 border-right">
+
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4> <i class="fa-solid fa-pen-to-square" id="edit-doctor-profile-icon" style="cursor:pointer;"></i>
+                </div>
+                <form method="post" asp-controller="Dashboards" asp-action="UpdateDoctorProfile">
+                    <input asp-for="Id" hidden />
+                    <input asp-for="DepartmentId" hidden />
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">First Name</label><input asp-for="FirstName" type="text" class="form-control editableDoctor" value="@Model.FirstName" readonly></div>
+                        <div class="col-md-6"><label class="labels">Last Name</label><input asp-for="LastName" type="text" class="form-control editableDoctor" value="@Model.LastName" readonly></div>
+                    </div>
+                    <div class="row mt-3">
+
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input asp-for="ContactNumber" type="text" class="form-control editableDoctor" value="@Model.ContactNumber" readonly></div>
+                        <div class="col-md-12">
+                            <label class="labels">Speciality</label><input asp-for="Speciality" type="text" class="form-control" value="@Model.Speciality" readonly>
+                        </div>
+                        <div class="col-md-12"><label class="labels">Gender</label><input asp-for="Gender" type="text" class="form-control editableDoctor" value="@Model.Gender" readonly></div>
+                        <div class="col-md-6"><label class="labels">Department Name</label><input type="text" class="form-control " value="@Model.department?.DepartmentName" readonly></div>
+                    </div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" id="save-doctor-profile-button" type="submit" hidden>Save Profile</button></div>
+                </form>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('edit-doctor-profile-icon').addEventListener('click', function () {
+        // Enable editing for all input elements
+        const inputs = document.querySelectorAll('.editableDoctor');
+        for (const input of inputs) {
+            input.removeAttribute('readonly');
+        }
+
+        // Show the "Save Profile" button
+        document.getElementById('save-doctor-profile-button').removeAttribute('hidden');
+    });
+
+</script>
+
+
+

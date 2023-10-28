@@ -1,0 +1,148 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="~/AdminStyle/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://kit.fontawesome.com/89a14a4c2c.js" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-custom">
+        <span class="navbar-brand ps-3">Admin Dashboard</span>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <span class="d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0" aria-hidden="true"></span>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <span class="nav-link">@User.Identity.Name</span>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <a class="nav-link" asp-controller="Home" asp-action="index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
+                            Home
+                        </a>
+                       
+                       @if (User.IsInRole("Admin"))
+                        {
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AddHospital">Add Hospital</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AddDepartment">Add Department</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AddRoom">Add Room</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+                            <a class="nav-link" asp-controller="RegisterDoctor" asp-action="Index">Register a Doctor</a>
+                            <a class="nav-link" asp-controller="RegisterNurse" asp-action="Index">Register a Nurse</a>
+                            <a class="nav-link" asp-controller="RegisterReceptionist" asp-action="Index">Register Receptionist/Users</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AllPatients">All Patients</a>
+                        <a class="nav-link" asp-controller="Dashboards" asp-action="AllRooms">All Room</a>
+
+                     }
+
+                        else if (User.IsInRole("Receptionist"))
+                        {
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+
+                       }
+                        else if (User.IsInRole("Doctor"))
+                        {
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="ViewAppointments">View Appointments</a>
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="AllPatients">All Patients</a>
+
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+
+                        }
+
+                        else if (User.IsInRole("Nurse"))
+                        {
+                            <a class="nav-link" asp-controller="Dashboards" asp-action="GetDepartments">All Departments</a>
+
+                        }
+                      
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    Admin
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <div>
+
+                        @RenderBody()
+                    </div>
+
+
+
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="~/AdminStyle/js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="~/AdminStyle/assets/demo/chart-area-demo.js"></script>
+<script src="~/AdminStyle/assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="~/AdminStyle/js/datatables-simple-demo.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
+
+
+<style>
+    :root {
+        --bs-custom-rgb: 20, 39, 78;
+        --bs-custom: #14274E;
+    }
+
+    .bg-custom {
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-custom-rgb), var(--bs-bg-opacity)) !important;
+    }
+
+    .sb-sidenav-dark {
+        background-color: #14274E;
+    }
+
+        .sb-sidenav-dark .sb-sidenav-footer {
+            background-color: #394867;
+        }
+</style>
+
+

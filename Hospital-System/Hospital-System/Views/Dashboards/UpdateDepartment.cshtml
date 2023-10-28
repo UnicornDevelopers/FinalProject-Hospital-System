@@ -1,0 +1,43 @@
+﻿@model Hospital_System.Models.DTOs.Department.OutDepartmentDTO
+
+@{
+    ViewData["Title"] = "Update Department";
+    Layout = "_AdminLayout";
+
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["success"]
+    </div>
+}
+<h2>Update Department</h2>
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
+}
+
+<form asp-controller="Dashboards" asp-action="UpdateDepartment" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label asp-for="DepartmentName">Department Name</label>
+        <input asp-for="DepartmentName" class="form-control" />
+        <span asp-validation-for="DepartmentName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="file">Image</label>
+        <input type="file" name="file" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Description </label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="background-color: #14274E; border-color: #14274E;">Submit</button>
+</form>

@@ -1,0 +1,43 @@
+﻿@model List<Hospital_System.Models.DTOs.Room.OutRoomDTO>
+
+@{
+    ViewData["Title"] = "Rooms in Department";
+    Layout = "_AdminLayout";
+}
+
+<h2>Rooms in Department</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No rooms found in this department.</p>
+}
+else
+{
+    <table class="table mb-5 mt-5">
+        <thead>
+            <tr>
+                <th>Room ID</th>
+                <th>Room Number</th>
+                <th>Room Availability</th>
+                <th>Number of Beds</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.Id</td>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.RoomAvailability</td>
+                    <td>@room.NumberOfBeds</td>
+                    <td>
+                        <a asp-controller="Dashboards" asp-action="GetRoom" asp-route-id="@room.Id" class="btn btn-primary">Details</a> <!-- Edit button -->
+                        <a asp-controller="Dashboards" asp-action="EditRoom" asp-route-id="@room.Id" class="btn btn-primary">Edit</a> <!-- Edit button -->
+                        <a asp-controller="Dashboards" asp-action="DeleteRoom" asp-route-id="@room.Id" class="btn btn-primary">Delete</a> <!-- Edit button -->
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

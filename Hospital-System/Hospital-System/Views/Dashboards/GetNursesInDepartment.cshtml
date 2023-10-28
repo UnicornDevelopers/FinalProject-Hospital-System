@@ -1,0 +1,63 @@
+﻿@model List<Hospital_System.Models.DTOs.Nurse.InNurseDTO>
+@{
+    ViewData["Title"] = "Nurses in Department";
+    Layout = "_AdminLayout";
+}
+
+@if (TempData["DepartmentName"] != null)
+{
+    <h2>
+        Nurses in @TempData["DepartmentName"] department
+    </h2>
+}
+
+else
+{
+     <h2>Nurses in Department</h2>
+}
+@if (Model == null || !Model.Any())
+{
+    <p>No nurses found in this department.</p>
+}
+else
+{
+    <table class="table mb-5 mt-5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Shift</th>
+                <th>Contact Number</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var nurse in Model)
+            {
+                <tr>
+                    <td>@nurse.Id</td>
+                    <td>@nurse.FirstName</td>
+                    <td>@nurse.LastName</td>
+                    <td>@nurse.Gender</td>
+                    <td>@nurse.Shift</td>
+                    <td>@nurse.ContactNumber</td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Dashboards" asp-action="EditNurse" asp-route-Id=@nurse.Id>Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" asp-controller="Dashboards" asp-action="DeleteNurse" asp-route-Id=@nurse.Id>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+
+

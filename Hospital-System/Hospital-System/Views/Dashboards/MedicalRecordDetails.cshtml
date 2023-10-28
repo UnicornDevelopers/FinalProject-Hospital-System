@@ -1,0 +1,71 @@
+﻿@model MedicalReport
+
+@{
+    string doctorFullName = Model.doctor?.FirstName + " " + Model.doctor?.LastName;
+    string patientFullName = Model.patient?.FirstName + " " + Model.patient?.LastName;
+}
+
+@{
+    Layout = "_AdminLayout";
+}
+<style>
+    /* Container styling */
+    .record-details {
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 80%;
+        margin: 0 auto;
+        text-align: left;
+        font-family: Arial, sans-serif;
+        margin-top: 50px;
+        margin-bottom: 150px;
+    }
+
+    /* Header styling */
+    .record-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+        color: #333;
+    }
+
+    /* Details styling */
+    .record-info {
+        margin-top: 10px;
+    }
+
+    /* Label styling */
+    .record-label {
+        font-weight: bold;
+    }
+</style>
+
+<div>
+    <h1 class="">Details of Medical Record @Model.Id</h1>
+    <div class="record-details">
+        <div class="record-info">
+            <span class="record-label">Medical Record Date:</span> @Model.ReportDate<br />
+            <span class="record-label">Medical Record Description:</span> @Model.Description<br />
+            <span class="record-label">Doctor Name:</span> @(doctorFullName)<br />
+            <span class="record-label">Patient Name:</span> @(patientFullName)<br />
+            @if (Model.MedicinesMedicalReport != null && Model.MedicinesMedicalReport.Any())
+            {
+                <span class="record-label">Medicens:</span>
+                <ul>
+                    @foreach (var item in Model.MedicinesMedicalReport)
+                    {
+                        <li>Name: <span>@item.Medicine?.MedicineName</span> ,Portion: <span>@item.Medicine?.Portion</span></li>
+                    }
+                </ul>
+
+                <br />
+            }
+
+        </div>
+
+    </div>
+    <a type="button" class="btn btn-outline-secondary deleteButton" asp-controller="Auth" asp-action="PatientMedicalReport" asp-route-id="@Model.PatientId" style="margin-top:-100px;">Go Back</a>
+
+</div>

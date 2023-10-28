@@ -1,0 +1,188 @@
+﻿
+@page
+@model Hospital_System.Pages.RegisterNurse.IndexModel
+@{
+    ViewBag.Title = "Register In Razor Page";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@if (TempData["SuccessRegister"] != null)
+{
+	<div class="alert alert-success">
+		@TempData["SuccessRegister"]
+	</div>
+}
+
+
+<section class="vh-100  mb-3">
+	<div class="container py-3 h-100">
+		<div class="row justify-content-center align-items-center h-100">
+			<div class="col-12 col-lg-9 col-xl-7">
+				<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+					<div class="card-body p-4 p-md-5">
+						<h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Nurse Registration</h3>
+						<form method="post">
+							@Html.AntiForgeryToken()
+							<div style="font-size: 16px ;color: #14274E;" asp-validation-summary="All"></div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="firstName">First Name</label>
+
+										<input required asp-for="@Model.nurse.FirstName" type="text" name="FirstName" id="FirstName" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.nurse.FirstName" class="text-danger"></span>
+
+
+									</div>
+
+								</div>
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="lastName">Last Name</label>
+
+										<input required asp-for="@Model.nurse.LastName" name="LastName" type="text" id="LastName" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.nurse.LastName"></span>
+
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="Username">Username</label>
+
+										<input asp-for="@Model.registerUser.Username" name="Username" type="text" id="Username" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.registerUser.Username" class="text-danger"></span>
+
+
+									</div>
+
+								</div>
+								<div class="col-md-6 mb-4">
+
+									<div class="form-outline">
+										<label class="form-label" for="Password">Password</label>
+
+										<input asp-for="@Model.registerUser.Password" name="Password" type="password" id="Password" class="form-control form-control-lg" />
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4 pb-2">
+
+									<div class="form-outline">
+										<label class="form-label" for="email">Email</label>
+
+										<input required asp-for="@Model.registerUser.Email" name="Email" type="email" id="Email" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.registerUser.Email"></span>
+
+									</div>
+
+								</div>
+
+								<div class="col-md-6 mb-4  ">
+									<label class="form-label select-label">Gender</label>
+									<br />
+									<div class="px-2 ms-2">
+										<div class="form-check form-check-inline">
+											<input asp-for="@Model.nurse.Gender" class="form-check-input" type="radio" name="Gender" id="femaleGender" value="Female" />
+											<label class="me-1" for="femaleGender">Female   </label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input asp-for="@Model.nurse.Gender" class="form-check-input ms-1 p-0" type="radio" name="Gender" id="maleGender" value="Male" checked />
+											<label class="me-1" for="maleGender">  Male</label>
+										</div>
+									</div>
+									<span asp-validation-for="@Model.nurse.Gender"></span>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4 pb-2">
+									<div class="form-outline">
+										<label class="form-label" for="phoneNumber">Phone Number</label>
+										<input required asp-for="@Model.nurse.ContactNumber" name="ContactNumber" type="tel" id="ContactNumber" class="form-control form-control-lg" />
+										<span asp-validation-for="@Model.nurse.ContactNumber"></span>
+									</div>
+								</div>
+
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label class="form-label select-label" for="shift">Shift</label>
+										<br />
+										<select asp-for="@Model.nurse.Shift" name="Shift" id="Shift" class="select form-control-lg w-100">
+											<option value="" disabled>Choose Shift</option>
+											<option value="0">Morning</option>
+											<option value="1">Night</option>
+											<option value="2">Afternoon</option>
+										</select>
+										<span asp-validation-for="@Model.nurse.Shift"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12">
+									<label class="form-label select-label">Department</label>
+									<br />
+									<select asp-for="@Model.nurse.DepartmentId" name="DepartmentId" id="DepartmentId" class="select form-control-lg  w-50">
+										<option value="" disabled>Choose Department</option>
+										@foreach (var department in Model.departments)
+										{
+											<option value="@department.Id">@department.DepartmentName</option>
+										}
+									</select>
+									<span asp-validation-for="@Model.nurse.DepartmentId"></span>
+								</div>
+							</div>
+
+							<input name="Roles" type="text" id="Roles" class="form-control" asp-for="@Model.registerUser.Roles" hidden value="nurse" />
+							<span asp-validation-for="@Model.registerUser.Roles"></span>
+							<br />
+							<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+								<input class="btn btn-primary btn-lg" type="submit" style=" background-color: #14274E; border-color: #14274E;"  value="Register" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<style>
+	.gradient-custom {
+		/* fallback for old browsers */
+		background: #3876BF;
+		/* Chrome 10-25, Safari 5.1-6 */
+		background: -webkit-linear-gradient(to bottom right, rgba(50, 147, 251, 1), rgba(45, 87, 108, 1));
+		/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		background: linear-gradient(to bottom right, rgba(30, 147, 251, 1), rgba(40, 87, 108, 1))
+	}
+
+	.form-check-inline {
+		display: inline-block;
+		margin-right: 2.75rem;
+	}
+
+	.card-registration .select-input.form-control[readonly]:not([disabled]) {
+		font-size: 1rem;
+		line-height: 2.15;
+		padding-left: .75em;
+		padding-right: .75em;
+	}
+
+	.card-registration .select-arrow {
+		top: 13px;
+	}
+</style>		

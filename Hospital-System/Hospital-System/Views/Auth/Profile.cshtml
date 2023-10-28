@@ -1,0 +1,75 @@
+@using Hospital_System.Auth.Models.DTO;
+@model UserDTO
+
+
+
+
+<style>
+    body {
+        /* fallback for old browsers */
+        background: #3876BF;
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to bottom right, rgba(50, 147, 251, 1), rgba(45, 87, 108, 1));
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to bottom right, rgba(30, 147, 251, 1), rgba(40, 87, 108, 1))
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #23C6D4
+    }
+
+    .profile-button {
+        background: #2C9AB5;
+        box-shadow: none;
+        border: none;
+    }
+
+        .profile-button:hover {
+            background: lightskyblue;
+        }
+
+        .profile-button:focus {
+            background: #23A4AF;
+            box-shadow: none
+        }
+
+        .profile-button:active {
+            background: #268F98;
+            box-shadow: none;
+        }
+
+    .back:hover {
+        color: #23A4AF;
+        cursor: pointer;
+    }
+
+    .labels {
+        font-size: 11px;
+    }
+
+    .add-experience:hover {
+        background: #23A4AF;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #23A4AF;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
+
+
+
+<div class="container rounded bg-white mt-5 mb-5 justify-content-evenly">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">@Model.Username</span><span class="text-black-50">@Model.Email</span><span> </span></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+

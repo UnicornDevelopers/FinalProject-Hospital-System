@@ -1,0 +1,70 @@
+﻿@model Hospital_System.Models.DTOs.Department.GetDeptmartmentDTO
+
+@{
+    ViewData["Title"] = "Department Details";
+    Layout = "_AdminLayout";
+
+}
+
+<h2>Department Details</h2>
+
+<div>
+    <h3>Department Information</h3>
+    <ul>
+        <li><strong>ID:</strong> @Model.Id</li>
+        <li><strong>Department Name:</strong> @Model.DepartmentName</li>
+        <li><strong>Hospital ID:</strong> @Model.HospitalID</li>
+    </ul>
+</div>
+
+<div>
+    <h3>Department Image</h3>
+    <img src="@Model.Image" alt="Department Image" width="200" height="200" />
+</div>
+
+<div>
+    <h3>Rooms</h3>
+    <ul>
+        @foreach (var room in Model.Rooms)
+        {
+            <li>
+                <strong>Room ID:</strong> @room.Id
+                <strong>Room Number:</strong> @room.RoomNumber
+                <strong>Room Availability:</strong> @room.RoomAvailability
+                <strong>Number of Beds:</strong> @room.NumberOfBeds
+            </li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Doctors</h3>
+    <ul>
+        @foreach (var doctor in Model.Doctors)
+        {
+            <li>
+                <strong>Doctor ID:</strong> @doctor.Id
+                <strong>Full Name:</strong> @doctor.FullName
+                <strong>Gender:</strong> @doctor.Gender
+                <strong>Contact Number:</strong> @doctor.ContactNumber
+                <strong>Speciality:</strong> @doctor.Speciality
+            </li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Nurses</h3>
+    <ul>
+        @foreach (var nurse in Model.Nurses)
+        {
+            <li>
+                <strong>Nurse ID:</strong> @nurse.Id
+                <strong>First Name:</strong> @nurse.FirstName
+                <strong>Last Name:</strong> @nurse.LastName
+                <strong>Gender:</strong> @nurse.Gender
+                <strong>Contact Number:</strong> @nurse.ContactNumber
+            </li>
+        }
+    </ul>
+</div>

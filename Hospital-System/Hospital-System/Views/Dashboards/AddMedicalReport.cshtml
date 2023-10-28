@@ -1,0 +1,98 @@
+﻿@model Hospital_System.Models.ViewModels.MedicalReportViewModel
+
+@{
+    ViewData["Title"] = "Add Medical Report";
+    Layout = "_AdminLayout";
+}
+<section class="vh-100 gradient-custom mb-3">
+    <div class="container py-1 h-100">
+        <div class="row justify-content-center align-items-center ">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Add Report</h3>
+                        <form method="post">
+                            <input name="id" type="number" class="form-control" asp-for="@Model.PatientId" hidden value="@Model.PatientId" />
+                            <div class=" row mb-1">
+                                <div class="col-12">
+                                    <label class="form-label select-label" asp-for="@Model.ReportDate">Report Date:</label>
+                                    <input asp-for="@Model.ReportDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                                    <span asp-validation-for="@Model.ReportDate" class="text-danger"></span>
+
+
+                                </div>
+                            </div>
+                            <div class=" row">
+                                <div class="col-12">
+
+                                    <label class="form-label" asp-for="@Model.Description">Description:</label>
+                                    <textarea asp-for="@Model.Description" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-end mt-1 mb-1">
+                                    <button type="button" id="addMedicine" class="btn btn-primary btn-sm rounded-pill">Add Medicine <i class="fa-solid fa-capsules"></i> </button>
+                                </div>
+
+                                </div>
+                            <div id="medicineContainer"></div>
+
+                            <button type="submit" class=" w-100 mt-1 mb-1 btn btn-primary rounded-pill" style="background-color: #14274E; border-color: #14274E;">Add Report</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var count = 0;
+
+        $('#addMedicine').click(function () {
+            if (count < @ViewBag.Mediciens.Count) {
+                $('#medicineContainer').append(`
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="Medicines_${count}__MedicineId" class="form-label">Medicine Name:</label>
+                            <select class="form-select" id="Medicines_${count}__MedicineId" name="Medicines[${count}].MedicineId" required>
+                                <option value="" >Select a medicine</option>
+    @foreach (var medicine in ViewBag.Mediciens)
+    {
+                                        <option value="@medicine.Id">@medicine.MedicineName</option>
+    }
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="Medicines_${count}__TimesInDay" class="form-label">Times in Day:</label>
+                            <select class="form-select" id="Medicines_${count}__TimesInDay" name="Medicines[${count}].TimesInDay" required>
+                                            <option value="" >Select Option</option>
+                                            <option value="0">QD - once a day</option>
+                                            <option value="1">BID - twice a day</option>
+                                            <option value="2">TID - three times a day</option>
+                                            <option value="3">QID - four times daily</option>
+                                            <option value="4">QHS - every night at bedtime</option>
+                                            <option value="5">Q4H - every four hours</option>
+                                            <option value="6">Q6H - every six hours</option>
+                                            <option value="7">Q8H - every eight hours</option>                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Medicines_${count}__MedicinePortion" class="form-label">Portion:</label>
+                            <input required type="text" id="Medicines_${count}__MedicinePortion" name="Medicines[${count}].MedicinePortion" class="form-control">
+                        </div>
+                    </div>
+                `);
+
+                count++;
+            }
+        });
+    });
+
+</script>

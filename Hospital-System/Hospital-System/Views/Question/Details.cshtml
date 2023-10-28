@@ -1,0 +1,111 @@
+﻿Details view:
+@model Question
+
+@{
+    ViewData["Title"] = "Question Details";
+}
+
+
+
+
+
+
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="d-flex flex-column col-md-8">
+            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                <div class="profile-image"><img class="rounded-circle" src="https://storageaccbookimages.blob.core.windows.net/images/user.jpeg" width="70"></div>
+                <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"></div>
+                <div class="d-flex flex-column ml-3">
+                    <div class="d-flex flex-row post-title">
+                        <span class="ml-2">Posted By&nbsp;</span><h5>@Model.Patient.FirstName</h5>
+                    </div>
+                    <div class="d-flex flex-row align-items-center align-content-center post-title">
+                        <span class="mr-2 dot"></span>
+                        <span class="mr-2 comments">@Model.AnswerCount Replayes &nbsp;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coment-bottom bg-white p-2 px-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Subject:</strong> @Model.Subject</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Question:</strong> @Model.QuestionText</p>
+                    </div>
+                </div>
+
+                <h3>Answers</h3>
+
+                @if (Model.Answers.Count == 0)
+                {
+                    <div class="alert alert-info mt-2" role="alert">
+                        No answers available for this question.
+                    </div>
+                }
+                else
+                {
+                    @foreach (var answer in Model.Answers)
+                    {
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <div class="d-flex flex-row align-items-center commented-user">
+                                    <span class="ml-2">Posted By&nbsp;</span>      <h5 class="mr-2">@answer.Doctor.FirstName</h5>
+                                </div>
+                                <p class="comment-text-sm">@answer.AnswerText</p>
+                            </div>
+                        </div>
+                    }
+                }
+
+                @if (User.IsInRole("Doctor"))
+                {
+                    <div class="d-flex justify-content-center mt-3">
+                        <a asp-action="AddAnswer" asp-route-questionId="@Model.Id" class="btn btn-success">Add Answer</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #eee;
+    }
+
+    .bdge {
+        height: 21px;
+        background-color: orange;
+        color: #fff;
+        font-size: 11px;
+        padding: 8px;
+        border-radius: 4px;
+        line-height: 3px;
+    }
+
+    .comments {
+        text-decoration: underline;
+        text-underline-position: under;
+        cursor: pointer;
+    }
+
+    .dot {
+        height: 7px;
+        width: 7px;
+        margin-top: 3px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .hit-voting:hover {
+        color: blue;
+    }
+
+    .hit-voting {
+        cursor: pointer;
+    }
+</style>

@@ -6,27 +6,28 @@ using System.Threading.Tasks;
 using Hospital_System.Models;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using Hospital_System.Auth.Models;
 
 namespace Hospital_System
 {
-    public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser,IdentityRole>
-    {
+	public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
+	{
 
-        public ApplicationUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<IdentityOptions> options)
-            : base(userManager, roleManager, options)
-        { }
+		public ApplicationUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<IdentityOptions> options)
+			: base(userManager, roleManager, options)
+		{ }
 
-        protected override async  Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
-        {
-           var identity =  await base.GenerateClaimsAsync(user);
-            identity.AddClaim(new Claim("UserFirstName", user.UserName ?? ""));
-            //identity.AddClaim(new Claim("UserLastName", user.LastName ?? ""));
-            //identity.AddClaim(new Claim("Gender", user. ?? ""));
-            identity.AddClaim(new Claim("Email", user.Email ?? ""));
+		protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+		{
+			var identity = await base.GenerateClaimsAsync(user);
+			identity.AddClaim(new Claim("UserFirstName", user.UserName ?? ""));
+			//identity.AddClaim(new Claim("UserLastName", user.LastName ?? ""));
+			//identity.AddClaim(new Claim("Gender", user. ?? ""));
+			identity.AddClaim(new Claim("Email", user.Email ?? ""));
 
 
-            return identity;
+			return identity;
 
-        }
-    }
+		}
+	}
 }

@@ -1,0 +1,65 @@
+﻿
+@model Hospital_System.Models.DTOs.Appointment.AppointmentDTO
+
+@{
+    ViewData["Title"] = "Choose Doctor";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["noDoctor"] != null)
+{
+    <div class="no-items">
+        <div class="center-element">
+            <h3>Sorry, @ViewBag.DepartmentName department does not have any doctors yet.</h3>
+        </div>
+    </div>
+}
+else{
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Choose Doctor from @ViewBag.DepartmentName Department</h4>
+
+                    <form asp-controller="Appointment" asp-action="SelectTimeSlot" method="post">
+                        <div class="form-group">
+@*                            <label for="DoctorId">Doctor:</label>
+*@                            <select class="form-control" asp-for="DoctorId">
+                                <option value="" disabled>Select a Doctor</option>
+                                @foreach (var doctor in ViewBag.Doctors)
+                                {
+                                    <option value="@doctor.Id">@doctor.FullName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<style>
+   
+
+    .no-items {
+        background-color: white;
+        width: 100%;
+        height: 100px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .center-element {
+        padding-top: 3%
+    }
+
+</style>
